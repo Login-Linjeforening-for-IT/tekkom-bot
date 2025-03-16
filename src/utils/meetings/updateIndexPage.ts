@@ -50,7 +50,7 @@ function updateMutation({id, content, description, title}: UpdateMutationProps) 
                         isPublished: true, 
                         isPrivate: false, 
                         locale: "en", 
-                        tags: ""
+                        tags: "TekKom"
                     ) {
                         responseResult {
                             succeeded,
