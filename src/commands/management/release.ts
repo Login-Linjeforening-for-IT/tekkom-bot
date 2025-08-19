@@ -1,9 +1,9 @@
 import { Roles } from '../../interfaces.js'
 import config from '../../utils/config.js'
-import { 
-    SlashCommandBuilder, 
-    EmbedBuilder, 
-    ChatInputCommandInteraction, 
+import {
+    SlashCommandBuilder,
+    EmbedBuilder,
+    ChatInputCommandInteraction,
     Role,
     Message
 } from 'discord.js'
@@ -41,7 +41,7 @@ export const data = new SlashCommandBuilder()
 
 export async function execute(message: ChatInputCommandInteraction) {
     const isAllowed = (message.member?.roles as unknown as Roles)?.cache
-    .some((role: Role) => role.id === config.roleID || role.id === config.styret)
+        .some((role: Role) => role.id === config.roleID || role.id === config.styret)
     const repository = sanitize(message.options.getString('repository') || '')
     let match = null as RepositorySimple | null
     const repositories = await getRepositories(25, repository)
@@ -114,20 +114,20 @@ export async function execute(message: ChatInputCommandInteraction) {
         .setThumbnail(avatar || null)
         .setURL(latestVersion.commit.web_url)
         .addFields([
-            {name: "ID", value: String(match.id), inline: true},
-            {name: "Branch", value: match.default_branch, inline: true},
-            {name: "Last activity", value: new Date(match.last_activity_at).toLocaleString(), inline: true},
-            {name: "Current version", value: latestVersion.name, inline: true},
-            {name: "Commit", value: latestVersion.commit.short_id, inline: true},
-            {name: "Created At", value: new Date(latestVersion.commit.created_at).toLocaleString(), inline: true},
-            {name: "Title", value: latestVersion.commit.title},
-            {name: "Author", value: latestVersion.commit.author_name, inline: true},
-            {name: "Author Email", value: latestVersion.commit.author_email, inline: true},
-            {name: "Recent commits", value: ' '},
+            { name: "ID", value: String(match.id), inline: true },
+            { name: "Branch", value: match.default_branch, inline: true },
+            { name: "Last activity", value: new Date(match.last_activity_at).toLocaleString(), inline: true },
+            { name: "Current version", value: latestVersion.name, inline: true },
+            { name: "Commit", value: latestVersion.commit.short_id, inline: true },
+            { name: "Created At", value: new Date(latestVersion.commit.created_at).toLocaleString(), inline: true },
+            { name: "Title", value: latestVersion.commit.title },
+            { name: "Author", value: latestVersion.commit.author_name, inline: true },
+            { name: "Author Email", value: latestVersion.commit.author_email, inline: true },
+            { name: "Recent commits", value: ' ' },
             ...formatCommits(commits, 5)
         ])
 
-    await message.reply({ embeds: [embed]})
+    await message.reply({ embeds: [embed] })
     const response = await message.fetchReply()
     await postTag(match.id, tag)
     const result = await editEverySecondTillDone(response, message.user.username, match.id, tag, repository, interval, true)
@@ -138,22 +138,25 @@ export async function execute(message: ChatInputCommandInteraction) {
 
     if (result) {
         const mergeRequests = await getOpenMergeRequests(INFRA_PROD_CLUSTER)
+        mergeRequests.forEach((mr) => mr.title.includes('exam') ? console.log(mr.title) : {})
         const relevant: MergeRequest[] = []
         const willMerge: MergeRequest[] = []
-        
+
         for (const mr of mergeRequests) {
             const match = mr.title.match(/registry\.login\.no.*\/([^\/\s]+)\s/)
-                
+
             if (match) {
                 const normalizedQuery = repository.toLowerCase()
                 if (match[1] === normalizedQuery) {
+                    relevant.push(mr)
+                } else if (match[0].includes(`${normalizedQuery}/`)) {
                     relevant.push(mr)
                 } else {
                     const match1 = match[1].replaceAll('-', '')
                     const broadMatch = match1.replaceAll(' ', '')
                     const query1 = normalizedQuery.replaceAll('-', '')
                     const broadNormalizedQuery = query1.replaceAll(' ', '')
-                    
+
                     if (broadMatch === broadNormalizedQuery) {
                         relevant.push(mr)
                     }
@@ -164,7 +167,7 @@ export async function execute(message: ChatInputCommandInteraction) {
         const sorted = relevant.sort((a, b) => {
             const versionA = formatVersion(a.title)
             const versionB = formatVersion(b.title)
-        
+
             for (let i = 0; i < 3; i++) {
                 const partA = versionA[i]
                 const partB = versionB[i]
@@ -176,11 +179,11 @@ export async function execute(message: ChatInputCommandInteraction) {
             return 0
         })
 
-        handleMerge({sorted, willMerge, repository, tag, finalResponse})
+        handleMerge({ sorted, willMerge, repository, tag, finalResponse })
     }
 }
 
-async function handleMerge({sorted, willMerge, repository, tag, finalResponse}: HandleMergeProps) {
+async function handleMerge({ sorted, willMerge, repository, tag, finalResponse }: HandleMergeProps) {
     if (sorted.length) {
         const highestVersion = formatVersion(sorted[0].title)
         for (const mr of sorted) {
@@ -203,14 +206,14 @@ async function handleMerge({sorted, willMerge, repository, tag, finalResponse}: 
                 .setTitle(`Released ${repository} v${tag} to production.`)
                 .setColor("#fd8738")
                 .setTimestamp()
-            finalResponse.edit({embeds: [...finalResponse.embeds, final]})
+            finalResponse.edit({ embeds: [...finalResponse.embeds, final] })
         } else {
             const final = new EmbedBuilder()
                 .setTitle(`Failed to release ${repository} v${tag} to production.`)
                 .setDescription('An error occured while merging. Please resolve manually.')
                 .setColor("#fd8738")
                 .setTimestamp()
-            finalResponse.edit({embeds: [...finalResponse.embeds, final]})
+            finalResponse.edit({ embeds: [...finalResponse.embeds, final] })
             console.error(`Failed while merging merge requests for ${repository} v${tag}. Please merge remaining MRs manually.`)
         }
     } else {
@@ -219,7 +222,7 @@ async function handleMerge({sorted, willMerge, repository, tag, finalResponse}: 
             .setDescription('An error occured while merging. Please resolve manually.')
             .setColor("#fd8738")
             .setTimestamp()
-        finalResponse.edit({embeds: [...finalResponse.embeds, final]})
+        finalResponse.edit({ embeds: [...finalResponse.embeds, final] })
         console.error(`Found no merge requests for ${repository} v${tag}. Please merge manually.`)
     }
 }
