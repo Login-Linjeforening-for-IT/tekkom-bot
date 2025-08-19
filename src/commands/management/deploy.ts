@@ -23,16 +23,20 @@ export const data = new SlashCommandBuilder()
     .addStringOption((option) =>
         option
             .setName("repository")
-            .setDescription(
-                "Repository to deploy.",
-            )
+            .setDescription("Repository to deploy.")
             .setRequired(true)
-            .setAutocomplete(true),
+            .setAutocomplete(true)
     )
+    // .addStringOption((option) =>
+    //     option
+    //         .setName("branch")
+    //         .setDescription("Branch to deploy from.")
+    // )
 export async function execute(message: ChatInputCommandInteraction) {
     const isAllowed = (message.member?.roles as unknown as Roles)?.cache
     .some((role: Role) => role.id === config.roleID || role.id === config.styret)
     const repository = sanitize(message.options.getString('repository') || "")
+    // const branch = sanitize(message.options.getString('branch') || "")
     let match = null as RepositorySimple | null
     const repositories = await getRepositories(25, repository)
 
@@ -72,6 +76,7 @@ export async function execute(message: ChatInputCommandInteraction) {
     const avatar = match.avatar_url || `${GITLAB_BASE}${match.namespace.avatar_url}`
     const embed = new EmbedBuilder()
         .setTitle(`Creating new deployment for ${match.name}.`)
+        // .setTitle(`Creating new deployment for ${match.name}${branch ? `from branch ${branch}` : ''}.`)
         .setDescription(match.description || match.name)
         .setColor("#fd8738")
         .setTimestamp()

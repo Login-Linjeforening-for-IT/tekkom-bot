@@ -9,8 +9,9 @@ export default async function retryDeployment(interaction: ButtonInteraction) {
     const name = message.embeds[0].title || 'unknown'
     const id = Number(message.embeds[0].fields[0].value)
     const tag = formatVersion(message.embeds[1].title || '').join('.') || 'unknown'
+    const isDev = message.embeds[1].title?.includes('-dev')
 
-    deploy(interaction, tag, name, id, message.embeds[1].title?.includes('-dev') ? '-dev' : '', true)
+    deploy(interaction, tag, name, id, isDev ? '-dev' : '', isDev ? 'dev' : undefined, true)
     resumeStoppedPipelines(id)
     interaction.deferUpdate()
 }

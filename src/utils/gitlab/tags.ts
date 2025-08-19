@@ -26,7 +26,7 @@ export default async function getTags(id: number): Promise<Tag[]> {
     }
 }
 
-export async function postTag(id: number, tag: string): Promise<Tag | number> {
+export async function postTag(id: number, tag: string, ref?: string): Promise<Tag | number> {
     try {
         logNullValue("getTags", ["id", "tag"], [id, tag])
         const response = await fetch(`${GITLAB_API}projects/${id}/repository/tags`, {
@@ -37,7 +37,7 @@ export async function postTag(id: number, tag: string): Promise<Tag | number> {
             },
             body: JSON.stringify({
                 tag_name: tag,
-                ref: "main",
+                ref: ref || 'main',
                 message: `Release v${tag}`
             })
         })

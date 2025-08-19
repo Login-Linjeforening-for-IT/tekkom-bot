@@ -3,7 +3,7 @@ import { postTag } from "./tags.js"
 import { initialButtons } from "./buttons.js"
 import editEverySecondTillDone from "./editEverySecondTillDone.js"
 
-export default async function deploy(interaction: ButtonInteraction, tag: string, name: string, id: number, dev: string, rerun?: true) {
+export default async function deploy(interaction: ButtonInteraction, tag: string, name: string, id: number, dev: string, ref?: string, rerun?: true) {
     const message = interaction.message
     const title = `Deploying v${tag}${dev} for ${name}`
     const embed = new EmbedBuilder()
@@ -12,7 +12,7 @@ export default async function deploy(interaction: ButtonInteraction, tag: string
         .setColor("#fd8738")
         .setTimestamp()
     
-    await postTag(id, `${tag}${dev}`)
+    await postTag(id, `${tag}${dev}`, ref)
 
     const embeds = message.embeds
 

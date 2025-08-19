@@ -1,27 +1,18 @@
 import { ButtonInteraction, GuildMember, Role } from "discord.js"
-import { Increment } from "../../interfaces.js"
 import { deleteTag } from "./tags.js"
 import deploy from "./deploy.js"
 import { abortButtons, errorButtons } from "./buttons.js"
 import config from "../config.js"
 
-export default async function handleTag(interaction: ButtonInteraction, type: Increment) {
+export default async function handleTag(interaction: ButtonInteraction, type: number) {
     try {
-        let index
-
-        switch (type) {
-            case Increment.MAJOR: index = 0; break
-            case Increment.MINOR: index = 1; break
-            case Increment.PATCH: index = 2; break
-        }
-
         const message = interaction.message
         // @ts-expect-error
-        const embedTag = message.components[0].components[index].data.label
+        const embedTag = message.components[0].components[type].data.label
         const name = message.embeds[0].title || 'unknown'
         const id = Number(message.embeds[0].fields[0].value)
         const tag = embedTag.match(/\(([^)]+)\)/)?.[1]
-        await deploy(interaction, tag, name?.slice(28), id, '-dev')
+        await deploy(interaction, tag, name?.slice(28), id, '-dev', 'dev')
     } catch (error) {
         console.error(error)
     }
