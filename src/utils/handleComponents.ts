@@ -15,6 +15,8 @@ import handleTag, { removeTag } from "./gitlab/handleTag.js"
 import { Increment } from "../interfaces.js"
 import retryDeployment from "./gitlab/retryDeployment.js"
 import trash from "./trash.js"
+import deployHelper from "./gitlab/deployHelper.js"
+import cancelDeployment from "./gitlab/cancelDeployment.js"
 
 export default async function handleComponents(interaction: ButtonInteraction | ChatInputCommandInteraction, id: string | undefined) {    
     const buttonInteraction = interaction as ButtonInteraction
@@ -108,6 +110,12 @@ export default async function handleComponents(interaction: ButtonInteraction | 
             break
         case 'retryDeployment':
             await retryDeployment(buttonInteraction)
+            break
+        case 'deployYes':
+            await deployHelper(buttonInteraction)
+            break
+        case 'deployNo':
+            await cancelDeployment(buttonInteraction)
             break
         default:
             console.error(`${buttonInteraction.customId || id} is unhandled in handleComponents.`)

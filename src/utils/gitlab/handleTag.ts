@@ -11,8 +11,9 @@ export default async function handleTag(interaction: ButtonInteraction, type: nu
         const embedTag = message.components[0].components[type].data.label
         const name = message.embeds[0].title || 'unknown'
         const id = Number(message.embeds[0].fields[0].value)
+        const branch = message.embeds[0].fields[1].value
         const tag = embedTag.match(/\(([^)]+)\)/)?.[1]
-        await deploy(interaction, tag, name?.slice(28), id, '-dev', 'dev')
+        await deploy(interaction, tag, name?.slice(28), id, '-dev', branch)
     } catch (error) {
         console.error(error)
     }
