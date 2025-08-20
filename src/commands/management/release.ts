@@ -5,26 +5,17 @@ import {
     EmbedBuilder,
     ChatInputCommandInteraction,
     Role,
-    Message
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle
 } from 'discord.js'
 import getRepositories from '../../utils/gitlab/getRepositories.js'
 import sanitize from '../../utils/sanitize.js'
-import getOpenMergeRequests from '../../utils/gitlab/getMergeRequests.js'
-import { FALLBACK_TAG, GITLAB_BASE, INFRA_PROD_CLUSTER } from '../../constants.js'
-import getTags, { postTag } from '../../utils/gitlab/tags.js'
+import { EDIT_INTERVAL_SECONDS, FALLBACK_TAG, GITLAB_BASE, TWO_WEEKS } from '../../constants.js'
+import getTags from '../../utils/gitlab/tags.js'
 import formatCommits from '../../utils/gitlab/formatCommits.js'
 import getCommits from '../../utils/gitlab/getCommits.js'
-import editEverySecondTillDone from '../../utils/gitlab/editEverySecondTillDone.js'
-import formatVersion from '../../utils/gitlab/formatVersion.js'
-import postMerge from '../../utils/gitlab/postMerge.js'
-
-type HandleMergeProps = {
-    sorted: MergeRequest[]
-    willMerge: MergeRequest[]
-    repository: string
-    tag: string
-    finalResponse: Message<boolean>
-}
+import continueRelease from '../../utils/gitlab/continueRelease.js'
 
 export const data = new SlashCommandBuilder()
     .setName('release')
@@ -45,7 +36,6 @@ export async function execute(message: ChatInputCommandInteraction) {
     const repository = sanitize(message.options.getString('repository') || '')
     let match = null as RepositorySimple | null
     const repositories = await getRepositories(25, repository)
-    const interval = 1
 
     // Aborts if the user does not have sufficient permissions
     if (!isAllowed) {
@@ -92,17 +82,20 @@ export async function execute(message: ChatInputCommandInteraction) {
     // Aborts if there is an error
     if (error) {
         const embed = new EmbedBuilder()
-        .setTitle(error)
-        .setColor("#fd8738")
-        .setTimestamp()
+            .setTitle(error)
+            .setColor("#fd8738")
+            .setTimestamp()
 
-        return message.reply({ embeds: [embed], ephemeral: true})
+        return message.reply({ embeds: [embed], ephemeral: true })
     }
 
     const [version, commits] = await Promise.all([
         await getTags(match.id),
         await getCommits(match.id)
     ])
+
+    const now = new Date()
+    const latestCommitDate = new Date(commits[0].created_at)
     const latestVersion = version[0] || FALLBACK_TAG
     const tag = baseTag.name.includes('-dev') ? baseTag.name.slice(0, baseTag.name.length - 4) : baseTag.name
     const avatar = match.avatar_url || `${GITLAB_BASE}${match.namespace.avatar_url}`
@@ -127,111 +120,37 @@ export async function execute(message: ChatInputCommandInteraction) {
             ...formatCommits(commits, 5)
         ])
 
-    await message.reply({ embeds: [embed] })
-    const response = await message.fetchReply()
-    await postTag(match.id, tag)
-    const result = await editEverySecondTillDone(response, message.user.username, match.id, tag, repository, interval, true)
+    if (now.getTime() - latestCommitDate.getTime() > TWO_WEEKS) {
+        const embedOldWarning = new EmbedBuilder()
+            .setTitle(`Very old commit (>2w). Are you sure?`)
+            .setDescription(`The most recent commit for ${match.name} branch 'main' is more than two weeks old. It was created ${latestCommitDate.toLocaleString('no-NO')}. Are you sure you want to release this version?`)
+            .setColor("#ff0000")
+        let buttons: ActionRowBuilder<ButtonBuilder>
 
-    // Waiting for editEverySecondTo complete last iteration
-    await new Promise(resolve => setTimeout(resolve, (interval * 1000) + 25))
-    const finalResponse = await message.fetchReply()
+        // Creates 'yes' button
+        const releaseYes = new ButtonBuilder()
+            .setCustomId('releaseYes')
+            .setLabel('Yes')
+            .setStyle(ButtonStyle.Secondary)
 
-    if (result) {
-        const mergeRequests = await getOpenMergeRequests(INFRA_PROD_CLUSTER)
-        mergeRequests.forEach((mr) => mr.title.includes('exam') ? console.log(mr.title) : {})
-        const relevant: MergeRequest[] = []
-        const willMerge: MergeRequest[] = []
+        // Creates 'no' button
+        const releaseNo = new ButtonBuilder()
+            .setCustomId('releaseNo')
+            .setLabel(`No`)
+            .setStyle(ButtonStyle.Primary)
 
-        for (const mr of mergeRequests) {
-            const match = mr.title.match(/registry\.login\.no.*\/([^\/\s]+)\s/)
+        // Creates 'trash' button
+        const trash = new ButtonBuilder()
+            .setCustomId('trash')
+            .setLabel('🗑️')
+            .setStyle(ButtonStyle.Secondary)
 
-            if (match) {
-                const normalizedQuery = repository.toLowerCase()
-                if (match[1] === normalizedQuery) {
-                    relevant.push(mr)
-                } else if (match[0].includes(`${normalizedQuery}/`)) {
-                    relevant.push(mr)
-                } else {
-                    const match1 = match[1].replaceAll('-', '')
-                    const broadMatch = match1.replaceAll(' ', '')
-                    const query1 = normalizedQuery.replaceAll('-', '')
-                    const broadNormalizedQuery = query1.replaceAll(' ', '')
+        buttons = new ActionRowBuilder<ButtonBuilder>()
+            .addComponents(releaseNo, releaseYes, trash)
 
-                    if (broadMatch === broadNormalizedQuery) {
-                        relevant.push(mr)
-                    }
-                }
-            }
-        }
-
-        const sorted = relevant.sort((a, b) => {
-            const versionA = formatVersion(a.title)
-            const versionB = formatVersion(b.title)
-
-            for (let i = 0; i < 3; i++) {
-                const partA = versionA[i]
-                const partB = versionB[i]
-                if (partA !== partB) {
-                    return partB - partA
-                }
-            }
-
-            return 0
-        })
-
-        handleMerge({ sorted, willMerge, repository, tag, finalResponse })
-    }
-}
-
-async function handleMerge({ sorted, willMerge, repository, tag, finalResponse }: HandleMergeProps) {
-    if (sorted.length) {
-        const highestVersion = formatVersion(sorted[0].title)
-        for (const mr of sorted) {
-            if (formatVersion(mr.title).join('.') === highestVersion.join('.')) {
-                willMerge.push(mr)
-            }
-        }
-
-        const result = await merge(willMerge)
-
-        let success = 0
-        for (const req of result) {
-            if (req.state === "merged") {
-                success++
-            }
-        }
-
-        if (result.length === success) {
-            const final = new EmbedBuilder()
-                .setTitle(`Released ${repository} v${tag} to production.`)
-                .setColor("#fd8738")
-                .setTimestamp()
-            finalResponse.edit({ embeds: [...finalResponse.embeds, final] })
-        } else {
-            const final = new EmbedBuilder()
-                .setTitle(`Failed to release ${repository} v${tag} to production.`)
-                .setDescription('An error occured while merging. Please resolve manually.')
-                .setColor("#fd8738")
-                .setTimestamp()
-            finalResponse.edit({ embeds: [...finalResponse.embeds, final] })
-            console.error(`Failed while merging merge requests for ${repository} v${tag}. Please merge remaining MRs manually.`)
-        }
-    } else {
-        const final = new EmbedBuilder()
-            .setTitle(`Found no merge requests for ${repository} v${tag}. Please merge manually.`)
-            .setDescription('An error occured while merging. Please resolve manually.')
-            .setColor("#fd8738")
-            .setTimestamp()
-        finalResponse.edit({ embeds: [...finalResponse.embeds, final] })
-        console.error(`Found no merge requests for ${repository} v${tag}. Please merge manually.`)
-    }
-}
-
-async function merge(requests: MergeRequest[]) {
-    const responses = []
-    for (const request of requests) {
-        responses.push(await postMerge(request.iid))
+        return await message.reply({ embeds: [embed, embedOldWarning], components: [buttons] })
     }
 
-    return responses
+    const id = match.id
+    await continueRelease({ message, embed, id, tag, repository, interval: EDIT_INTERVAL_SECONDS })
 }

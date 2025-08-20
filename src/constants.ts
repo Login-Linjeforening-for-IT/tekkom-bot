@@ -8,6 +8,8 @@ export const INFRA_PROD_CLUSTER = 149
 export const UNKNOWN_VERSION = "unknown version"
 export const SUCCESS = "success"
 export const DISCORD_MAX_INLINE_EMBED_FIELD_LENGTH = 37
+export const TWO_WEEKS = 1000 * 60 * 60 * 24 * 14
+export const EDIT_INTERVAL_SECONDS = 1
 
 export const FALLBACK_TAG = {
     name: "No version released.",

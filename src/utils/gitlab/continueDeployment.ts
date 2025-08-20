@@ -1,18 +1,24 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, EmbedBuilder, Message } from "discord.js"
 import { Increment } from "../../interfaces.js"
 import { UNKNOWN_VERSION } from "../../constants.js"
 import { errorButtons } from '../../utils/gitlab/buttons.js'
+import {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonInteraction,
+    ButtonStyle,
+    ChatInputCommandInteraction,
+    EmbedBuilder
+} from "discord.js"
 
 type ContinueDeploymentProps = {
-    interaction: ChatInputCommandInteraction | Message
+    interaction: ChatInputCommandInteraction | ButtonInteraction
     embed?: EmbedBuilder
     latestVersion: string
 }
 
-export default async function continueDeployment({interaction, embed, latestVersion }: ContinueDeploymentProps) {
-
+export default async function continueDeployment({ interaction, embed, latestVersion }: ContinueDeploymentProps) {
     let buttons: ActionRowBuilder<ButtonBuilder>
-    
+
     if (increment(latestVersion, Increment.MAJOR) !== UNKNOWN_VERSION) {
         // Creates 'major' button
         const major = new ButtonBuilder()
@@ -37,18 +43,20 @@ export default async function continueDeployment({interaction, embed, latestVers
             .setCustomId('trash')
             .setLabel('🗑️')
             .setStyle(ButtonStyle.Secondary)
-        
+
         buttons = new ActionRowBuilder<ButtonBuilder>()
-        .addComponents(major, minor, patch, trash)
+            .addComponents(major, minor, patch, trash)
     } else {
         buttons = errorButtons
     }
 
+    // ChatInputCommandInteraction
     if (embed) {
-        await interaction.reply({ embeds: [embed], components: [buttons]})
-    } else {
-        const message = interaction as Message<boolean>
-        message.edit({ embeds: message.embeds, components: [buttons] })
+        await interaction.reply({ embeds: [embed], components: [buttons] })
+        // ButtonInteraction
+    } else if (interaction.isButton()) {
+        const message = interaction.message
+        await interaction.reply({ embeds: message.embeds, components: [buttons] })
     }
 }
 

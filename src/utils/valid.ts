@@ -42,7 +42,9 @@ const validCommands = [
     'cancel',
     'retryDeployment',
     'deployYes',
-    'deployNo'
+    'deployNo',
+    'releaseYes',
+    'releaseNo'
 ]
 
 const exceptions = [

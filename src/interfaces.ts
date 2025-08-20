@@ -20,3 +20,8 @@ export enum Increment {
     MINOR,
     PATCH
 }
+
+export enum Build {
+    DEPLOYMENT = 'deployment',
+    RELEASE = 'release'
+}

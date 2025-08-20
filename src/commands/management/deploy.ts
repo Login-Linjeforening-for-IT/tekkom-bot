@@ -11,13 +11,11 @@ import {
 } from 'discord.js'
 import getRepositories from '../../utils/gitlab/getRepositories.js'
 import sanitize from '../../utils/sanitize.js'
-import { FALLBACK_TAG, GITLAB_BASE } from '../../constants.js'
+import { FALLBACK_TAG, GITLAB_BASE, TWO_WEEKS } from '../../constants.js'
 import getTags from '../../utils/gitlab/tags.js'
 import getCommits from '../../utils/gitlab/getCommits.js'
 import formatCommits from '../../utils/gitlab/formatCommits.js'
 import continueDeployment from '../../utils/gitlab/continueDeployment.js'
-
-const TWO_WEEKS = 1000 * 60 * 60 * 24 * 14
 
 export const data = new SlashCommandBuilder()
     .setName('deploy')
@@ -38,7 +36,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     const isAllowed = (interaction.member?.roles as unknown as Roles)?.cache
         .some((role: Role) => role.id === config.roleID || role.id === config.styret)
     const repository = sanitize(interaction.options.getString('repository') || "")
-    const branch = sanitize(interaction.options.getString('branch') || "")
+    const branch = sanitize(interaction.options.getString('branch') || 'main')
     let match = null as RepositorySimple | null
     const repositories = await getRepositories(25, repository)
 
@@ -137,24 +135,3 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
     continueDeployment({ interaction, embed, latestVersion: latestVersion.name })
 }
-
-/**
- * Recursively updates version numbers in package.json and package-lock.json.
- * @param dirPath - Directory to start the search.
- * @param newVersion - The new version string.
- */
-// function updateVersionNumbers(dirPath: string, newVersion: string) {
-//     const entries = readdirSync(dirPath, { withFileTypes: true })
-
-//     for (const entry of entries) {
-//         const fullPath = join(dirPath, entry.name)
-
-//         if (entry.isDirectory()) {
-//             updateVersionNumbers(fullPath, newVersion)
-//         } else if (entry.name === 'package.json' || entry.name === 'package-lock.json') {
-//             const fileContent = JSON.parse(readFileSync(fullPath, 'utf8'))
-//             fileContent.version = newVersion
-//             writeFileSync(fullPath, JSON.stringify(fileContent, null, 2))
-//         }
-//     }
-// }

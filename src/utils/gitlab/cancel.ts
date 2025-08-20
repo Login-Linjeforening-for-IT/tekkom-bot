@@ -1,6 +1,7 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, EmbedBuilder } from "discord.js"
+import { Build } from "../../interfaces.js"
 
-export default async function cancelDeployment(interaction: ButtonInteraction) {
+export default async function cancel(interaction: ButtonInteraction, build: Build) {
     let buttons: ActionRowBuilder<ButtonBuilder>
 
     // Creates 'trash' button
@@ -13,7 +14,7 @@ export default async function cancelDeployment(interaction: ButtonInteraction) {
         .addComponents(trash)
 
     const cancelEmbed = new EmbedBuilder()
-        .setTitle(`Cancelled deployment.`)
+        .setTitle(`Cancelled ${build}.`)
         .setDescription(`Manually cancelled by cancellation button.`)
         .setColor("#ff0000")
 

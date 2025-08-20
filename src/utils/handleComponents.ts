@@ -12,11 +12,12 @@ import handleRemoveFromTicket from "./tickets/remove.js"
 import { nextPage, previousPage } from "./help.js"
 import { inviteToTicket, joinTicket } from "./tickets/invite.js"
 import handleTag, { removeTag } from "./gitlab/handleTag.js"
-import { Increment } from "../interfaces.js"
+import { Build, Increment } from "../interfaces.js"
 import retryDeployment from "./gitlab/retryDeployment.js"
 import trash from "./trash.js"
 import deployHelper from "./gitlab/deployHelper.js"
-import cancelDeployment from "./gitlab/cancelDeployment.js"
+import cancel from "./gitlab/cancel.js"
+import releaseHelper from "./gitlab/releaseHelper.js"
 
 export default async function handleComponents(interaction: ButtonInteraction | ChatInputCommandInteraction, id: string | undefined) {    
     const buttonInteraction = interaction as ButtonInteraction
@@ -115,7 +116,13 @@ export default async function handleComponents(interaction: ButtonInteraction | 
             await deployHelper(buttonInteraction)
             break
         case 'deployNo':
-            await cancelDeployment(buttonInteraction)
+            await cancel(buttonInteraction, Build.DEPLOYMENT)
+            break
+        case 'releaseYes':
+            await releaseHelper(buttonInteraction)
+            break
+        case 'releaseNo':
+            await cancel(buttonInteraction, Build.RELEASE)
             break
         default:
             console.error(`${buttonInteraction.customId || id} is unhandled in handleComponents.`)
