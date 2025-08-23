@@ -201,6 +201,10 @@ client.on(Events.MessageCreate, async (message: Message) => {
 client.login(token)
 
 process.on("unhandledRejection", async (err) => {
+    if ((err as {message: string}).message === "Interaction has already been acknowledged.") {
+        return console.error("Interaction has already been acknowledged.")
+    }
+
     console.error("Unhandled Promise Rejection:\n", err)
 })
 

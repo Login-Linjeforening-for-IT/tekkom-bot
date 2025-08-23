@@ -48,6 +48,9 @@ export default async function continueRelease({ message, embed, id, tag, reposit
                     relevant.push(mr)
                 } else if (match[0].includes(`${normalizedQuery}/`)) {
                     relevant.push(mr)
+                    // "Beehive Frontend" vs "beehive/frontend " -> "beehive/frontend" === "beehive/frontend"
+                } else if (match[0].trim().endsWith(normalizedQuery.replaceAll(" ", "/"))) {
+                    relevant.push(mr)
                 } else {
                     const match1 = match[1].replaceAll('-', '')
                     const broadMatch = match1.replaceAll(' ', '')
