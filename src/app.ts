@@ -27,6 +27,7 @@ import autoSyncZammad from './utils/tickets/autoSyncZammad.js'
 import autoCreateStyretMeetings from './utils/meetings/autoCreateStyretMeetings.js'
 import Autocomplete from './utils/gitlab/autoComplete.js'
 import templates from './utils/templates.js'
+import beekeeperMonitor from './utils/beekeeper/beekeeperMonitor.js'
 
 const token = config.token
 const __filename = fileURLToPath(import.meta.url)
@@ -126,6 +127,9 @@ client.once(Events.ClientReady, async () => {
 
     // Creates Styret meeting agendas
     autoCreateStyretMeetings(client)
+
+    // BeeKeeper Monitor
+    beekeeperMonitor(client)
 
     // Automatically syncronizes messages from Zammad to Discord
     autoSyncZammad(client)

@@ -19,7 +19,9 @@ const {
     MINECRAFT_CREATIVE_PORT,
     MINECRAFT_PORT,
     API,
-    PRIVATE_TOKEN
+    PRIVATE_TOKEN,
+    DISCORD_SERVICE_MONITORING_CHANNEL_ID,
+    DISCORD_BEEKEEPER_ROLE_ID
 } = process.env
 
 // Throws an error if any of the essential environment variables are missing
@@ -29,6 +31,8 @@ if (
     || !DISCORD_STYRET_ROLE_ID
     || !DISCORD_TEKKOM_ROLE_ID
     || !DISCORD_MINECRAFT_LOG_CHANNEL_ID
+    || !DISCORD_SERVICE_MONITORING_CHANNEL_ID
+    || !DISCORD_BEEKEEPER_ROLE_ID
     || !DISCORD_TOKEN
     || !MINECRAFT_URL
     || !MINECRAFT_SURVIVAL
@@ -49,6 +53,8 @@ const config = {
     styret: DISCORD_STYRET_ROLE_ID,
     roleID: DISCORD_TEKKOM_ROLE_ID,
     minecraft_log: DISCORD_MINECRAFT_LOG_CHANNEL_ID,
+    beekeeper_monitoring: DISCORD_SERVICE_MONITORING_CHANNEL_ID,
+    beekeeper_role: DISCORD_BEEKEEPER_ROLE_ID,
     token: DISCORD_TOKEN,
     minecraft_url: MINECRAFT_URL,
     minecraft_port: Number(MINECRAFT_PORT),
