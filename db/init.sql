@@ -27,13 +27,14 @@ CREATE TABLE IF NOT EXISTS alerts (
 
 -- Announcements
 CREATE TABLE IF NOT EXISTS announcements (
-    id NUMBER PRIMARY KEY
+    id SERIAL PRIMARY KEY,
     title TEXT NOT NULL,
     description TEXT NOT NULL,
     channel TEXT NOT NULL,
     embed BOOLEAN,
-    COLOR TEXT,
-    INTERVAL TEXT,
-    TIME TEXT,
-    sent BOOLEAN false
+    color TEXT,
+    interval TEXT,
+    time TEXT,
+    sent BOOLEAN DEFAULT false,
+    last_sent TEXT
 );

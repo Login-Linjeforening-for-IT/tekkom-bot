@@ -1,5 +1,4 @@
 import run from "@/db"
-import { loadSQL } from "@utils/loadSQL"
 import tokenWrapper from "@utils/tokenWrapper"
 import { FastifyReply, FastifyRequest } from "fastify"
 
@@ -7,7 +6,7 @@ type DeleteAnnouncements = {
     id: number
 }
 
-export default async function announcementsDeleteHandler(req: FastifyRequest, res: FastifyReply) {
+export default async function deleteAnnouncements(req: FastifyRequest, res: FastifyReply) {
     const { id } = (req.body as DeleteAnnouncements) ?? {}
     const { valid } = await tokenWrapper(req, res)
     if (!valid) {

@@ -567,3 +567,14 @@ type User = {
     following: number
     local_time: unknown | null
 }
+
+type Announcement = {
+    id: string
+    title: string
+    description: string
+    channel: string
+    embed?: boolean
+    color?: string
+    interval?: boolean
+    time?: string
+}

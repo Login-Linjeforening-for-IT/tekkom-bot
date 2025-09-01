@@ -21,7 +21,8 @@ const {
     API,
     PRIVATE_TOKEN,
     DISCORD_SERVICE_MONITORING_CHANNEL_ID,
-    DISCORD_BEEKEEPER_ROLE_ID
+    DISCORD_BEEKEEPER_ROLE_ID,
+    TEKKOM_BOT_API_URL
 } = process.env
 
 // Throws an error if any of the essential environment variables are missing
@@ -42,6 +43,7 @@ if (
     || !MINECRAFT_PORT
     || !API
     || !PRIVATE_TOKEN
+    || !TEKKOM_BOT_API_URL
 ) {
     throw new Error('Missing essential environment variables in config.')
 }
@@ -69,7 +71,8 @@ const config = {
         }
     ],
     api: API,
-    privateToken: PRIVATE_TOKEN
+    privateToken: PRIVATE_TOKEN,
+    tekkomBotApiUrl: TEKKOM_BOT_API_URL
 }
 
 // Exports the config object

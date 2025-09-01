@@ -13,7 +13,7 @@ type PutAnnouncements = {
     time: string
 }
 
-export default async function announcementsPatchHandler(req: FastifyRequest, res: FastifyReply) {
+export default async function putAnnouncements(req: FastifyRequest, res: FastifyReply) {
     const { id, title, description, channel, embed, color, interval, time } = (req.body as PutAnnouncements) ?? {}
     const { valid } = await tokenWrapper(req, res)
     if (!valid) {

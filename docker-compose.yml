@@ -14,11 +14,18 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - postgres
+    ports:
+      - "8080:8080"
     environment:
       DB: ${DB}
       DB_HOST: ${DB_HOST}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
+      AUTHENTIK_API_URL: ${AUTHENTIK_API_URL}
+      CLIENT_ID: ${CLIENT_ID}
+      CLIENT_SECRET: ${CLIENT_SECRET}
+      QUEENBEE_URL: ${QUEENBEE_URL}
+      REDIRECT_URI: ${REDIRECT_URI}
 
   postgres:
     image: postgres:15
@@ -30,7 +37,7 @@ services:
       POSTGRES_DB: tekkom
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./src/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
     healthcheck:

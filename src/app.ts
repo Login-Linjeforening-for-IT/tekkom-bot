@@ -28,6 +28,7 @@ import autoCreateStyretMeetings from './utils/meetings/autoCreateStyretMeetings.
 import Autocomplete from './utils/gitlab/autoComplete.js'
 import templates from './utils/templates.js'
 import beekeeperMonitor from './utils/beekeeper/beekeeperMonitor.js'
+import queenbeeMonitor from './utils/queenbee/queenbeeMonitor.js'
 
 const token = config.token
 const __filename = fileURLToPath(import.meta.url)
@@ -127,6 +128,9 @@ client.once(Events.ClientReady, async () => {
 
     // Creates Styret meeting agendas
     autoCreateStyretMeetings(client)
+
+    // Queenbee Monitor
+    queenbeeMonitor(client)
 
     // BeeKeeper Monitor
     beekeeperMonitor(client)

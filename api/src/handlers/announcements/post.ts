@@ -12,7 +12,7 @@ type Announcement = {
     time?: string
 }
 
-export default async function announcementsPostHandler(req: FastifyRequest, res: FastifyReply) {
+export default async function postAnnouncements(req: FastifyRequest, res: FastifyReply) {
     const { title, description, channel, embed, color, interval, time } = req.body as Announcement ?? {}
     const { valid } = await tokenWrapper(req, res)
     if (!valid) {

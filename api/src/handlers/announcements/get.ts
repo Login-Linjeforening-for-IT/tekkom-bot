@@ -4,15 +4,15 @@ import tokenWrapper from "@utils/tokenWrapper"
 import { FastifyReply, FastifyRequest } from "fastify"
 
 type GetAnnouncements = {
-    id?: number
-    page: number
-    announcementsPerPage: number
-    active?: boolean
-    shouldBeSent?: true
+    id?: string
+    page: string
+    announcementsPerPage: string
+    active?: string
+    shouldBeSent?: string
 }
 
-export default async function announcementsGetHandler(req: FastifyRequest, res: FastifyReply) {
-    const { id, page, announcementsPerPage, active, shouldBeSent } =  (req.body as GetAnnouncements) ?? {}
+export default async function getAnnouncements(req: FastifyRequest, res: FastifyReply) {
+    const { id, page, announcementsPerPage, active, shouldBeSent } =  (req.query as GetAnnouncements) ?? {}
     const { valid } = await tokenWrapper(req, res)
     if (!valid) {
         return res.status(400).send({ error: "Unauthorized" })
@@ -24,6 +24,10 @@ export default async function announcementsGetHandler(req: FastifyRequest, res: 
     }
 
     const query = (await loadSQL('getAnnouncements.sql'))
-    const result = await run(query, [page, announcementsPerPage, active || null, shouldBeSent || null])
+    const pageInt = parseInt(page || "1", 10)
+    const perPageInt = parseInt(announcementsPerPage || "10", 10)
+    const activeBool = active === "true" ? true : active === "false" ? false : null
+    const shouldBeSentBool = shouldBeSent === "true" ? true : shouldBeSent === "false" ? false : null
+    const result = await run(query, [pageInt, perPageInt, activeBool, shouldBeSentBool])
     res.send(result.rows)
 }

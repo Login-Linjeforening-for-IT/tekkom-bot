@@ -13,9 +13,9 @@ const {
 } = config
 const { Pool } = pg
 const pool = new Pool({
-    user: DB_USER || "tekkom-bot",
+    user: DB_USER || "tekkom",
     host: DB_HOST || "tekkom-bot_database",
-    database: DB || "tekkom-bot",
+    database: DB || "tekkom",
     password: DB_PASSWORD,
     port: Number(DB_PORT) || 5432,
     max: Number(DB_MAX_CONN) || 20,
@@ -23,7 +23,7 @@ const pool = new Pool({
     connectionTimeoutMillis: Number(DB_TIMEOUT_MS) || 3000
 })
 
-export default async function run(query: string, params: (string | number | null | boolean)[]) {
+export default async function run(query: string, params: (string | number | null | boolean | string[])[]) {
     const client = await pool.connect()
     try {
         return await client.query(query, params)

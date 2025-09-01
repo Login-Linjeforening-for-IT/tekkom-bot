@@ -2,13 +2,10 @@ import { channels } from "@constants"
 import tokenWrapper from "@utils/tokenWrapper"
 import { FastifyReply, FastifyRequest } from "fastify"
 
-type Channel = { 
-    name: string
-    value: string
-}
 
-export default async function postChannelsHandler(req: FastifyRequest, res: FastifyReply) {
-    const { channels: newChannels } = req.body as { channels: Channel[] }
+
+export default async function postChannels(req: FastifyRequest, res: FastifyReply) {
+    const newChannels = req.body as Channel[] ?? []
     const { valid } = await tokenWrapper(req, res)
     if (!valid) {
         return res.status(400).send({ error: "Unauthorized" })

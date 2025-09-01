@@ -1,7 +1,7 @@
 import cors from '@fastify/cors'
 import Fastify from 'fastify'
 import apiRoutes from './routes'
-import getIndexHandler from './handlers/index/getIndex'
+import getIndex from './handlers/index/getIndex'
 
 const fastify = Fastify({
     logger: true
@@ -15,7 +15,7 @@ fastify.register(cors, {
 const port = Number(process.env.PORT) || 8080
 
 fastify.register(apiRoutes, { prefix: "/api" })
-fastify.get('/', getIndexHandler)
+fastify.get('/', getIndex)
 
 async function start() {
     try {
