@@ -25,16 +25,15 @@ CREATE TABLE IF NOT EXISTS alerts (
     name TEXT PRIMARY KEY
 );
 
--- Creates vulnerability table
--- CREATE TABLE IF NOT EXISTS vulnerabilities (
---     name TEXT PRIMARY KEY,
---     package_name TEXT NOT NULL,
---     ecosystem TEXT NOT NULL,
---     version_introduced TEXT NOT NULL,
---     version_fixed TEXT NOT NULL,
---     data JSONB NOT NULL,
---     CONSTRAINT unique_name_ecosystem_version UNIQUE (name, package_name, ecosystem, version_introduced, version_fixed)
--- );
-
--- Indexes for Blacklist
--- CREATE INDEX IF NOT EXISTS idx_blacklist_versions_name ON blacklist_versions (name);
+-- Announcements
+CREATE TABLE IF NOT EXISTS announcements (
+    id NUMBER PRIMARY KEY
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    channel TEXT NOT NULL,
+    embed BOOLEAN,
+    COLOR TEXT,
+    INTERVAL TEXT,
+    TIME TEXT,
+    sent BOOLEAN false
+);

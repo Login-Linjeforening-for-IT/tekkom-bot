@@ -6,6 +6,20 @@ services:
     volumes:
       - .:/app
 
+  tekkom-bot-api:
+    container_name: tekkom-bot-api 
+    image: tekkom-bot-api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    environment:
+      DB: ${DB}
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+
   postgres:
     image: postgres:15
     container_name: tekkom-bot_database

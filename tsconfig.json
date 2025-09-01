@@ -16,5 +16,5 @@
         "**/*.d.ts",
         "**/*.json",
     ],
-    "exclude": ["node_modules", "package-lock.json", "tsconfig.json"]
+    "exclude": ["node_modules", "package-lock.json", "tsconfig.json", "api"]
 }
