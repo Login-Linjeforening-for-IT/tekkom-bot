@@ -34,8 +34,8 @@ export default async function getAndSendTextChannels(client: Client): Promise<vo
                 data.push({
                     guildId: guild.id,
                     guildName: guild.name,
-                    channelId: channel.id,
-                    channelName: channel.name,
+                    id: channel.id,
+                    name: channel.name,
                     category: channel.parent?.name,
                 })
             }
