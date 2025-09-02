@@ -11,7 +11,8 @@ const requiredEnvironmentVariables = [
     'REDIRECT_URI',
     'CLIENT_SECRET',
     'QUEENBEE_URL',
-    'DB_PASSWORD'
+    'DB_PASSWORD',
+    'TEKKOM_BOT_API_TOKEN',
 ]
 
 const missingVariables = requiredEnvironmentVariables.filter(
@@ -52,7 +53,8 @@ const config = {
     CLIENT_SECRET: env.CLIENT_SECRET,
     QUEENBEE_URL: env.QUEENBEE_URL,
     AUTH_URL,
-    DEFAULT_RESULTS_PER_PAGE: Number(env.DEFAULT_RESULTS_PER_PAGE) || 50
+    DEFAULT_RESULTS_PER_PAGE: Number(env.DEFAULT_RESULTS_PER_PAGE) || 50,
+    TEKKOM_BOT_API_TOKEN: env.TEKKOM_BOT_API_TOKEN
 }
 
-export default config 
+export default config

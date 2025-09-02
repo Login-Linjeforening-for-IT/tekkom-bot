@@ -1,12 +1,21 @@
 import config from "../config.js"
 
 const tekkomBotApiUrl = config.tekkomBotApiUrl
+const tekkomBotApiToken = config.tekkomBotApiToken
 
 export default async function updateApi(messages: Announcement[]) {
     try {
+        if (!messages.length) {
+            return
+        }
+
         const ids = messages.map((message) => message.id)
         const response = await fetch(`${tekkomBotApiUrl}/sent`, {
             method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${tekkomBotApiToken}`,
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(ids)
         })
 

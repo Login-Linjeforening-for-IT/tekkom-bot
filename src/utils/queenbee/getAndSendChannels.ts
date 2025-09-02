@@ -1,7 +1,9 @@
-import { ChannelType, Client, NonThreadGuildBasedChannel, PermissionsBitField } from "discord.js"
+import { Channel, ChannelType, Client, NonThreadGuildBasedChannel, PermissionsBitField } from "discord.js"
 import config from "../config.js"
 
 const tekkomBotApiUrl = config.tekkomBotApiUrl
+const tekkomBotApiToken = config.tekkomBotApiToken
+const LOGIN_GUILD = "284789429539700736"
 
 /**
  * Fetches all channels the bot can write to in the 'Login - Linjeforeningen for IT' server
@@ -9,7 +11,7 @@ const tekkomBotApiUrl = config.tekkomBotApiUrl
  * @returns void
  */
 export default async function getAndSendTextChannels(client: Client): Promise<void> {
-    const GUILD_ID = "284789429539700736"
+    const GUILD_ID = LOGIN_GUILD
     const data: any[] = []
 
     try {
@@ -21,7 +23,7 @@ export default async function getAndSendTextChannels(client: Client): Promise<vo
 
         const channels = await guild.channels.fetch()
         channels.forEach((channel: NonThreadGuildBasedChannel | null) => {
-            if (!channel) return
+            if (!channel || !channelFilter(channel)) return
             if (
                 channel.type === ChannelType.GuildText &&
                 channel.permissionsFor(guild.members.me!)?.has([
@@ -34,6 +36,7 @@ export default async function getAndSendTextChannels(client: Client): Promise<vo
                     guildName: guild.name,
                     channelId: channel.id,
                     channelName: channel.name,
+                    category: channel.parent?.name,
                 })
             }
         })
@@ -41,6 +44,7 @@ export default async function getAndSendTextChannels(client: Client): Promise<vo
         const response = await fetch(`${tekkomBotApiUrl}/channels`, {
             method: 'POST',
             headers: {
+                'Authorization': `Bearer ${tekkomBotApiToken}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
@@ -55,4 +59,25 @@ export default async function getAndSendTextChannels(client: Client): Promise<vo
     } catch (error) {
         console.error(error)
     }
+}
+
+function channelFilter(channel: NonThreadGuildBasedChannel | null): boolean {
+    if (!channel) {
+        return false
+    }
+
+    const parent = channel.parent?.name.toLocaleLowerCase() || ''
+    if (parent.includes('archive')) {
+        return false
+    }
+
+    if (parent === '―for alle―') {
+        return false
+    }
+
+    if (parent === '―regler og roller―') {
+        return false
+    }
+
+    return true
 }
