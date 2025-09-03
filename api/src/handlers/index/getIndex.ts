@@ -7,5 +7,5 @@ import { FastifyReply, FastifyRequest } from "fastify"
  */
 export default async function getIndex(req: FastifyRequest, res: FastifyReply) {
     const routes = req.server.printRoutes({ commonPrefix: false })
-    res.send(`BeeKeeper API.\n\nValid endpoints are:\n\n${routes}`)
+    res.send(`TekKom Bot API.\n\nValid endpoints are:\n\n${routes}`)
 }
