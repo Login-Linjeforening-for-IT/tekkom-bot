@@ -75,7 +75,8 @@ const config = {
     api: API,
     privateToken: PRIVATE_TOKEN,
     tekkomBotApiUrl: TEKKOM_BOT_API_URL,
-    tekkomBotApiToken: TEKKOM_BOT_API_TOKEN
+    tekkomBotApiToken: TEKKOM_BOT_API_TOKEN,
+    heartbeatUrl: 'https://status.login.no/api/push/uzA7ya2YkA?status=up&msg=OK&ping='
 }
 
 // Exports the config object

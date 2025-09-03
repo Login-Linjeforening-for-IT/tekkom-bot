@@ -1,9 +1,10 @@
 import { schedule } from "node-cron"
+import config from "../config.js"
 
 export default async function heartbeat() {
     try {
         schedule('* * * * *', async() => {
-            const response = await fetch('https://status.login.no/api/push/uzA7ya2YkA?status=up&msg=OK&ping=')
+            const response = await fetch(config.heartbeatUrl)
             
             if (!response.ok) {
                 throw new Error(await response.text())
