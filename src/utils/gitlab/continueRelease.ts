@@ -35,7 +35,6 @@ export default async function continueRelease({ message, embed, id, tag, reposit
 
     if (result) {
         const mergeRequests = await getOpenMergeRequests(INFRA_PROD_CLUSTER)
-        mergeRequests.forEach((mr) => mr.title.includes('exam') ? console.log(mr.title) : {})
         const relevant: MergeRequest[] = []
         const willMerge: MergeRequest[] = []
 
@@ -44,14 +43,24 @@ export default async function continueRelease({ message, embed, id, tag, reposit
 
             if (match) {
                 const normalizedQuery = repository.toLowerCase()
+
                 if (match[1] === normalizedQuery) {
+                    // simple match
+                    //  beehive === beehive -> true
+                    relevant.push(mr)
+                } else if (match[0].includes(`${normalizedQuery.replaceAll(' ', '-')}/`)) {
+                    // two divided repository edge case
+                    // tekkom bot vs tekkom-bot/api -> true
                     relevant.push(mr)
                 } else if (match[0].includes(`${normalizedQuery}/`)) {
+                    // two divided repository edge case
+                    // beehive vs beehive/api -> true
                     relevant.push(mr)
-                    // "Beehive Frontend" vs "beehive/frontend " -> "beehive/frontend" === "beehive/frontend"
                 } else if (match[0].trim().endsWith(normalizedQuery.replaceAll(" ", "/"))) {
+                    // "Beehive Frontend" vs "beehive/frontend " -> "beehive/frontend" === "beehive/frontend" -> true
                     relevant.push(mr)
                 } else {
+                    // tekkom-bot v2 vs tekkombotv2 -> true 
                     const match1 = match[1].replaceAll('-', '')
                     const broadMatch = match1.replaceAll(' ', '')
                     const query1 = normalizedQuery.replaceAll('-', '')
