@@ -29,6 +29,7 @@ import Autocomplete from './utils/gitlab/autoComplete.js'
 import templates from './utils/templates.js'
 import beekeeperMonitor from './utils/beekeeper/beekeeperMonitor.js'
 import queenbeeMonitor from './utils/queenbee/queenbeeMonitor.js'
+import heartbeat from './utils/heartbeat/heartbeat.js'
 
 const token = config.token
 const __filename = fileURLToPath(import.meta.url)
@@ -134,6 +135,9 @@ client.once(Events.ClientReady, async () => {
 
     // BeeKeeper Monitor
     beekeeperMonitor(client)
+
+    // Heartbeat
+    heartbeat()
 
     // Automatically syncronizes messages from Zammad to Discord
     autoSyncZammad(client)
