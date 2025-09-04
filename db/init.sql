@@ -1,17 +1,21 @@
-DO $$ 
+DO $$
 BEGIN
-    IF NOT EXISTS (SELECT FROM pg_database WHERE datname = 'tekkom') THEN
-        CREATE DATABASE tekkom;
+    IF NOT EXISTS (SELECT FROM pg_database WHERE datname = 'tekkom-bot') THEN
+        CREATE DATABASE "tekkom-bot";
     END IF;
 END $$;
 
-\c tekkom
+\c "tekkom-bot"
 
-DO $$ 
+DO $$
+DECLARE
+    user_password text;
 BEGIN
-    IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'tekkom') THEN
-        CREATE USER tekkom WITH ENCRYPTED PASSWORD 'tekkom';
-        GRANT ALL PRIVILEGES ON DATABASE tekkom TO tekkom;
+    user_password := current_setting('db_password', true);
+
+    IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'tekkom-bot') THEN
+        EXECUTE format('CREATE USER "tekkom-bot" WITH ENCRYPTED PASSWORD %L', user_password);
+        EXECUTE 'GRANT ALL PRIVILEGES ON DATABASE "tekkom-bot" TO "tekkom-bot"';
     END IF;
 END $$;
 

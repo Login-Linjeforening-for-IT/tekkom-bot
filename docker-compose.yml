@@ -33,16 +33,16 @@ services:
     container_name: tekkom-bot_database
     restart: always
     environment:
-      POSTGRES_USER: tekkom
-      POSTGRES_PASSWORD: tekkom
-      POSTGRES_DB: tekkom
+      POSTGRES_USER: ${DB_USER:-tekkom-bot}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB:-tekkom-bot}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U tekkom -d tekkom"]
+      test: ["CMD-SHELL", "pg_isready -U tekkom-bot -d tekkom-bot"]
       interval: 5s
       retries: 5
 
