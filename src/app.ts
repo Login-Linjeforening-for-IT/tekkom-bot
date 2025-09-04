@@ -3,19 +3,19 @@ import { fileURLToPath } from 'url'
 import { join, dirname } from 'path'
 import config from './utils/config.js'
 import roles from './managed/roles.js'
-import { 
-    ChatInputCommandInteraction, 
-    Client, 
-    Collection, 
-    Events, 
-    GatewayIntentBits, 
-    Interaction, 
-    InteractionType, 
-    Message, 
-    Partials, 
-    Reaction, 
-    ThreadChannel, 
-    User 
+import {
+    ChatInputCommandInteraction,
+    Client,
+    Collection,
+    Events,
+    GatewayIntentBits,
+    Interaction,
+    InteractionType,
+    Message,
+    Partials,
+    Reaction,
+    ThreadChannel,
+    User
 } from 'discord.js'
 import addRole, { removeRole } from './utils/roles.js'
 import autoCreateTekKomMeetings from './utils/meetings/autoCreateTekKomMeetings.js'
@@ -35,7 +35,7 @@ const token = config.token
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-const client = new Client({ 
+const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
@@ -46,9 +46,9 @@ const client = new Client({
         GatewayIntentBits.GuildPresences,
     ],
     partials: [
-        Partials.Message, 
-        Partials.Channel, 
-        Partials.Reaction, 
+        Partials.Message,
+        Partials.Channel,
+        Partials.Reaction,
         Partials.User,
     ],
 }) as any
@@ -58,17 +58,17 @@ const foldersPath = join(__dirname, 'commands')
 const commandFolders = readdirSync(foldersPath)
 
 for (const folder of commandFolders) {
-	const commandsPath = join(foldersPath, folder)
-	const commandFiles = readdirSync(commandsPath).filter(file => file.endsWith('.js'))
-	for (const file of commandFiles) {
-		const filePath = join(commandsPath, file)
+    const commandsPath = join(foldersPath, folder)
+    const commandFiles = readdirSync(commandsPath).filter(file => file.endsWith('.js'))
+    for (const file of commandFiles) {
+        const filePath = join(commandsPath, file)
         const command = await import(filePath)
-		if ('data' in command && 'execute' in command) {
-			client.commands.set(command.data.name, command)
-		} else {
-			console.warn(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`)
-		}
-	}
+        if ('data' in command && 'execute' in command) {
+            client.commands.set(command.data.name, command)
+        } else {
+            console.warn(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`)
+        }
+    }
 }
 
 client.once(Events.ClientReady, async () => {
@@ -118,7 +118,7 @@ client.once(Events.ClientReady, async () => {
                 dispose: true,
             })
 
-            addRole({ collector: roleCollector, guild, roles: roleIds, icons})
+            addRole({ collector: roleCollector, guild, roles: roleIds, icons })
         } catch (error: any) {
             console.error("Error processing roles:", error)
         }
@@ -135,7 +135,7 @@ client.once(Events.ClientReady, async () => {
 
     // BeeKeeper Monitor
     beekeeperMonitor(client)
-    
+
     // Automatically syncronizes messages from Zammad to Discord
     autoSyncZammad(client)
 
@@ -153,7 +153,7 @@ client.on(Events.InteractionCreate, async (interaction: Interaction<"cached">) =
 
     const chatInteraction = interaction as ChatInputCommandInteraction
 
-	if (!interaction.isChatInputCommand() && !('customId' in interaction)) {
+    if (!interaction.isChatInputCommand() && !('customId' in interaction)) {
         console.error('Input is not a command nor interaction.')
         return
     }
@@ -188,15 +188,15 @@ client.on(Events.ThreadCreate, async (thread: ThreadChannel) => {
 })
 
 client.on(Events.MessageReactionRemove, async (reaction: any, user: any) => {
-	// Checks if a reaction is partial, and if so fetches the entire structure
-	if (reaction.partial) {
-		try {
-			await reaction.fetch()
-		} catch (error) {
-			console.error('Something went wrong when fetching the message:', error)
-			return
-		}
-	}
+    // Checks if a reaction is partial, and if so fetches the entire structure
+    if (reaction.partial) {
+        try {
+            await reaction.fetch()
+        } catch (error) {
+            console.error('Something went wrong when fetching the message:', error)
+            return
+        }
+    }
 
     removeRole({ reaction, user })
 })
@@ -213,7 +213,7 @@ client.on(Events.MessageCreate, async (message: Message) => {
 client.login(token)
 
 process.on("unhandledRejection", async (err) => {
-    if ((err as {message: string}).message === "Interaction has already been acknowledged.") {
+    if ((err as { message: string }).message === "Interaction has already been acknowledged.") {
         return console.error("Interaction has already been acknowledged.")
     }
 
