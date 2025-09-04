@@ -12,6 +12,7 @@ const requiredEnvironmentVariables = [
     'CLIENT_SECRET',
     'QUEENBEE_URL',
     'DB_PASSWORD',
+    'DB_HOST',
     'TEKKOM_BOT_API_TOKEN',
 ]
 
