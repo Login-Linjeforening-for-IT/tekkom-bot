@@ -3,6 +3,19 @@ import { fileURLToPath } from 'url'
 import { join, dirname } from 'path'
 import config from './utils/config.js'
 import roles from './managed/roles.js'
+import addRole, { removeRole } from './utils/roles.js'
+import autoCreateTekKomMeetings from './utils/meetings/autoCreateTekKomMeetings.js'
+import handleComponents from './utils/handleComponents.js'
+import getID from './utils/tickets/getID.js'
+import validCommands, { exceptions } from './utils/valid.js'
+import handleTickets from './utils/tickets/handler.js'
+import autoSyncZammad from './utils/tickets/autoSyncZammad.js'
+import autoCreateStyretMeetings from './utils/meetings/autoCreateStyretMeetings.js'
+import Autocomplete from './utils/gitlab/autoComplete.js'
+import templates from './utils/templates.js'
+import beekeeperMonitor from './utils/beekeeper/beekeeperMonitor.js'
+import queenbeeMonitor from './utils/queenbee/queenbeeMonitor.js'
+import heartbeat from './utils/heartbeat/heartbeat.js'
 import {
     ChatInputCommandInteraction,
     Client,
@@ -17,19 +30,6 @@ import {
     ThreadChannel,
     User
 } from 'discord.js'
-import addRole, { removeRole } from './utils/roles.js'
-import autoCreateTekKomMeetings from './utils/meetings/autoCreateTekKomMeetings.js'
-import handleComponents from './utils/handleComponents.js'
-import getID from './utils/tickets/getID.js'
-import validCommands, { exceptions } from './utils/valid.js'
-import handleTickets from './utils/tickets/handler.js'
-import autoSyncZammad from './utils/tickets/autoSyncZammad.js'
-import autoCreateStyretMeetings from './utils/meetings/autoCreateStyretMeetings.js'
-import Autocomplete from './utils/gitlab/autoComplete.js'
-import templates from './utils/templates.js'
-import beekeeperMonitor from './utils/beekeeper/beekeeperMonitor.js'
-import queenbeeMonitor from './utils/queenbee/queenbeeMonitor.js'
-import heartbeat from './utils/heartbeat/heartbeat.js'
 
 const token = config.token
 const __filename = fileURLToPath(import.meta.url)
