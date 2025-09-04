@@ -135,12 +135,12 @@ client.once(Events.ClientReady, async () => {
 
     // BeeKeeper Monitor
     beekeeperMonitor(client)
+    
+    // Automatically syncronizes messages from Zammad to Discord
+    autoSyncZammad(client)
 
     // Heartbeat
     heartbeat()
-
-    // Automatically syncronizes messages from Zammad to Discord
-    autoSyncZammad(client)
 
     console.log("Ready!")
 })
