@@ -114,7 +114,7 @@ client.once(Events.ClientReady, async () => {
 
             // Create a reaction collector
             const roleCollector = roleMessage.createReactionCollector({
-                filter: (reaction: Reaction, user: User) => !user.bot,
+                filter: (_: Reaction, user: User) => !user.bot,
                 dispose: true,
             })
 
