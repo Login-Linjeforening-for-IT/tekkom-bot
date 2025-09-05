@@ -19,16 +19,6 @@ BEGIN
     END IF;
 END $$;
 
--- Scheduled messages
-CREATE TABLE IF NOT EXISTS schedule (
-    name TEXT PRIMARY KEY
-);
-
--- Scheduled alerts
-CREATE TABLE IF NOT EXISTS alerts (
-    name TEXT PRIMARY KEY
-);
-
 -- Announcements
 CREATE TABLE IF NOT EXISTS announcements (
     id SERIAL PRIMARY KEY,
