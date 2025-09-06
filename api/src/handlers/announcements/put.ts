@@ -28,7 +28,7 @@ export default async function putAnnouncements(req: FastifyRequest, res: Fastify
         return res.status(400).send({ error: 'You cannot edit an already sent announcement without also giving it a schedule to be resent.' })
     }
 
-    const exists = await run(`SELECT * FROM local_commands WHERE id = $1`, [id])
+    const exists = await run(`SELECT * FROM announcements WHERE id = $1`, [id])
     if (!exists.rows.length) {
         return res.status(404).send({ error: `ID ${id} not found.` })
     }
