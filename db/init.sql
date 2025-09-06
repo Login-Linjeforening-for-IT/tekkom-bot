@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS announcements (
     embed BOOLEAN,
     color TEXT,
     interval TEXT,
-    time TEXT,
+    time TIMESTAMPTZ,
     sent BOOLEAN DEFAULT false,
-    last_sent TEXT
+    last_sent TIMESTAMPTZ
 );

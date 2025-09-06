@@ -575,6 +575,6 @@ type Announcement = {
     channel: string
     embed?: boolean
     color?: string
-    interval?: boolean
+    interval?: string
     time?: string
 }
