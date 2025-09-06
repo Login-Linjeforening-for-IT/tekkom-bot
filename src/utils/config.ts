@@ -23,7 +23,9 @@ const {
     DISCORD_SERVICE_MONITORING_CHANNEL_ID,
     DISCORD_BEEKEEPER_ROLE_ID,
     TEKKOM_BOT_API_URL,
-    TEKKOM_BOT_API_TOKEN
+    TEKKOM_BOT_API_TOKEN,
+    HEARTBEAT_URL,
+    BEEKEEPER_API_URL,
 } = process.env
 
 // Throws an error if any of the essential environment variables are missing
@@ -46,6 +48,8 @@ if (
     || !PRIVATE_TOKEN
     || !TEKKOM_BOT_API_URL
     || !TEKKOM_BOT_API_TOKEN
+    || !HEARTBEAT_URL
+    || !BEEKEEPER_API_URL
 ) {
     throw new Error('Missing essential environment variables in config.')
 }
@@ -76,7 +80,8 @@ const config = {
     privateToken: PRIVATE_TOKEN,
     tekkomBotApiUrl: TEKKOM_BOT_API_URL,
     tekkomBotApiToken: TEKKOM_BOT_API_TOKEN,
-    heartbeatUrl: 'https://status.login.no/api/push/uzA7ya2YkA?status=up&msg=OK&ping='
+    heartbeatUrl: HEARTBEAT_URL,
+    beekeeperApiUrl: BEEKEEPER_API_URL
 }
 
 // Exports the config object
