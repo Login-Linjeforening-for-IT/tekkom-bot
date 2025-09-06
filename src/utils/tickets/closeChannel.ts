@@ -17,7 +17,7 @@ export default async function closeChannel({ guild, interaction, currentChannel 
         if (!interaction) {
             return await currentChannel.send(`This ticket has been closed in Zammad, but cannot be closed in Discord since the "archived-tickets" category cannot be found.`)
         }
-        
+
         return await interaction.reply({
             content: `Could not find "archived-tickets" category.`,
             ephemeral: true,
@@ -29,36 +29,44 @@ export default async function closeChannel({ guild, interaction, currentChannel 
         await interaction.deferReply({ ephemeral: true })
     }
 
-    const children = archive.children.cache            
+    const children = archive.children.cache
 
     // Checks and handles max closed channels
     if (children.size >= MAX_CHANNELS) {
         const sortedChannels: { channel: CategoryChildChannel; timestamp: number }[] = []
-    
-        for (const [_, channel] of children) {
-            try {
-                const lastMessageId = channel.lastMessageId || ''
-                const lastMessage = await channel.messages.fetch(lastMessageId)
-                
-                if (lastMessage) {
-                    const timestamp = lastMessage.createdTimestamp
 
+        for (const [_, channel] of children) {
+            if (channel instanceof TextChannel) {
+                try {
+                    const lastMessageId = channel.lastMessageId || ''
+                    const lastMessage = await channel.messages.fetch(lastMessageId)
+
+                    if (lastMessage) {
+                        const timestamp = lastMessage.createdTimestamp
+
+                        sortedChannels.push({
+                            channel,
+                            timestamp,
+                        })
+                    }
+                } catch (error) {
+                    // Assumes no activity if no messages can be found
                     sortedChannels.push({
                         channel,
-                        timestamp,
+                        timestamp: 0,
                     })
                 }
-            } catch (error) {
-                // Assumes no activity if no messages can be found
+            } else {
+                // Not a TextChannel
                 sortedChannels.push({
                     channel,
-                    timestamp: 0,
+                    timestamp: 0
                 })
             }
         }
 
         sortedChannels.sort((a, b) => a.timestamp - b.timestamp)
-    
+
         // Deletes 10 oldest channels (20%, to avoid fetching all channels every time someone closes a ticket)
         for (let i = 0; i < 10; i++) {
             const channelToDelete = sortedChannels[i]?.channel
@@ -75,10 +83,10 @@ export default async function closeChannel({ guild, interaction, currentChannel 
     // Removes all roles from the channel except the bot's role.
     const bot = currentChannel.guild.members.me
     const roles = currentChannel.guild.roles.cache
-    
+
     roles.forEach(async (role) => {
         if (bot?.roles.cache.has(role.id)) return
-        
+
         const permissionOverwrites = currentChannel.permissionOverwrites.cache.get(role.id)
         if (permissionOverwrites) {
             // Removes overwrites if they exist
@@ -91,7 +99,7 @@ export default async function closeChannel({ guild, interaction, currentChannel 
     members.forEach(async (member) => {
         // Skip removing if it's the bot
         if (member.id === bot?.id) return
-        
+
         const permissionOverwrites = currentChannel.permissionOverwrites.cache.get(member.id)
         if (permissionOverwrites) {
             // Removes overwrites if they exist

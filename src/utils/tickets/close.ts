@@ -1,11 +1,11 @@
-import { 
-    ActionRowBuilder,  
-    ButtonInteraction, 
-    CategoryChannel, 
-    CategoryChildChannel, 
-    Collection, 
-    StringSelectMenuBuilder, 
-    TextChannel 
+import {
+    ActionRowBuilder,
+    ButtonInteraction,
+    CategoryChannel,
+    CategoryChildChannel,
+    Collection,
+    StringSelectMenuBuilder,
+    TextChannel
 } from "discord.js"
 import { getTickets } from "./ticket.js"
 import formatChannelName from "./format.js"
@@ -19,9 +19,9 @@ export async function handleCloseTicket(interaction: ButtonInteraction) {
     if (guild === null) {
         return
     }
-    
+
     const currentChannel = interaction.channel as TextChannel
-    
+
     // Checks if the current channel name fits the ticket ID scheme
     if (ticketIdPattern.test(currentChannel.name)) {
         try {
@@ -73,38 +73,46 @@ export async function handleCloseSelectedTicket(interaction: ButtonInteraction) 
         })
     }
 
-    
+
     try {
         const channels: Collection<string, CategoryChildChannel> = guild.channels.cache as any
 
         // Checks and handles max closed channels
         if (channels.size >= MAX_CHANNELS) {
             const sortedChannels: { channel: CategoryChildChannel; timestamp: number }[] = []
-        
-            for (const [_, channel] of channels) {
-                try {
-                    const lastMessageId = channel.lastMessageId || ''
-                    const lastMessage = await channel.messages.fetch(lastMessageId)
-                    
-                    if (lastMessage) {
-                        const timestamp = lastMessage.createdTimestamp
 
+            for (const [_, channel] of channels) {
+                if (channel instanceof TextChannel) {
+                    try {
+                        const lastMessageId = channel.lastMessageId || ''
+                        const lastMessage = await channel.messages.fetch(lastMessageId)
+
+                        if (lastMessage) {
+                            const timestamp = lastMessage.createdTimestamp
+
+                            sortedChannels.push({
+                                channel,
+                                timestamp,
+                            })
+                        }
+                    } catch (error) {
+                        // Assumes no activity if no messages can be found
                         sortedChannels.push({
                             channel,
-                            timestamp,
+                            timestamp: 0,
                         })
                     }
-                } catch (error) {
-                    // Assumes no activity if no messages can be found
+                } else {
+                    // Not a TextChannel
                     sortedChannels.push({
                         channel,
-                        timestamp: 0,
+                        timestamp: 0
                     })
                 }
             }
 
             sortedChannels.sort((a, b) => a.timestamp - b.timestamp)
-        
+
             // Deletes 10 oldest channels (20%, to avoid fetching all channels every time someone closes a ticket)
             for (let i = 0; i < 10; i++) {
                 const channelToDelete = sortedChannels[i]?.channel
