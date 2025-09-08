@@ -11,15 +11,18 @@ export default async function sendMessages(client: Client, messages: Announcemen
 
         const textChannel = channel as TextChannel
         try {
+            const roles = message.roles.length > 0 ? message.roles.map((role) => `<@&${role}> `).join('') : ''
             if (message.embed) {
                 const embed = new EmbedBuilder()
                     .setTitle(message.title)
                     .setDescription(message.description)
                     .setColor(resolveColor(message.color))
 
-                await textChannel.send({ embeds: [embed] })
+                await textChannel.send(roles.length > 0 
+                    ? { content: roles, embeds: [embed] }
+                    : { embeds: [embed] })
             } else {
-                await textChannel.send(`**${message.title}**\n${message.description}`)
+                await textChannel.send(`${roles}**${message.title}**\n${message.description}`)
             }
             sent.push(message)
         } catch (error) {

@@ -1,6 +1,7 @@
 import dotenv from 'dotenv'
 
 export const channels = [] as Channel[]
+export const roles = [] as Role[]
 
 dotenv.config({path: '../.env'})
 

@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS announcements (
     title TEXT NOT NULL,
     description TEXT NOT NULL,
     channel TEXT NOT NULL,
+    roles TEXT[]
     embed BOOLEAN,
     color TEXT,
     interval TEXT,

@@ -6,11 +6,17 @@ declare global {
         channelName: string
     }
 
+    type Role = { 
+        name: string
+        id: string
+    }
+
     type Announcement = {
         id: string
         title: string
         description: string
         channel: string
+        roles: string[]
         embed?: boolean
         color?: string
         interval?: string
@@ -22,6 +28,7 @@ declare global {
         title: string
         description: string
         channel: string
+        roles: string[]
         embed?: boolean
         color?: string
         interval: string

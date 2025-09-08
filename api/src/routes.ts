@@ -10,6 +10,8 @@ import getLogin from './handlers/login/getLogin'
 import getCallback from './handlers/login/getCallback'
 import postSentAnnouncements from './handlers/sent/post'
 import { FastifyInstance, FastifyPluginOptions } from "fastify"
+import getRoles from './handlers/roles/get'
+import postRoles from './handlers/roles/post'
 
 export default async function apiRoutes(fastify: FastifyInstance, _: FastifyPluginOptions) {
     // index
@@ -18,6 +20,10 @@ export default async function apiRoutes(fastify: FastifyInstance, _: FastifyPlug
     // channels
     fastify.get("/channels", getChannels)
     fastify.post("/channels", postChannels)
+
+    // roles
+    fastify.get("/roles", getRoles)
+    fastify.post("/roles", postRoles)
 
     // auth
     fastify.get('/token', getToken)
