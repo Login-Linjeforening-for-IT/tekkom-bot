@@ -8,6 +8,7 @@ export default async function getBtg(): Promise<Btg[]> {
         const response = await fetch(`${tekkomBotApiUrl}/btg`, {
             headers: {
                 'Content-Type': 'application/json',
+                'btg': 'tekkom-bot-btg',
                 'Authorization': `Bearer ${tekkomBotBtgToken}`
             }
         })

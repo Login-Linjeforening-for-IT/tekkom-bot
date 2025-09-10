@@ -1,13 +1,10 @@
-import config from "@constants"
 import run from "@db"
 import tokenWrapper from "@utils/tokenWrapper"
 import { FastifyReply, FastifyRequest } from "fastify"
 
-const customToken = config.TEKKOM_BOT_BTG_TOKEN
-
 export default async function postBtg(req: FastifyRequest, res: FastifyReply) {
     const { name, service, author } = req.body as Btg ?? {}
-    const { valid } = await tokenWrapper(req, res, customToken)
+    const { valid } = await tokenWrapper(req, res, ['tekkom-bot-btg'])
     if (!valid) {
         return res.status(400).send({ error: "Unauthorized" })
     }

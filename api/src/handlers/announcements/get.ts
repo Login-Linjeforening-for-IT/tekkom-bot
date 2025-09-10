@@ -1,5 +1,4 @@
 import run from "@/db"
-import config from "@constants"
 import { loadSQL } from "@utils/loadSQL"
 import tokenWrapper from "@utils/tokenWrapper"
 import { FastifyReply, FastifyRequest } from "fastify"
@@ -12,11 +11,9 @@ type GetAnnouncements = {
     shouldBeSent?: string
 }
 
-const customToken = config.TEKKOM_BOT_API_TOKEN
-
 export default async function getAnnouncements(req: FastifyRequest, res: FastifyReply) {
     const { id, page, announcementsPerPage, active, shouldBeSent } =  (req.query as GetAnnouncements) ?? {}
-    const { valid } = await tokenWrapper(req, res, customToken)
+    const { valid } = await tokenWrapper(req, res, ['tekkom-bot'])
     if (!valid) {
         return res.status(400).send({ error: "Unauthorized" })
     }

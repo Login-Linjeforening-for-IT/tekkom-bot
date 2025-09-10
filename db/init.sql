@@ -39,5 +39,6 @@ CREATE TABLE IF NOT EXISTS btg (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     service TEXT NOT NULL,
-    author TEXT NOT NULL
+    author TEXT NOT NULL,
+    timestamp TIMESTAMPTZ DEFAULT NOW()
 );

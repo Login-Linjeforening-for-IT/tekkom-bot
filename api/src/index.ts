@@ -2,7 +2,7 @@ import cors from '@fastify/cors'
 import Fastify from 'fastify'
 import apiRoutes from './routes'
 import getIndex from './handlers/index/getIndex'
-import checkCron from '@utils/checkCron'
+import cron from '@utils/cron'
 
 const fastify = Fastify({
     logger: true
@@ -28,7 +28,7 @@ async function start() {
 }
 
 async function main() {
-    checkCron()
+    cron()
     start()
 }
 

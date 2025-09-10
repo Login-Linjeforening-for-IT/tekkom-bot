@@ -1,12 +1,10 @@
-import config, { channels } from "@constants"
+import { channels } from "@constants"
 import tokenWrapper from "@utils/tokenWrapper"
 import { FastifyReply, FastifyRequest } from "fastify"
 
-const customToken = config.TEKKOM_BOT_API_TOKEN
-
 export default async function postChannels(req: FastifyRequest, res: FastifyReply) {
     const newChannels = req.body as Channel[] ?? []
-    const { valid } = await tokenWrapper(req, res, customToken)
+    const { valid } = await tokenWrapper(req, res, ['tekkom-bot'])
 
     if (!valid) {
         return res.status(400).send({ error: "Unauthorized" })

@@ -5,7 +5,6 @@ export const roles = [] as Role[]
 
 dotenv.config({path: '../.env'})
 
-const isServer = typeof window === 'undefined'
 const requiredEnvironmentVariables = [
     'AUTHENTIK_API_URL',
     'CLIENT_ID',
@@ -15,14 +14,15 @@ const requiredEnvironmentVariables = [
     'DB_PASSWORD',
     'DB_HOST',
     'TEKKOM_BOT_API_TOKEN',
-    'TEKKOM_BOT_BTG_TOKEN'
+    'TEKKOM_BOT_BTG_TOKEN',
+    'QUEENBEE_BTG_TOKEN'
 ]
 
 const missingVariables = requiredEnvironmentVariables.filter(
     (key) => !process.env[key]
 )
 
-if (isServer && missingVariables.length > 0) {
+if (missingVariables.length > 0) {
     throw new Error(
         'Missing essential environment variables:\n' +
             missingVariables
@@ -58,7 +58,8 @@ const config = {
     AUTH_URL,
     DEFAULT_RESULTS_PER_PAGE: Number(env.DEFAULT_RESULTS_PER_PAGE) || 50,
     TEKKOM_BOT_API_TOKEN: env.TEKKOM_BOT_API_TOKEN,
-    TEKKOM_BOT_BTG_TOKEN: env.TEKKOM_BOT_BTG_TOKEN
+    TEKKOM_BOT_BTG_TOKEN: env.TEKKOM_BOT_BTG_TOKEN,
+    QUEENBEE_BTG_TOKEN: env.QUEENBEE_BTG_TOKEN
 }
 
 export default config
