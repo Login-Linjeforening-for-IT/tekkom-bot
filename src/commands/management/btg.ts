@@ -13,7 +13,8 @@ export const data = new SlashCommandBuilder()
         .setName('service')
         .setDescription('Service to whitelist for')
         .addChoices(
-            { name: "BeeKeeper", value: "beekeeper" }
+            { name: "BeeKeeper", value: "beekeeper" },
+            { name: "QueenBee", value: "queenbee" }
         )
     )
 export async function execute(message: ChatInputCommandInteraction) {
