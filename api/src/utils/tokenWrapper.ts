@@ -33,6 +33,10 @@ export default async function tokenWrapper(
         return { valid: true }
     }
 
+    if (custom.includes('tekkom-bot-btg') && btg === 'tekkom-bot-btg' && token === tokens['tekkom-bot-btg']) {
+        return { valid: true }
+    }
+
     try {
         const userInfoRes = await fetch(USERINFO_URL, {
             headers: {
