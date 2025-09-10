@@ -15,7 +15,9 @@ const requiredEnvironmentVariables = [
     'DB_HOST',
     'TEKKOM_BOT_API_TOKEN',
     'TEKKOM_BOT_BTG_TOKEN',
-    'QUEENBEE_BTG_TOKEN'
+    'QUEENBEE_BTG_TOKEN',
+    'CRITICAL_ROLE',
+    'WEBHOOK_URL'
 ]
 
 const missingVariables = requiredEnvironmentVariables.filter(
@@ -59,7 +61,10 @@ const config = {
     DEFAULT_RESULTS_PER_PAGE: Number(env.DEFAULT_RESULTS_PER_PAGE) || 50,
     TEKKOM_BOT_API_TOKEN: env.TEKKOM_BOT_API_TOKEN,
     TEKKOM_BOT_BTG_TOKEN: env.TEKKOM_BOT_BTG_TOKEN,
-    QUEENBEE_BTG_TOKEN: env.QUEENBEE_BTG_TOKEN
+    QUEENBEE_BTG_TOKEN: env.QUEENBEE_BTG_TOKEN,
+    CRITICAL_ROLE: env.CRITICAL_ROLE,
+    WEBHOOK_URL: env.WEBHOOK_URL
+
 }
 
 export default config

@@ -1,4 +1,5 @@
 import run from "@/db"
+import discordAlert from '@utils/discordAlert'
 import tokenWrapper from "@utils/tokenWrapper"
 import { FastifyReply, FastifyRequest } from "fastify"
 
@@ -9,13 +10,15 @@ export default async function getBtg(req: FastifyRequest, res: FastifyReply) {
         return res.status(400).send({ error: "Unauthorized" })
     }
 
-    if (name && service) {
-        const result = await run(
-            `SELECT name, service, author FROM btg WHERE name = $1 AND service = $2 AND author = $3;`, 
-            [name, service, author]
-        )
-        return res.send(result.rows)
+    if (!name || !service || !author) {
+        return res.status(400).send({ error: "Name, service and author must be provided when fetching tokens." })
     }
 
-    return res.status(400).send({ error: "Invalid" })
+    await discordAlert(`BTG ping exceptions for user ${name} for ${service} were fetched from the TekKom Bot API by <@${author}>. Please verify that there are currently known issues with Authentik and that this is expected.`, 'get')
+
+    const result = await run(
+        `SELECT name, service FROM btg WHERE name = $1 AND service = $2;`, 
+        [name, service]
+    )
+    return res.send(result.rows)
 }

@@ -42,10 +42,5 @@ declare global {
         author: string
     }
 
-    type BTG_TOKENS = {
-        name: 'tekkom-bot' | 'queenbee'
-        value: string
-    }
-
     type SQLParamType = (string | number | null | boolean | string[] | Date)[]
 }
