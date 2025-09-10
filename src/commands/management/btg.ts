@@ -20,10 +20,7 @@ export const data = new SlashCommandBuilder()
 export async function execute(message: ChatInputCommandInteraction) {
     const name = message.options.getString('name')
     const service = message.options.getString('service')
-    const author =
-        message.user.globalName ??
-        message.user.username ??
-        message.user.id;
+    const author = message.user.id
 
     if (!name || !service || !author) {
         return await message.reply({
