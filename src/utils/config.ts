@@ -26,6 +26,8 @@ const {
     TEKKOM_BOT_API_TOKEN,
     HEARTBEAT_URL,
     BEEKEEPER_API_URL,
+    TEKKOM_BOT_BTG_TOKEN,
+    KUBERNETES_SERVICE_PORT
 } = process.env
 
 // Throws an error if any of the essential environment variables are missing
@@ -50,6 +52,7 @@ if (
     || !TEKKOM_BOT_API_TOKEN
     || !HEARTBEAT_URL
     || !BEEKEEPER_API_URL
+    || !TEKKOM_BOT_BTG_TOKEN
 ) {
     throw new Error('Missing essential environment variables in config.')
 }
@@ -80,8 +83,10 @@ const config = {
     privateToken: PRIVATE_TOKEN,
     tekkomBotApiUrl: TEKKOM_BOT_API_URL,
     tekkomBotApiToken: TEKKOM_BOT_API_TOKEN,
+    tekkomBotBtgToken: TEKKOM_BOT_BTG_TOKEN,
     heartbeatUrl: HEARTBEAT_URL,
-    beekeeperApiUrl: BEEKEEPER_API_URL
+    beekeeperApiUrl: BEEKEEPER_API_URL,
+    kubernetesServicePort: KUBERNETES_SERVICE_PORT
 }
 
 // Exports the config object

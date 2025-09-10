@@ -15,6 +15,7 @@ const requiredEnvironmentVariables = [
     'DB_PASSWORD',
     'DB_HOST',
     'TEKKOM_BOT_API_TOKEN',
+    'TEKKOM_BOT_BTG_TOKEN'
 ]
 
 const missingVariables = requiredEnvironmentVariables.filter(
@@ -56,7 +57,8 @@ const config = {
     QUEENBEE_URL: env.QUEENBEE_URL,
     AUTH_URL,
     DEFAULT_RESULTS_PER_PAGE: Number(env.DEFAULT_RESULTS_PER_PAGE) || 50,
-    TEKKOM_BOT_API_TOKEN: env.TEKKOM_BOT_API_TOKEN
+    TEKKOM_BOT_API_TOKEN: env.TEKKOM_BOT_API_TOKEN,
+    TEKKOM_BOT_BTG_TOKEN: env.TEKKOM_BOT_BTG_TOKEN
 }
 
 export default config

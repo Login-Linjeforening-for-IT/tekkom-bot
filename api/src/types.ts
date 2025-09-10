@@ -35,4 +35,10 @@ declare global {
         time?: string
         last_sent: string
     }
+
+    type Btg = {
+        name: string
+        service: string
+        author: string
+    }
 }

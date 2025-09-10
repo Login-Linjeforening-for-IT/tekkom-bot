@@ -33,3 +33,11 @@ CREATE TABLE IF NOT EXISTS announcements (
     sent BOOLEAN DEFAULT false,
     last_sent TIMESTAMPTZ
 );
+
+-- Btg
+CREATE TABLE IF NOT EXISTS btg (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    service TEXT NOT NULL,
+    author TEXT NOT NULL
+);

@@ -579,3 +579,9 @@ type Announcement = {
     interval?: string
     time?: string
 }
+
+type Btg = {
+    name: string
+    service: string
+    author: string
+}

@@ -18,7 +18,6 @@ export default async function tokenWrapper(
     }
 
     const token = authHeader.split(' ')[1]
-
     if (token === customToken && customToken.length > 1000) {
         return { valid: true }
     }

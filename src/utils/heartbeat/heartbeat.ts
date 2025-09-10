@@ -3,16 +3,20 @@ import config from "../config.js"
 
 export default async function heartbeat() {
     try {
-        schedule('* * * * *', async() => {
-            const response = await fetch(config.heartbeatUrl)
-            
-            if (!response.ok) {
-                throw new Error(await response.text())
-            }
+        // Disables heartbeat if not running in Kubernetes to prevent timed
+        // out requests when testing locally without a vpn.
+        if (config.kubernetesServicePort) {
+            schedule('* * * * *', async() => {
+                const response = await fetch(config.heartbeatUrl)
+                
+                if (!response.ok) {
+                    throw new Error(await response.text())
+                }
 
-            const data = await response.json()
-            return data
-        })
+                const data = await response.json()
+                return data
+            })
+        }
     } catch (error) {
         console.log(error)
     }

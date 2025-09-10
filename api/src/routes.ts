@@ -9,9 +9,11 @@ import getToken from './handlers/login/getToken'
 import getLogin from './handlers/login/getLogin'
 import getCallback from './handlers/login/getCallback'
 import postSentAnnouncements from './handlers/sent/post'
-import { FastifyInstance, FastifyPluginOptions } from "fastify"
 import getRoles from './handlers/roles/get'
 import postRoles from './handlers/roles/post'
+import getBtg from './handlers/btg/get'
+import postBtg from './handlers/btg/post'
+import { FastifyInstance, FastifyPluginOptions } from "fastify"
 
 export default async function apiRoutes(fastify: FastifyInstance, _: FastifyPluginOptions) {
     // index
@@ -36,4 +38,8 @@ export default async function apiRoutes(fastify: FastifyInstance, _: FastifyPlug
     fastify.post('/announcements', postAnnouncements)
     fastify.delete('/announcements', deleteAnnouncements)
     fastify.post('/sent', postSentAnnouncements)
+
+    // btg
+    fastify.get("/btg", getBtg)
+    fastify.post("/btg", postBtg)
 }

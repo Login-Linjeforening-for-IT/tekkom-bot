@@ -27,6 +27,7 @@ services:
       QUEENBEE_URL: ${QUEENBEE_URL}
       REDIRECT_URI: ${REDIRECT_URI}
       TEKKOM_BOT_API_TOKEN: ${TEKKOM_BOT_API_TOKEN}
+      TEKKOM_BOT_BTG_TOKEN: ${TEKKOM_BOT_BTG_TOKEN}
 
   postgres:
     image: postgres:15
