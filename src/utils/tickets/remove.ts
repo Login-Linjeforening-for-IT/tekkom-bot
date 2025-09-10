@@ -1,6 +1,7 @@
 import { 
     ActionRowBuilder, 
     ButtonInteraction, 
+    MessageFlags, 
     RoleSelectMenuBuilder,
     UserSelectMenuBuilder, 
 } from "discord.js"
@@ -29,6 +30,6 @@ export default async function handleRemoveFromTicket(interaction: ButtonInteract
     await interaction.reply({
         content: 'Remove users or roles from this ticket:',
         components: [roles, users],
-        ephemeral: true
+        flags: MessageFlags.Ephemeral
     })
 }

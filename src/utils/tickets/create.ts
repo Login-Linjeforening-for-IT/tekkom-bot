@@ -14,7 +14,8 @@ import {
     TextInputStyle,
     ModalSubmitInteraction,
     ButtonBuilder,
-    ButtonStyle
+    ButtonStyle,
+    MessageFlags
 } from "discord.js"
 import topics from "./topics.js"
 import { DISCORD_URL, ZAMMAD_URL } from "../../constants.js"
@@ -24,7 +25,7 @@ export default async function handleCreateTicket(interaction: ButtonInteraction)
     const guild = interaction.guild as Guild
     
     if (!guild) {
-        return interaction.reply({ content: "This command can only be used in a server.", ephemeral: true })
+        return interaction.reply({ content: "This command can only be used in a server.", flags: MessageFlags.Ephemeral })
     }
 
     const channels = guild.channels.cache
@@ -195,7 +196,7 @@ export default async function handleCreateTicket(interaction: ButtonInteraction)
             // Acknowledge modal submission
             await submittedModal.reply({ 
                 content: `Your ticket <#${newChannel.id}> has been created!`,
-                ephemeral: true
+                flags: MessageFlags.Ephemeral
             })
         }
 

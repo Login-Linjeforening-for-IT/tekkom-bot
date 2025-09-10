@@ -7,7 +7,8 @@ import {
     Role,
     ButtonBuilder,
     ButtonStyle,
-    ActionRowBuilder
+    ActionRowBuilder,
+    MessageFlags
 } from 'discord.js'
 import getRepositories from '../../utils/gitlab/getRepositories.js'
 import sanitize from '../../utils/sanitize.js'
@@ -42,17 +43,17 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
     // Aborts if the user does not have sufficient permissions
     if (!isAllowed) {
-        return await interaction.reply({ content: "Unauthorized.", ephemeral: true })
+        return await interaction.reply({ content: "Unauthorized.", flags: MessageFlags.Ephemeral })
     }
 
     // Aborts if the channel isnt a playhouse channel
     if (!interaction.channel || !('name' in interaction.channel) || !interaction.channel.name?.toLocaleLowerCase().includes('playhouse')) {
-        return await interaction.reply({ content: "This isnt a playhouse channel.", ephemeral: true })
+        return await interaction.reply({ content: "This isnt a playhouse channel.", flags: MessageFlags.Ephemeral })
     }
 
     // Aborts if no repository is selected
     if (!repository) {
-        return await interaction.reply({ content: "No repository selected.", ephemeral: true })
+        return await interaction.reply({ content: "No repository selected.", flags: MessageFlags.Ephemeral })
     }
 
     // Tries to find a matching repository
@@ -64,7 +65,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
     // Aborts if no matching repository exists
     if (!match) {
-        return await interaction.reply({ content: `No repository matches '${repository}'.`, ephemeral: true })
+        return await interaction.reply({ content: `No repository matches '${repository}'.`, flags: MessageFlags.Ephemeral })
     }
 
     const [version, commits] = await Promise.all([
@@ -74,7 +75,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     const latestVersion = version[0] || FALLBACK_TAG
 
     if (!commits.length) {
-        return await interaction.reply({ content: `No commits exist for branch ${branch} in repository '${repository}'.`, ephemeral: true })
+        return await interaction.reply({ content: `No commits exist for branch ${branch} in repository '${repository}'.`, flags: MessageFlags.Ephemeral })
     }
 
     const now = new Date()

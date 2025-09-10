@@ -3,6 +3,7 @@ import {
     BaseGuildTextChannel, 
     ButtonInteraction, 
     Guild, 
+    MessageFlags, 
     PermissionsBitField, 
     StringSelectMenuBuilder,
     TextChannel, 
@@ -32,7 +33,7 @@ export default async function handleViewTicket(interaction: ButtonInteraction) {
         // If no channels are available, send a message saying so
         await interaction.reply({
             content: 'You have no open tickets to view.',
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral
         })
         return
     }
@@ -49,6 +50,6 @@ export default async function handleViewTicket(interaction: ButtonInteraction) {
     // Send the message with the select menus (Pokémon and channel selection)
     await interaction.reply({
         components: [channel],
-        ephemeral: true
+        flags: MessageFlags.Ephemeral
     })
 }

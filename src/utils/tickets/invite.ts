@@ -4,6 +4,7 @@ import {
     ButtonInteraction, 
     ButtonStyle, 
     EmbedBuilder, 
+    MessageFlags, 
     PermissionOverwriteManager, 
     StringSelectMenuBuilder, 
     TextChannel 
@@ -24,7 +25,7 @@ export default async function invite(interaction: ButtonInteraction) {
     const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectChannel)
 
     // Sends the message with the select menu
-    await interaction.reply({ components: [actionRow], ephemeral: true })
+    await interaction.reply({ components: [actionRow], flags: MessageFlags.Ephemeral })
 }
 
 export async function inviteToTicket(interaction: ButtonInteraction) {
@@ -39,7 +40,7 @@ export async function inviteToTicket(interaction: ButtonInteraction) {
     if (!channel || !(channel instanceof TextChannel)) {
         return await interaction.reply({
             content: `Could not find the specified channel.`,
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral
         })
     }
 
@@ -74,7 +75,7 @@ export async function joinTicket(interaction: ButtonInteraction) {
     if (!channel || !(channel instanceof TextChannel)) {
         return await interaction.reply({
             content: `Could not find the specified channel.`,
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral
         })
     }
 
@@ -91,7 +92,7 @@ export async function joinTicket(interaction: ButtonInteraction) {
 
     await interaction.reply({
         content: `Joined <#${channel.id}>`,
-        ephemeral: true
+        flags: MessageFlags.Ephemeral
     })
 
     // Lets the people in the channel know that someone joined.

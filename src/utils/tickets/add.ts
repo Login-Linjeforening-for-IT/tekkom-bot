@@ -1,6 +1,7 @@
 import { 
     ActionRowBuilder, 
     ButtonInteraction, 
+    MessageFlags, 
     RoleSelectMenuBuilder,
     UserSelectMenuBuilder, 
 } from "discord.js"
@@ -29,7 +30,7 @@ export default async function handleAddToTicket(interaction: ButtonInteraction) 
     await interaction.reply({
         content: 'Add users or roles to this ticket:',
         components: [roles, users],
-        ephemeral: true
+        flags: MessageFlags.Ephemeral
     })
 }
 
@@ -56,6 +57,6 @@ export async function handleAddViewerToTicket(interaction: ButtonInteraction) {
     await interaction.reply({
         content: 'Add users or roles to this ticket:',
         components: [roles, users],
-        ephemeral: true
+        flags: MessageFlags.Ephemeral
     })
 }

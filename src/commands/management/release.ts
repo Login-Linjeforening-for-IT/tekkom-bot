@@ -7,7 +7,8 @@ import {
     Role,
     ActionRowBuilder,
     ButtonBuilder,
-    ButtonStyle
+    ButtonStyle,
+    MessageFlags
 } from 'discord.js'
 import getRepositories from '../../utils/gitlab/getRepositories.js'
 import sanitize from '../../utils/sanitize.js'
@@ -39,17 +40,17 @@ export async function execute(message: ChatInputCommandInteraction) {
 
     // Aborts if the user does not have sufficient permissions
     if (!isAllowed) {
-        return await message.reply({ content: "Unauthorized.", ephemeral: true })
+        return await message.reply({ content: "Unauthorized.", flags: MessageFlags.Ephemeral })
     }
 
     // Aborts if the channel isnt a operations channel
     if (!message.channel || !('name' in message.channel) || !message.channel.name?.toLocaleLowerCase().includes('operations')) {
-        return await message.reply({ content: "This isnt a operations channel.", ephemeral: true })
+        return await message.reply({ content: "This isnt a operations channel.", flags: MessageFlags.Ephemeral })
     }
 
     // Aborts if no repository is selected
     if (!repository) {
-        return await message.reply({ content: "No repository selected.", ephemeral: true })
+        return await message.reply({ content: "No repository selected.", flags: MessageFlags.Ephemeral })
     }
 
     // Tries to find a matching repository
@@ -61,7 +62,7 @@ export async function execute(message: ChatInputCommandInteraction) {
 
     // Aborts if no matching repository exists
     if (!match) {
-        return await message.reply({ content: `No repository matches '${repository}'.`, ephemeral: true })
+        return await message.reply({ content: `No repository matches '${repository}'.`, flags: MessageFlags.Ephemeral })
     }
 
     const tags = await getTags(match.id)
@@ -86,7 +87,7 @@ export async function execute(message: ChatInputCommandInteraction) {
             .setColor("#fd8738")
             .setTimestamp()
 
-        return message.reply({ embeds: [embed], ephemeral: true })
+        return message.reply({ embeds: [embed], flags: MessageFlags.Ephemeral })
     }
 
     const [version, commits] = await Promise.all([

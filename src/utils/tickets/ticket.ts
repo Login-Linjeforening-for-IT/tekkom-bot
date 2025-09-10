@@ -2,6 +2,7 @@ import {
     BaseGuildTextChannel, 
     ButtonInteraction, 
     Guild, 
+    MessageFlags, 
     PermissionsBitField, 
     TextChannel 
 } from "discord.js"
@@ -15,7 +16,7 @@ export default async function isTicketChannel(interaction: ButtonInteraction): P
     if (!ticketChannel) {
         await interaction.reply({
             content: 'This command can only be used in ticket channels.\nUse /view to view your tickets.',
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral
         })
 
         return false
@@ -46,7 +47,7 @@ export async function getTickets(interaction: ButtonInteraction) {
             // If no channels are available, send a message saying so
             await interaction.reply({
                 content: 'You have no open tickets.',
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral
             })
             return
         }
@@ -73,7 +74,7 @@ export async function getArchivedTickets(interaction: ButtonInteraction) {
             // If no channels are available, send a message saying so
             await interaction.reply({
                 content: 'You have no archived tickets.',
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral
             })
             return
         }

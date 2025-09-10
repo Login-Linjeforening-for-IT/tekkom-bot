@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, EmbedBuilder, ChatInputCommandInteraction, User, Role, Reaction } from 'discord.js'
+import { SlashCommandBuilder, EmbedBuilder, ChatInputCommandInteraction, User, Role, Reaction, MessageFlags } from 'discord.js'
 import storedEmbeds from "../../managed/roles.js"
 import config from '../../utils/config.js'
 import { Roles } from '../../interfaces.js'
@@ -77,7 +77,7 @@ export async function execute(message: ChatInputCommandInteraction) {
         if (!isValidEmoji(icon) && !name.length) {
             return message.reply({
                 content: `There is no emoji named \`\`${name || icon}\`\`\ \nYou entered: \`\`\`text\n${input}\`\`\``, 
-                ephemeral: true
+                flags: MessageFlags.Ephemeral
             })
         }
     })

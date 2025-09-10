@@ -7,7 +7,8 @@ import {
     ChatInputCommandInteraction, 
     User, 
     Role, 
-    Reaction 
+    Reaction, 
+    MessageFlags
 } from 'discord.js'
 
 export const data = new SlashCommandBuilder()
@@ -48,7 +49,7 @@ export async function execute(message: ChatInputCommandInteraction) {
     if (!title) {
         return await message.reply({
             content: `Missing title`, 
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         })
     }
 
@@ -57,7 +58,7 @@ export async function execute(message: ChatInputCommandInteraction) {
     if (!name) {
         return await message.reply({
             content: `Missing description`, 
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         })
     }
 
@@ -66,7 +67,7 @@ export async function execute(message: ChatInputCommandInteraction) {
     if (!roleString) {
         return await message.reply({
             content: `Missing roles`, 
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         })
     }
 
@@ -75,7 +76,7 @@ export async function execute(message: ChatInputCommandInteraction) {
     if (!roleIconsString) {
         return await message.reply({
             content: `Missing icons`, 
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         })
     }
 
@@ -84,13 +85,13 @@ export async function execute(message: ChatInputCommandInteraction) {
     if (!messageID) {
         return await message.reply({
             content: `Missing ID`, 
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         })
     }
 
     await message.reply({
         content: `Working...`, 
-        ephemeral: true
+        flags: MessageFlags.Ephemeral
     })
 
     const roles = Array.from(roleString.trim().split(' '))

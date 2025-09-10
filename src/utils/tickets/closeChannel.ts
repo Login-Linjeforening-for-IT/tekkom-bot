@@ -1,4 +1,4 @@
-import { ButtonInteraction, CategoryChannel, CategoryChildChannel, Guild, TextChannel } from "discord.js"
+import { ButtonInteraction, CategoryChannel, CategoryChildChannel, Guild, MessageFlags, TextChannel } from "discord.js"
 import { MAX_CHANNELS } from "../../constants.js"
 
 type CloseChannelProps = {
@@ -20,13 +20,13 @@ export default async function closeChannel({ guild, interaction, currentChannel 
 
         return await interaction.reply({
             content: `Could not find "archived-tickets" category.`,
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral
         })
     }
 
     // Defers because it usually takes a few seconds to process everything
     if (interaction) {
-        await interaction.deferReply({ ephemeral: true })
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral })
     }
 
     const children = archive.children.cache

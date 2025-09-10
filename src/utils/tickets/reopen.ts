@@ -2,6 +2,7 @@ import {
     ActionRowBuilder, 
     ButtonInteraction, 
     CategoryChannel, 
+    MessageFlags, 
     RoleSelectMenuBuilder, 
     StringSelectMenuBuilder, 
     TextChannel,
@@ -25,7 +26,7 @@ export default async function handleReopenTicket(interaction: ButtonInteraction)
 
     await interaction.reply({
         components: [channel],
-        ephemeral: true
+        flags: MessageFlags.Ephemeral
     })
 }
 
@@ -41,7 +42,7 @@ export async function reopenTicket(interaction: ButtonInteraction, view?: boolea
     if (!channel || !(channel instanceof TextChannel)) {
         return await interaction.reply({
             content: `Could not find the specified channel.`,
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral
         })
     }
 
@@ -52,7 +53,7 @@ export async function reopenTicket(interaction: ButtonInteraction, view?: boolea
         if (!archive) {
             return await interaction.reply({
                 content: `Could not find "tickets" category.`,
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral
             })
         }
     
@@ -94,13 +95,13 @@ export async function reopenTicket(interaction: ButtonInteraction, view?: boolea
 
         await interaction.reply({ 
             content: `${formatChannelName(channel.name)} ${view ? 'viewed' : 'reopened'}.`,
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral
          })
     } catch (error) {
         console.error(error)
         await interaction.reply({
             content: `There was an error ${view ? 'viewing' : 'reopening'} the ticket. Please try again later.`,
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral
         })
     }
 }

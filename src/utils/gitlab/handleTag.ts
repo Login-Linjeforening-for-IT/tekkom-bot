@@ -1,4 +1,4 @@
-import { ButtonInteraction, GuildMember, Role } from "discord.js"
+import { ButtonInteraction, GuildMember, MessageFlags, Role } from "discord.js"
 import { deleteTag } from "./tags.js"
 import deploy from "./deploy.js"
 import { abortButtons, errorButtons } from "./buttons.js"
@@ -24,7 +24,7 @@ export async function removeTag(interaction: ButtonInteraction) {
     const member = interaction.member as GuildMember
     const isAllowed = member.roles.cache.some((role: Role) => role.id === config.roleID)
     if (!isAllowed) {
-        return await interaction.reply({ content: "Unauthorized.", ephemeral: true })
+        return await interaction.reply({ content: "Unauthorized.", flags: MessageFlags.Ephemeral })
     }
 
     const embedTag = message.embeds[1].title || ''

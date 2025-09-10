@@ -1,5 +1,6 @@
 import { 
     ChatInputCommandInteraction, 
+    MessageFlags, 
     PermissionOverwriteManager, 
     SlashCommandBuilder, 
     TextChannel
@@ -17,7 +18,7 @@ export async function execute(message: ChatInputCommandInteraction) {
     if (!channel.name.match(/\d+/)) {
         return await message.reply({
             content: "This is not a ticket!",
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         })
     }
 

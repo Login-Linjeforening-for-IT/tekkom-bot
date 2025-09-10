@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, Role, SlashCommandBuilder } from 'discord.js'
+import { ChatInputCommandInteraction, MessageFlags, Role, SlashCommandBuilder } from 'discord.js'
 import config from '../../utils/config.js'
 import { Roles } from '../../interfaces.js'
 
@@ -24,5 +24,5 @@ export async function execute(message: ChatInputCommandInteraction) {
     
     config.minecraft_log = message.channelId
 
-    await message.reply({ content: `Now logging whitelist commands in <#${message.channelId}>`, ephemeral: true })
+    await message.reply({ content: `Now logging whitelist commands in <#${message.channelId}>`, flags: MessageFlags.Ephemeral })
 }

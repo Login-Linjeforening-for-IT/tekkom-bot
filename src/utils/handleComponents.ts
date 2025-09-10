@@ -1,4 +1,4 @@
-import { ButtonInteraction, ChatInputCommandInteraction } from "discord.js"
+import { ButtonInteraction, ChatInputCommandInteraction, MessageFlags } from "discord.js"
 import handleTagTicket, { tagTicket } from "./tickets/tag.js"
 import { handleCloseSelectedTicket, handleCloseTicket } from "./tickets/close.js"
 import handleViewTicket from "./tickets/view.js"
@@ -126,7 +126,7 @@ export default async function handleComponents(interaction: ButtonInteraction | 
             break
         default:
             console.error(`${buttonInteraction.customId || id} is unhandled in handleComponents.`)
-            await buttonInteraction.reply({ content: `Unknown action. ${buttonInteraction.customId}`, ephemeral: true })
+            await buttonInteraction.reply({ content: `Unknown action. ${buttonInteraction.customId}`, flags: MessageFlags.Ephemeral })
             break
     }
 }

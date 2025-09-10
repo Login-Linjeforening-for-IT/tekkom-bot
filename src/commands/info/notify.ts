@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, Role, SlashCommandBuilder } from 'discord.js'
+import { ChatInputCommandInteraction, MessageFlags, Role, SlashCommandBuilder } from 'discord.js'
 import { Roles } from '../../interfaces.js'
 import sendNotification from '../../utils/sendNotification.js'
 import config from '../../utils/config.js'
@@ -38,19 +38,19 @@ export async function execute(message: ChatInputCommandInteraction) {
     
     // Aborts if the user does not have sufficient permissions
     if (!isAllowed) {
-        return await message.reply({ content: "Unauthorized.", ephemeral: true })
+        return await message.reply({ content: "Unauthorized.", flags: MessageFlags.Ephemeral })
     }
     
     
     if (!title || !description || !topic) {
         return await message.reply({
             content: `You must provide a ${title ? '' : 'title'} ${description ? '' : 'description'} ${topic ? '' : 'topic'} to send notifications`,
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         })
     }
     
     try {
-        await message.reply({ content: "Working...", ephemeral: true })
+        await message.reply({ content: "Working...", flags: MessageFlags.Ephemeral })
 
         const response = await sendNotification({title, description, topic, screen})
         

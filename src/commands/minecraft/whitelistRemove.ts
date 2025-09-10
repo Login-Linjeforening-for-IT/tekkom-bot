@@ -1,4 +1,4 @@
-import { CacheType, ChatInputCommandInteraction, Role, SlashCommandBuilder } from 'discord.js'
+import { CacheType, ChatInputCommandInteraction, MessageFlags, Role, SlashCommandBuilder } from 'discord.js'
 import config from '../../utils/config.js'
 import log from '../../utils/logger.js'
 import { Roles } from '../../interfaces.js'
@@ -28,13 +28,13 @@ export async function execute(message: ChatInputCommandInteraction) {
 
     // Aborts if the user does not have sufficient permissions
     if (!isAllowed) {
-        return await message.reply({content: "Unauthorized.", ephemeral: true})
+        return await message.reply({ content: "Unauthorized.", flags: MessageFlags.Ephemeral })
     }
 
     if (!user) {
         return await message.reply({
-            content: "You must provide a user: `/whitelist user:name`", 
-            ephemeral: true
+            content: "You must provide a user: `/whitelist user:name`",
+            flags: MessageFlags.Ephemeral
         })
     }
 
@@ -50,9 +50,9 @@ async function post(message: ChatInputCommandInteraction<CacheType>, name: strin
             const fullUrl = `${config.minecraft_url}:${server.port}/${server.name}-whitelist`
             const response = await fetch(fullUrl, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json', name, action: "remove"}
+                headers: { 'Content-Type': 'application/json', name, action: "remove" }
             })
-            
+
             switch (response.status) {
                 case 304: content = `${name} is not on the whitelist.`; break
                 case 418: content = `Removed ${name} from the whitelist.`; break
@@ -63,7 +63,7 @@ async function post(message: ChatInputCommandInteraction<CacheType>, name: strin
     )
 
     if (content) {
-        await message.reply({content, ephemeral: true})
+        await message.reply({ content, flags: MessageFlags.Ephemeral })
         log(message, content)
     }
 }

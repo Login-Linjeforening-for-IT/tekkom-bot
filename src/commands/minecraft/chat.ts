@@ -1,4 +1,4 @@
-import { CacheType, ChatInputCommandInteraction, Message, SlashCommandBuilder, TextChannel } from 'discord.js'
+import { CacheType, ChatInputCommandInteraction, Message, MessageFlags, SlashCommandBuilder, TextChannel } from 'discord.js'
 import http from "http"
 import { Reaction } from 'discord.js'
 import config from '../../utils/config.js'
@@ -8,7 +8,7 @@ export const data = new SlashCommandBuilder()
     .setDescription('Establishes a connection between Minecraft and this Discord chat')
 
 export async function execute(message: ChatInputCommandInteraction<CacheType>) {
-    await message.reply({content: 'Connection established!', ephemeral: true})
+    await message.reply({ content: 'Connection established!', flags: MessageFlags.Ephemeral })
 
     // Filter to check that the author is not a bot to prevent an infinite loop
     const filter = (response: Message) => !response.author.bot
@@ -16,7 +16,7 @@ export async function execute(message: ChatInputCommandInteraction<CacheType>) {
     // Message collector that collects all messages written in Discord
 
     if (!message.channel || !message.channel?.isTextBased()) {
-        return await message.reply({content: 'This command can only be used in text channels.', ephemeral: true})
+        return await message.reply({ content: 'This command can only be used in text channels.', flags: MessageFlags.Ephemeral })
     }
 
     const textChannel = message.channel as TextChannel
@@ -51,7 +51,7 @@ function post(message: string) {
     config.minecraft_servers.forEach((server) => {
         fetch(`${config.minecraft_url}:${server.port}/${server.name}-message`, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: message
         })
     })
@@ -95,10 +95,10 @@ async function updatePlayerCount(message: ChatInputCommandInteraction) {
         let players = ""
         let topic = ""
 
-        await Promise.allSettled(config.minecraft_servers.map(async(server) => {
+        await Promise.allSettled(config.minecraft_servers.map(async (server) => {
             const response = await fetch(`${config.minecraft_url}:${server.port}/${server.name}-online`)
             const data = await response.json()
-            
+
             switch (server.name) {
                 case "survival": survival = data; break
                 case "creative": creative = data; break
@@ -111,10 +111,10 @@ async function updatePlayerCount(message: ChatInputCommandInteraction) {
         for (let i = 0; i < Math.max(playersSurvival, playersCreative); i++) {
             const playerSurvival = (survival[i] || "").substring(0, maxWidth)
             const playerCreative = (creative[i] || "").substring(0, maxWidth)
-            
+
             const spacesSurvival = "\t".repeat(Math.max(0, (maxWidth - playerSurvival.length) / 4))
             const spacesCreative = "\t".repeat(Math.max(0, (maxWidth - playerCreative.length) / 4))
-        
+
             const tabs = Math.max(1, Math.floor((maxWidth - playerSurvival.length) / 4))
             const tabCharacters = "\t".repeat(tabs)
 
@@ -128,7 +128,7 @@ async function updatePlayerCount(message: ChatInputCommandInteraction) {
         } else {
             topic = `Logins Minecraft server. There are no players online at this time.`
         }
-        
+
         if (channel && 'setTopic' in channel) {
             channel?.setTopic(topic)
         } else {

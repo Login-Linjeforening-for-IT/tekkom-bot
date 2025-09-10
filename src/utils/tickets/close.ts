@@ -4,6 +4,7 @@ import {
     CategoryChannel,
     CategoryChildChannel,
     Collection,
+    MessageFlags,
     StringSelectMenuBuilder,
     TextChannel
 } from "discord.js"
@@ -59,7 +60,7 @@ export async function handleCloseTicket(interaction: ButtonInteraction) {
         await interaction.reply({
             content: 'Choose a ticket to close:',
             components: [actionRow],
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral
         })
     }
 }
@@ -69,7 +70,7 @@ export async function handleCloseSelectedTicket(interaction: ButtonInteraction) 
     if (!guild) {
         return await interaction.reply({
             content: "Guild not found.",
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral
         })
     }
 
@@ -129,7 +130,7 @@ export async function handleCloseSelectedTicket(interaction: ButtonInteraction) 
         if (!selectedChannel || !(selectedChannel instanceof TextChannel)) {
             return await interaction.reply({
                 content: `Could not find the specified channel.`,
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral
             })
         }
 
@@ -141,7 +142,7 @@ export async function handleCloseSelectedTicket(interaction: ButtonInteraction) 
         if (!archiveCategory) {
             return await interaction.reply({
                 content: `Could not find the "archived-tickets" category.`,
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral
             })
         }
 
@@ -161,14 +162,14 @@ export async function handleCloseSelectedTicket(interaction: ButtonInteraction) 
         // Send a confirmation message to the user who closed the ticket
         await interaction.reply({
             content: `${formatChannelName(selectedChannel.name)} closed.`,
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
         })
 
     } catch (error) {
         console.error(`Failed to close the ticket: ${error}`)
         await interaction.reply({
             content: 'There was an error closing the ticket. Please try again later.',
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral
         })
     }
 }

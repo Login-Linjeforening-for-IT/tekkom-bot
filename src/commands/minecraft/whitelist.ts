@@ -1,4 +1,4 @@
-import { CacheType, ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js'
+import { CacheType, ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from 'discord.js'
 import log from '../../utils/logger.js'
 import config from '../../utils/config.js'
 import sanitize from '../../utils/sanitize.js'
@@ -23,7 +23,7 @@ export async function execute(message: ChatInputCommandInteraction<CacheType>) {
     const user = message.options.getString('user') ? sanitize(message.options.getString('user')?.slice(0, 30) || "") : null
 
     if (!user) {
-        await message.reply({content: "You must provide a user: `/whitelist user:name`", ephemeral: true})
+        await message.reply({ content: "You must provide a user: `/whitelist user:name`", flags: MessageFlags.Ephemeral })
         return
     }
 
@@ -39,9 +39,9 @@ async function post(message: ChatInputCommandInteraction<CacheType>, name: strin
             const fullUrl = `${config.minecraft_url}:${server.port}/${server.name}-whitelist`
             const response = await fetch(fullUrl, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json', name, action: "add"}
+                headers: { 'Content-Type': 'application/json', name, action: "add" }
             })
-            
+
             switch (response.status) {
                 case 304: content = `${name} is already whitelisted.`; break
                 case 418: content = `Added ${name} to the whitelist.`; break
@@ -52,7 +52,7 @@ async function post(message: ChatInputCommandInteraction<CacheType>, name: strin
     )
 
     if (content) {
-        await message.reply({content, ephemeral: true})
+        await message.reply({ content, flags: MessageFlags.Ephemeral })
         log(message, content)
     }
 }
