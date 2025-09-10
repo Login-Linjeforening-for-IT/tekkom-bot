@@ -6,7 +6,7 @@ const { USERINFO_URL } = config
 const tokens = {
     'tekkom-bot': config.TEKKOM_BOT_API_TOKEN,
     'tekkom-bot-btg': config.TEKKOM_BOT_BTG_TOKEN,
-    queenbee: config.QUEENBEE_BTG_TOKEN,
+    'queenbee-btg': config.QUEENBEE_BTG_TOKEN,
 }
 
 export default async function tokenWrapper(
@@ -25,7 +25,7 @@ export default async function tokenWrapper(
     }
 
     const token = authHeader.split(' ')[1]
-    if (custom.includes('queenbee') && btg === 'queenbee' && token === tokens.queenbee) {
+    if (custom.includes('queenbee-btg') && btg === 'queenbee-btg' && token === tokens['queenbee-btg']) {
         return { valid: true }
     }
 
