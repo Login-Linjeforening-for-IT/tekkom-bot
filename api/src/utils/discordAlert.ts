@@ -2,12 +2,12 @@ import config from "@constants"
 
 const { CRITICAL_ROLE, WEBHOOK_URL } = config
 
-export default async function discordAlert(description: string, type: 'get' | 'post', ping: boolean = false) {
+export default async function discordAlert(description: string, type: 'get' | 'post' | '' = '', ping: boolean = false) {
     try {
         let data: { content?: string; embeds: any[] } = {
             embeds: [
                 {
-                    title: `🐝 Tekkom Bot BTG ${type.toUpperCase()} 🐝`,
+                    title: `🐝 Tekkom Bot BTG ${`${type.toUpperCase()} `}🐝`,
                     description: description,
                     color: 0xff0000,
                     timestamp: new Date().toISOString()
