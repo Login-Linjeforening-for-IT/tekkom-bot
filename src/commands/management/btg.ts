@@ -55,7 +55,7 @@ async function whitelist(message: ChatInputCommandInteraction, name: string, ser
 
     const embed = new EmbedBuilder()
         .setTitle('🐝 Break The Glass 🐝')
-        .setDescription(`Successfully whitelisted btg account ${name} for ${service}`)
+        .setDescription(`Successfully added ping exception for BTG account ${name} for ${service}`)
         .setColor("#fd8738")
         .setTimestamp()
 
