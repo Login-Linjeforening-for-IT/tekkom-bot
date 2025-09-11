@@ -8,7 +8,9 @@ export default async function getToken(req: FastifyRequest, res: FastifyReply) {
         return res.status(400).send(response)
     }
 
-    await checkAndAlert(req.headers['name'] as string, 'queenbee')
+    const name = req.headers['name'] as string
+    const middleware = (req.headers['middleware'] as string) === 'true'
+    await checkAndAlert(name, 'queenbee', middleware)
 
     return res.status(200).send(response)
 }

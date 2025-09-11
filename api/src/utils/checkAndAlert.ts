@@ -1,7 +1,7 @@
 import run from '@db'
 import discordAlert from './discordAlert'
 
-export default async function checkAndAlert(name: string, service: string) {
+export default async function checkAndAlert(name: string, service: string, middleware: boolean) {
     let ping = true
     let author = ''
     const result = await run(
@@ -21,5 +21,7 @@ export default async function checkAndAlert(name: string, service: string) {
         return await discordAlert(`Detected BTG login towards ${service} from user ${name} allowed by <@${author}>. Please verify that there are currently known issues with Authentik and that this is expected.`)
     }
 
-    await discordAlert(`Detected BTG login towards ${service} from user ${name}. Please verify that there are currently known issues with Authentik and that this is expected.`, '', true)
+    if (!middleware) {
+        await discordAlert(`Detected BTG login towards ${service} from user ${name}. Please verify that there are currently known issues with Authentik and that this is expected.`, '', true)
+    }
 }
