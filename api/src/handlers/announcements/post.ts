@@ -18,7 +18,7 @@ export default async function postAnnouncements(req: FastifyRequest, res: Fastif
 
         await run(
             `INSERT INTO announcements (title, description, channel, roles, embed, color, interval, time) 
-             SELECT $1, $2, $3, $4, $5, $6, $7;`, 
+             SELECT $1, $2, $3, $4, $5, $6, $7, $8;`, 
             [title, description, channel, roles || null, embed || null, color || null, interval || null, time || null]
         )
 
