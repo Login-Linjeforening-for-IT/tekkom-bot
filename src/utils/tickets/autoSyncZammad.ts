@@ -57,7 +57,7 @@ async function sync(client: Client) {
                 }
             })
         }))
-        const zammadMessages = await fetchTicket(Number(channel.name))
+        const zammadMessages = await fetchTicket(Number(channel.name)) as ReducedMessage[] | ErrorClosed | Error
         
         // Checks if any are closed in Zammad, and if so closes them on Discord
         if ('error' in zammadMessages && zammadMessages.error === 'closed') {
