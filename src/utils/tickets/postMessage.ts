@@ -24,26 +24,28 @@ export default async function postMessage(ticketID: number, message: Message, bo
             }
 
             const url = `${config.api}/ticket/${ticketID}`
-            const response = await fetch(url, {
+            const data = {
+                "group_id": 37,
+                "customer_id": 5567,
+                "article": {
+                    "body": body || `From ${message.author.username} via Discord:\n\n${message.content}`,
+                    "type": "email",
+                    "internal": false,
+                    "to": recipient,
+                    attachments
+                }
+            }
+            const options = {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    "group_id": 37,
-                    "customer_id": 5567,
-                    "article": {
-                        "body": body || `From ${message.author.username} via Discord:\n\n${message.content}`,
-                        "type": "email",
-                        "internal": false,
-                        "to": recipient,
-                        attachments
-                    }
-                })
-            })
+                body: JSON.stringify(data)
+            }
+            const response = await fetch(url, options)
 
             if (!response.ok) {
-                throw new Error(`Failed to post message to zammad: ${await response.text()}\nURL: ${url}\nStatus: ${response.status}`)
+                throw new Error(`Failed to post message to zammad: ${await response.text()}\nURL: ${url}\nStatus: ${response.status}\nOptions: ${options}`)
             }
 
             return response.status
