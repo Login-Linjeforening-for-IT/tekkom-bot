@@ -11,7 +11,7 @@ export default async function sendMessages(client: Client, messages: Announcemen
 
         const textChannel = channel as TextChannel
         try {
-            const roles = message.roles.length > 0 ? message.roles.map((role) => `<@&${role}> `).join('') : ''
+            const roles = message.roles?.length > 0 ? message.roles.map((role) => `<@&${role}> `).join('') : ''
             if (message.embed) {
                 const embed = new EmbedBuilder()
                     .setTitle(message.title)
