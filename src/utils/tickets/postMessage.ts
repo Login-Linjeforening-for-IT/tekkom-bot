@@ -23,7 +23,8 @@ export default async function postMessage(ticketID: number, message: Message, bo
                 }
             }
 
-            const response = await fetch(`${config.api}/ticket/${ticketID}`, {
+            const url = `${config.api}/ticket/${ticketID}`
+            const response = await fetch(url, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,12 +43,12 @@ export default async function postMessage(ticketID: number, message: Message, bo
             })
 
             if (!response.ok) {
-                throw new Error(`Failed to post message to zammad: ${await response.text()}`)
+                throw new Error(`Failed to post message to zammad: ${await response.text()}\nURL: ${url}\nStatus: ${response.status}`)
             }
 
             return response.status
         } catch (error) {
-            console.error(error)
+            console.log(error)
         }
     }
 }
