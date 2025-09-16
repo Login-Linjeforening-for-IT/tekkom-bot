@@ -27,7 +27,7 @@ export default async function getAnnouncements(req: FastifyRequest, res: Fastify
     const pageInt = parseInt(page || "1", 10)
     const perPageInt = parseInt(announcementsPerPage || "10", 10)
     const activeBool = active === "true"
-    const shouldBeSentBool = shouldBeSent === "true" ? true : shouldBeSent === "false" ? false : null
+    const shouldBeSentBool = shouldBeSent === "true"
     const result = await run(query, [pageInt, perPageInt, activeBool, shouldBeSentBool])
     res.send(result.rows)
 }
