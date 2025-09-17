@@ -73,7 +73,8 @@ export default async function autoCreate({channel, isStyret, styremote}: AutoCre
     if (isStyret) {
         styremote?.send(`<@&${DISCORD_STYRET_ROLE_ID}> Minner om Styremøte på LL kl 17. [Agenda](${WIKI_URL}${STYRET_MEETINGS_URL}${path.nextPath}).`)
     } else {
-        channel.send(`<@&${DISCORD_TEKKOM_ROLE_ID}> Minner om TekKom møte på onsdag kl 16 på LL. [Agenda](${WIKI_URL}${TEKKOM_MEETINGS_URL}${path.nextPath}).`)
+        // Disabled, moved to Queenbee
+        // channel.send(`<@&${DISCORD_TEKKOM_ROLE_ID}> Minner om TekKom møte på onsdag kl 16 på LL. [Agenda](${WIKI_URL}${TEKKOM_MEETINGS_URL}${path.nextPath}).`)
     }
 
     updateIndex({ path, query: getQuery(isStyret ? 7 : 37), isStyret })

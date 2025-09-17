@@ -19,7 +19,7 @@ export default async function autoCreateTekKomMeetings(client: Client) {
         throw new Error(`Channel with ID ${DISCORD_TEKKOM_VERV_CHANNEL_ID} not found in autoCreateTekKomMeetings.ts`)
     }
 
-    schedule('0 16 * * 4', () => {
+    schedule('0 15 * * 4', () => {
         const weekNumber = getNextPathYearAndWeek(false).currentWeek
         if (weekNumber % 2 !== 0) {
             autoCreate({ channel, isStyret: false })
