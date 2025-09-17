@@ -12,7 +12,7 @@ const LOGIN_GUILD = "284789429539700736"
  */
 export default async function getAndSendRoles(client: Client): Promise<void> {
     const GUILD_ID = LOGIN_GUILD
-    const data: any[] = []
+    const data: { name: string, id: string, color: string }[] = []
 
     try {
         const guild = client.guilds.cache.get(GUILD_ID)
@@ -29,7 +29,8 @@ export default async function getAndSendRoles(client: Client): Promise<void> {
 
             data.push({
                 name: role.name,
-                id: role.id
+                id: role.id,
+                color: role.hexColor
             })
         })
 

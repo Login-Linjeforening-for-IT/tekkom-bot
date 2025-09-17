@@ -573,7 +573,7 @@ type Announcement = {
     title: string
     description: string
     channel: string
-    roles: string[]
+    roles: Role[]
     embed?: boolean
     color?: string
     interval?: string
@@ -584,4 +584,10 @@ type Btg = {
     name: string
     service: string
     author: string
+}
+
+type Role = {
+    name: string
+    id: string
+    color: string
 }

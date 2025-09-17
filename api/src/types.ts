@@ -9,6 +9,7 @@ declare global {
     type Role = { 
         name: string
         id: string
+        color: string
     }
 
     type Announcement = {
