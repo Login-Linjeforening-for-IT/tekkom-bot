@@ -592,13 +592,41 @@ type Role = {
     color: string
 }
 
-type Activity = {
-    user: string
+type SendActivity = {
     song: string
     artist: string
+    album: string
     start: string
     end: string
+    source: string
+    user: string
+    image: string
+}
+
+type Activity = {
+    song: string
+    artist: string
+    album: string
+    start: string
+    end: string
+    source: string
+    user: string
+    timestamp: string
+}
+
+type Song = {
+    id: number
+    name: string
+    artist: string
     album: string
     image: string
-    source: string
+    listens: number
+    timestamp: string
+}
+
+type Artist = {
+    id: number
+    name: string
+    listens: number
+    timestamp: string
 }

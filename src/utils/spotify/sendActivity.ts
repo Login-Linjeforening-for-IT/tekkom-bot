@@ -11,7 +11,7 @@ export default async function sendActivity({
     album,
     image,
     source,
-}: Activity) {
+}: SendActivity) {
     try {
         console.log('url:', `${config.tekkomBotApiUrl}/activity`)
         const response = await fetch(`${config.tekkomBotApiUrl}/activity`, {
