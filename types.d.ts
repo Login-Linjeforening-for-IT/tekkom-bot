@@ -604,6 +604,7 @@ type SendActivity = {
 }
 
 type Activity = {
+    id: string
     song: string
     artist: string
     album: string
