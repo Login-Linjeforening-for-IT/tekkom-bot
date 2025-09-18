@@ -26,11 +26,11 @@ export default async function getActivity(req: FastifyRequest, res: FastifyReply
     const getSongsPlayedPerDay = (await loadSQL('getSongsPlayedPerDay.sql'))
     const getTopFiveToday = (await loadSQL('getTopFiveSongsToday.sql'))
     const getTopFiveYesterday = (await loadSQL('getTopFiveSongsYesterday.sql'))
-    const getTopfiveThisWeek = (await loadSQL('getTopFiveSongsThisWeek.sql'))
+    const getTopFiveThisWeek = (await loadSQL('getTopFiveSongsThisWeek.sql'))
     const getTopFiveThisMonth = (await loadSQL('getTopFiveSongsThisMonth.sql'))
     const getTopFiveThisYear = (await loadSQL('getTopFiveSongsThisYear.sql'))
     
-    const averageDuration = (await run(getAverageDurationPerSong)).rows
+    const averageDuration = (await run(getAverageDurationPerSong)).rows[0].avg_seconds
     const currentlyPlaying = (await run(getCurrentlyPlaying)).rows
     const mostPlayedAlbums = (await run(getMostPlayedAlbums)).rows
     const mostPlayedArtists = (await run(getMostPlayedArtists)).rows
@@ -38,7 +38,7 @@ export default async function getActivity(req: FastifyRequest, res: FastifyReply
     const mostPlayedSongsPerDay = (await run(getSongsPlayedPerDay)).rows
     const topFiveToday = (await run(getTopFiveToday)).rows
     const topFiveYesterday = (await run(getTopFiveYesterday)).rows
-    const topfiveThisWeek = (await run(getTopfiveThisWeek)).rows
+    const topFiveThisWeek = (await run(getTopFiveThisWeek)).rows
     const topFiveThisMonth = (await run(getTopFiveThisMonth)).rows
     const topFiveThisYear = (await run(getTopFiveThisYear)).rows
 
@@ -54,7 +54,7 @@ export default async function getActivity(req: FastifyRequest, res: FastifyReply
         mostPlayedSongsPerDay,
         topFiveToday,
         topFiveYesterday,
-        topfiveThisWeek,
+        topFiveThisWeek,
         topFiveThisMonth,
         topFiveThisYear
     })
