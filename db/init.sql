@@ -42,3 +42,36 @@ CREATE TABLE IF NOT EXISTS btg (
     author TEXT NOT NULL,
     timestamp TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Activities
+CREATE TABLE IF NOT EXISTS activites (
+    id SERIAL PRIMARY KEY,
+    song TEXT NOT NULL,
+    artist TEXT NOT NULL,
+    album TEXT NOT NULL,
+    "start" TIMESTAMPTZ NOT NULL,
+    "end" TIMESTAMPTZ NOT NULL,
+    source TEXT NOT NULL,
+    "user" TEXT NOT NULL,
+    timestamp TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Songs 
+CREATE TABLE IF NOT EXISTS songs (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    artist TEXT NOT NULL,
+    album TEXT NOT NULL,
+    "image" TEXT NOT NULL,
+    listens INT DEFAULT 1,
+    timestamp TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE (name, artist, album)
+);
+
+-- Artists 
+CREATE TABLE IF NOT EXISTS artists (
+    id SERIAL PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL,
+    listens INT DEFAULT 1,
+    timestamp TIMESTAMPTZ DEFAULT NOW()
+);

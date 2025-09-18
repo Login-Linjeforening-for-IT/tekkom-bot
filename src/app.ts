@@ -26,10 +26,12 @@ import {
     InteractionType,
     Message,
     Partials,
+    Presence,
     Reaction,
     ThreadChannel,
     User
 } from 'discord.js'
+import sendActivity from './utils/spotify/sendActivity.js'
 
 const token = config.token
 const __filename = fileURLToPath(import.meta.url)
@@ -209,6 +211,28 @@ client.on(Events.MessageCreate, async (message: Message) => {
     handleTickets({ matches, message })
 })
 
+client.on(Events.PresenceUpdate, async(_: Presence, newPresence: Presence) => {
+    const data = newPresence.activities.find(a => a.type === 2 && a.name === 'Spotify')
+    if (data) {
+        if (data.name !== 'Spotify') {
+            return
+        }
+
+        const activity = {
+            user: newPresence.user?.tag ?? 'Unknown',
+            song: data.details ?? 'Unknown',
+            artist: data.state ?? 'Unknown',
+            start: data.timestamps?.start?.toISOString() || new Date().toISOString(),
+            end: data.timestamps?.end?.toISOString()  || new Date().toISOString(),
+            album: data.assets?.largeText ?? 'Unknown',
+            image: data.assets?.largeImage?.split(':')[1] ?? 'ab67616d0000b273153d79816d853f2694b2cc70',
+            source: data.name
+        }
+
+        const response = await sendActivity(activity)
+        console.log(response.message)
+    }
+})
 
 client.login(token)
 
@@ -227,6 +251,5 @@ process.on("uncaughtException", async (err) => {
 process.on("uncaughtExceptionMonitor", async (err) => {
     console.error("Uncaught Promise Exception (Monitor):\n", err)
 })
-
 
 export default client

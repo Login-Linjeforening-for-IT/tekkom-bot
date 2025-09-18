@@ -591,3 +591,14 @@ type Role = {
     id: string
     color: string
 }
+
+type Activity = {
+    user: string
+    song: string
+    artist: string
+    start: string
+    end: string
+    album: string
+    image: string
+    source: string
+}

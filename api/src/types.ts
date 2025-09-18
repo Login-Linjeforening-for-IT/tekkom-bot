@@ -44,4 +44,15 @@ declare global {
     }
 
     type SQLParamType = (string | number | null | boolean | string[] | Date)[]
+
+    type Activity = {
+        user: string
+        song: string
+        artist: string
+        start: string
+        end: string
+        album: string
+        image: string
+        source: string
+    }
 }

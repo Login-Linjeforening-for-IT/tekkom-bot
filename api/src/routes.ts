@@ -14,6 +14,8 @@ import postRoles from './handlers/roles/post'
 import getBtg from './handlers/btg/get'
 import postBtg from './handlers/btg/post'
 import { FastifyInstance, FastifyPluginOptions } from "fastify"
+import postActivity from './handlers/activity/post'
+import getActivity from './handlers/activity/get'
 
 export default async function apiRoutes(fastify: FastifyInstance, _: FastifyPluginOptions) {
     // index
@@ -42,4 +44,8 @@ export default async function apiRoutes(fastify: FastifyInstance, _: FastifyPlug
     // btg
     fastify.get("/btg", getBtg)
     fastify.post("/btg", postBtg)
+
+    // activity
+    fastify.get("/activity", getActivity)
+    fastify.post("/activity", postActivity)
 }
