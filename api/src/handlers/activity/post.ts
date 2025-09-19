@@ -4,6 +4,7 @@ import { FastifyReply, FastifyRequest } from "fastify"
 
 export default async function postActivity(req: FastifyRequest, res: FastifyReply) {
     const { user, song, artist, start, end, album, image, source, avatar, user_id } = req.body as Activity ?? {}
+    console.log('recieved', { user, song, artist, start, end, album, image, source, avatar, user_id })
     const { valid } = await tokenWrapper(req, res, ['tekkom-bot'])
     if (!valid) {
         return res.status(400).send({ error: "Unauthorized" })

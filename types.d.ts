@@ -601,6 +601,8 @@ type SendActivity = {
     source: string
     user: string
     image: string
+    user_id: string | undefined
+    avatar: string | undefined | null
 }
 
 type Activity = {
