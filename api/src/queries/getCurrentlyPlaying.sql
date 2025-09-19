@@ -8,4 +8,5 @@ LEFT JOIN songs s
   AND a.artist = s.artist
 WHERE a."start" <= NOW()
   AND a."end" >= NOW()
+  AND a.skipped = false
 ORDER BY a."start" DESC;
