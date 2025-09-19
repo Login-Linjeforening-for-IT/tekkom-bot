@@ -25,16 +25,17 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
 
             if (previous && previous.rows.length > 0) {
                 const activityId = previous.rows[0].id
-                const activitySong = previous.rows[0].name
+                const activitySong = previous.rows[0].song
                 const activityArtist = previous.rows[0].artist
+                const activityAlbum = previous.rows[0].album
 
                 await run(`UPDATE activities SET skipped = $1 WHERE id = $2`, [true, activityId])
                 await run(
                     `UPDATE songs
                     SET listens = GREATEST(listens - 1, 0),
                         skips = skips + 1
-                    WHERE name = $1 AND artist = $2`,
-                    [activitySong, activityArtist]
+                    WHERE name = $1 AND artist = $2 AND album = $3`,
+                    [activitySong, activityArtist, activityAlbum]
                 )
 
                 await run(
