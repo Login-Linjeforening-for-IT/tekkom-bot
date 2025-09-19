@@ -1,7 +1,7 @@
 SELECT 
     a.album,
     a.artist,
-    COUNT(*) AS play_count,
+    COUNT(*) AS listens,
     s_top.name AS top_song,
     s_top."image" AS top_song_image
 FROM activites a
@@ -16,5 +16,5 @@ JOIN LATERAL (
     LIMIT 1
 ) AS s_top ON true
 GROUP BY a.album, a.artist, s_top.name, s_top."image"
-ORDER BY play_count DESC
+ORDER BY listens DESC
 LIMIT 5;

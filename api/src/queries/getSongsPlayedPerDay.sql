@@ -5,7 +5,7 @@ WITH daily_counts AS (
         s.artist,
         s.album,
         s."image",
-        COUNT(*) AS play_count
+        COUNT(*) AS listens
     FROM activites a
     JOIN songs s 
       ON a.song = s.name
@@ -15,12 +15,12 @@ WITH daily_counts AS (
 ),
 ranked AS (
     SELECT 
-        day, song, artist, album, "image", play_count,
-        ROW_NUMBER() OVER (PARTITION BY day ORDER BY play_count DESC) AS rn,
-        SUM(play_count) OVER (PARTITION BY day) AS total_songs_played
+        day, song, artist, album, "image", listens,
+        ROW_NUMBER() OVER (PARTITION BY day ORDER BY listens DESC) AS rn,
+        SUM(listens) OVER (PARTITION BY day) AS total_songs_played
     FROM daily_counts
 )
-SELECT day, song, artist, album, "image", play_count, total_songs_played
+SELECT day, song, artist, album, "image", listens, total_songs_played
 FROM ranked
 WHERE rn = 1
 ORDER BY day ASC;

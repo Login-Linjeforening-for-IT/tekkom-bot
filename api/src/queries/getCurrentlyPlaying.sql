@@ -1,7 +1,7 @@
 SELECT 
     a.*,
     s."image",
-    s.listens AS play_count
+    s.listens AS listens
 FROM activites a
 LEFT JOIN songs s
   ON a.song = s.name

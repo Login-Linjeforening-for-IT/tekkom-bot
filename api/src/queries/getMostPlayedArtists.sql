@@ -1,7 +1,7 @@
 WITH artist_counts AS (
     SELECT 
         a.artist,
-        COUNT(*) AS play_count
+        COUNT(*) AS listens
     FROM activites a
     GROUP BY a.artist
 ),
@@ -18,11 +18,11 @@ top_songs AS (
 )
 SELECT 
     ac.artist,
-    ac.play_count,
+    ac.listens,
     ts.top_song,
     ts.album,
     ts."image"
 FROM artist_counts ac
 LEFT JOIN top_songs ts ON ac.artist = ts.artist
-ORDER BY ac.play_count DESC
+ORDER BY ac.listens DESC
 LIMIT 5;
