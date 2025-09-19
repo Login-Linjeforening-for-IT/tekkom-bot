@@ -9,5 +9,7 @@ FROM songs s
 JOIN activities a
   ON s.name = a.song AND s.artist = a.artist AND s.album = a.album
 GROUP BY a.album, a.artist, s."image"
+HAVING SUM(s.listens) >= 10
+   AND SUM(s.skips) >= 1
 ORDER BY like_ratio DESC
 LIMIT 5;
