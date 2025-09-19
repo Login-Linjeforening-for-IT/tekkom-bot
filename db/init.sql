@@ -53,6 +53,8 @@ CREATE TABLE IF NOT EXISTS activites (
     "end" TIMESTAMPTZ NOT NULL,
     source TEXT NOT NULL,
     "user" TEXT NOT NULL,
+    avatar TEXT NOT NULL,
+    user_id TEXT NOT NULL,
     timestamp TIMESTAMPTZ DEFAULT NOW()
 );
 

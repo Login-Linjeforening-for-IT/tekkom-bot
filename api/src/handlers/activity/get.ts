@@ -29,8 +29,9 @@ export default async function getActivity(req: FastifyRequest, res: FastifyReply
     const getTopFiveThisWeek = (await loadSQL('getTopFiveSongsThisWeek.sql'))
     const getTopFiveThisMonth = (await loadSQL('getTopFiveSongsThisMonth.sql'))
     const getTopFiveThisYear = (await loadSQL('getTopFiveSongsThisYear.sql'))
+    const getMostActiveUsers = (await loadSQL('getMostActiveUsers.sql'))
     
-    const averageDuration = (await run(getAverageDurationPerSong)).rows[0].avg_seconds
+    const stats = (await run(getAverageDurationPerSong)).rows[0]
     const currentlyPlaying = (await run(getCurrentlyPlaying)).rows
     const mostPlayedAlbums = (await run(getMostPlayedAlbums)).rows
     const mostPlayedArtists = (await run(getMostPlayedArtists)).rows
@@ -41,12 +42,13 @@ export default async function getActivity(req: FastifyRequest, res: FastifyReply
     const topFiveThisWeek = (await run(getTopFiveThisWeek)).rows
     const topFiveThisMonth = (await run(getTopFiveThisMonth)).rows
     const topFiveThisYear = (await run(getTopFiveThisYear)).rows
+    const mostActiveUsers = (await run(getMostActiveUsers)).rows
 
     // nothing to search atm
     // const pageInt = parseInt(page || "1", 10)
     // const perPageInt = parseInt(activitiesPerPage || "10", 10)
     res.send({
-        averageDuration,
+        stats,
         currentlyPlaying,
         mostPlayedAlbums,
         mostPlayedArtists,

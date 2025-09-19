@@ -54,5 +54,7 @@ declare global {
         album: string
         image: string
         source: string
+        avatar: string
+        user_id: string
     }
 }

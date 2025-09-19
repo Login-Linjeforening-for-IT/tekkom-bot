@@ -31,7 +31,7 @@ import {
     ThreadChannel,
     User
 } from 'discord.js'
-import sendActivity from './utils/spotify/sendActivity.js'
+import sendActivity from './utils/music/sendActivity.js'
 
 const token = config.token
 const __filename = fileURLToPath(import.meta.url)
@@ -226,7 +226,9 @@ client.on(Events.PresenceUpdate, async(_: Presence, newPresence: Presence) => {
             end: data.timestamps?.end?.toISOString()  || new Date().toISOString(),
             album: data.assets?.largeText ?? 'Unknown',
             image: data.assets?.largeImage?.split(':')[1] ?? 'ab67616d0000b273153d79816d853f2694b2cc70',
-            source: data.name
+            source: data.name,
+            user_id: newPresence.user?.id,
+            avatar: newPresence.user?.avatar
         }
 
         const response = await sendActivity(activity)

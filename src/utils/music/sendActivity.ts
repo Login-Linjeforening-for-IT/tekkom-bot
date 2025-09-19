@@ -13,7 +13,6 @@ export default async function sendActivity({
     source,
 }: SendActivity) {
     try {
-        console.log('url:', `${config.tekkomBotApiUrl}/activity`)
         const response = await fetch(`${config.tekkomBotApiUrl}/activity`, {
             method: 'POST',
             headers: {
