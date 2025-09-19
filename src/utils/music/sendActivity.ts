@@ -12,7 +12,8 @@ export default async function sendActivity({
     image,
     source,
     user_id,
-    avatar
+    avatar,
+    skipped
 }: SendActivity) {
     try {
         const response = await fetch(`${config.tekkomBotApiUrl}/activity`, {
@@ -30,8 +31,11 @@ export default async function sendActivity({
                 end,
                 album,
                 image,
-                source
-             })
+                source,
+                user_id,
+                avatar,
+                skipped
+            })
         })
 
         if (!response.ok) {

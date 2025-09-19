@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS activities (
     "user" TEXT NOT NULL,
     avatar TEXT NOT NULL,
     user_id TEXT NOT NULL,
+    skipped BOOLEAN NOT NULL DEFAULT false,
     timestamp TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -66,6 +67,7 @@ CREATE TABLE IF NOT EXISTS songs (
     album TEXT NOT NULL,
     "image" TEXT NOT NULL,
     listens INT DEFAULT 1,
+    skips INT DEFAULT 0,
     timestamp TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (name, artist, album)
 );
@@ -75,5 +77,6 @@ CREATE TABLE IF NOT EXISTS artists (
     id SERIAL PRIMARY KEY,
     name TEXT UNIQUE NOT NULL,
     listens INT DEFAULT 1,
+    skips INT DEFAULT 0,
     timestamp TIMESTAMPTZ DEFAULT NOW()
 );

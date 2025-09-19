@@ -1,10 +1,10 @@
 import run from "@db"
+import { loadSQL } from '@utils/loadSQL'
 import tokenWrapper from "@utils/tokenWrapper"
 import { FastifyReply, FastifyRequest } from "fastify"
 
 export default async function postActivity(req: FastifyRequest, res: FastifyReply) {
-    const { user, song, artist, start, end, album, image, source, avatar, user_id } = req.body as Activity ?? {}
-    console.log('recieved', { user, song, artist, start, end, album, image, source, avatar, user_id })
+    const { user, song, artist, start, end, album, image, source, avatar, user_id, skipped } = req.body as Activity ?? {}
     const { valid } = await tokenWrapper(req, res, ['tekkom-bot'])
     if (!valid) {
         return res.status(400).send({ error: "Unauthorized" })
@@ -17,9 +17,39 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
     try {
         console.log(`Adding activity: song=${song}, artist=${artist}, user=${user}`)
 
+        if (skipped) {
+            const previous = await run(
+                `SELECT id, song, artist, album FROM activities WHERE user_id = $1 ORDER BY timestamp DESC LIMIT 1`,
+                [user_id]
+            )
+
+            if (previous && previous.rows.length > 0) {
+                const activityId = previous.rows[0].id
+                const activitySong = previous.rows[0].name
+                const activityArtist = previous.rows[0].artist
+
+                await run(`UPDATE activities SET skipped = $1 WHERE id = $2`, [true, activityId])
+                await run(
+                    `UPDATE songs
+                    SET listens = GREATEST(listens - 1, 0),
+                        skips = skips + 1
+                    WHERE name = $1 AND artist = $2`,
+                    [activitySong, activityArtist]
+                )
+
+                await run(
+                    `UPDATE artists
+                    SET listens = GREATEST(listens - 1, 0),
+                        skips = skips + 1
+                    WHERE name = $1`,
+                    [activityArtist]
+                )
+            }
+        }
+
+        const postActivityQuery = (await loadSQL('postActivity.sql'))
         await run(
-            `INSERT INTO activities ("user", song, artist, album, "start", "end", source, avatar, user_id)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`, 
+            postActivityQuery, 
             [user, song, artist, album, start, end, source, avatar, user_id]
         )
 

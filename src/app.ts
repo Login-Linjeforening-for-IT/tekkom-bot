@@ -211,24 +211,31 @@ client.on(Events.MessageCreate, async (message: Message) => {
     handleTickets({ matches, message })
 })
 
-client.on(Events.PresenceUpdate, async(_: Presence, newPresence: Presence) => {
+client.on(Events.PresenceUpdate, async(oldPresence: Presence, newPresence: Presence) => {
+    const oldData = oldPresence?.activities.find(a => a.type === 2 && a.name === 'Spotify')
     const data = newPresence.activities.find(a => a.type === 2 && a.name === 'Spotify')
     if (data) {
-        if (data.name !== 'Spotify') {
-            return
+        const oldStart = oldData?.timestamps?.start ?? null;
+        const oldEnd = oldData?.timestamps?.end ?? null;
+        let skipped = false
+        if (oldStart && oldEnd) {
+            const listenedDuration = new Date().getTime() - oldStart.getTime()
+            const totalDuration = oldData?.syncId ? (oldEnd.getTime() - oldStart.getTime()) : listenedDuration
+            skipped = listenedDuration < (totalDuration * 2 / 3)
         }
 
         const activity = {
             user: newPresence.user?.tag ?? 'Unknown',
             song: data.details ?? 'Unknown',
             artist: data.state ?? 'Unknown',
-            start: data.timestamps?.start?.toISOString() || new Date().toISOString(),
-            end: data.timestamps?.end?.toISOString()  || new Date().toISOString(),
+            start: data.timestamps?.start?.toISOString() ?? new Date().toISOString(),
+            end: data.timestamps?.end?.toISOString()  ?? new Date().toISOString(),
             album: data.assets?.largeText ?? 'Unknown',
             image: data.assets?.largeImage?.split(':')[1] ?? 'ab67616d0000b273153d79816d853f2694b2cc70',
             source: data.name,
             user_id: newPresence.user?.id,
-            avatar: newPresence.user?.avatar
+            avatar: newPresence.user?.avatar,
+            skipped
         }
 
         const response = await sendActivity(activity)

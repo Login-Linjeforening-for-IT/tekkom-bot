@@ -603,6 +603,7 @@ type SendActivity = {
     image: string
     user_id: string | undefined
     avatar: string | undefined | null
+    skipped: boolean
 }
 
 type Activity = {
@@ -615,6 +616,7 @@ type Activity = {
     source: string
     user: string
     timestamp: string
+    // outdated, check code for new properties
 }
 
 type Song = {

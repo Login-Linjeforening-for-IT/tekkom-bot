@@ -56,5 +56,6 @@ declare global {
         source: string
         avatar: string
         user_id: string
+        skipped: boolean
     }
 }

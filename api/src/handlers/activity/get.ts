@@ -27,12 +27,18 @@ export default async function getActivity(req: FastifyRequest, res: FastifyReply
     const getTopFiveToday = (await loadSQL('getTopFiveSongsToday.sql'))
     const getTopFiveYesterday = (await loadSQL('getTopFiveSongsYesterday.sql'))
     const getTopFiveThisWeek = (await loadSQL('getTopFiveSongsThisWeek.sql'))
-    const getTopFiveLastWeek = (await loadSQL('getTopFiveSongsWeek.sql'))
+    const getTopFiveLastWeek = (await loadSQL('getTopFiveSongsLastWeek.sql'))
     const getTopFiveThisMonth = (await loadSQL('getTopFiveSongsThisMonth.sql'))
     const getTopFiveLastMonth = (await loadSQL('getTopFiveSongsLastMonth.sql'))
     const getTopFiveThisYear = (await loadSQL('getTopFiveSongsThisYear.sql'))
     const getTopFiveLastYear = (await loadSQL('getTopFiveSongsLastYear.sql'))
     const getMostActiveUsers = (await loadSQL('getMostActiveUsers.sql'))
+    const getMostLikedAlbums = (await loadSQL('getMostLikedAlbums.sql'))
+    const getMostLikedArtists = (await loadSQL('getMostLikedArtists.sql'))
+    const getMostLikedSongs = (await loadSQL('getMostLikedSongs.sql'))
+    const getMostSkippedAlbums = (await loadSQL('getMostSkippedAlbums.sql'))
+    const getMostSkippedArtists = (await loadSQL('getMostSkippedArtists.sql'))
+    const getMostSkippedSongs = (await loadSQL('getMostSkippedSongs.sql'))
     
     const stats = (await run(getAverageDurationPerSong)).rows[0]
     const currentlyPlaying = (await run(getCurrentlyPlaying)).rows
@@ -49,6 +55,12 @@ export default async function getActivity(req: FastifyRequest, res: FastifyReply
     const topFiveThisYear = (await run(getTopFiveThisYear)).rows
     const topFiveLastYear = (await run(getTopFiveLastYear)).rows
     const mostActiveUsers = (await run(getMostActiveUsers)).rows
+    const mostLikedAlbums = (await run(getMostLikedAlbums)).rows
+    const mostLikedArtists = (await run(getMostLikedArtists)).rows
+    const mostLikedSongs = (await run(getMostLikedSongs)).rows
+    const mostSkippedAlbums = (await run(getMostSkippedAlbums)).rows
+    const mostSkippedArtists = (await run(getMostSkippedArtists)).rows
+    const mostSkippedSongs = (await run(getMostSkippedSongs)).rows
 
     // nothing to search atm
     // const pageInt = parseInt(page || "1", 10)
@@ -68,6 +80,12 @@ export default async function getActivity(req: FastifyRequest, res: FastifyReply
         topFiveLastMonth,
         topFiveThisYear,
         topFiveLastYear,
-        mostActiveUsers
+        mostActiveUsers,
+        mostLikedAlbums,
+        mostLikedArtists,
+        mostLikedSongs,
+        mostSkippedAlbums,
+        mostSkippedArtists,
+        mostSkippedSongs
     })
 }
