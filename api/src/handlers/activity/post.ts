@@ -55,10 +55,10 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
         )
 
         await run(
-            `INSERT INTO songs (name, artist, album, "image")
-             VALUES ($1, $2, $3, $4)
-             ON CONFLICT (name, artist, album)
-             DO UPDATE SET listens = listens + 1, timestamp = NOW()`,
+            `INSERT INTO songs AS s (name, artist, album, "image")
+            VALUES ($1, $2, $3, $4)
+            ON CONFLICT (name, artist, album)
+            DO UPDATE SET listens = s.listens + 1, timestamp = NOW();`,
             [song, artist, album, image]
         )
 
