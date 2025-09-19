@@ -16,6 +16,7 @@ import postBtg from './handlers/btg/post'
 import { FastifyInstance, FastifyPluginOptions } from "fastify"
 import postActivity from './handlers/activity/post'
 import getActivity from './handlers/activity/get'
+import postHideActivity from './handlers/activity/postHide'
 
 export default async function apiRoutes(fastify: FastifyInstance, _: FastifyPluginOptions) {
     // index
@@ -48,4 +49,5 @@ export default async function apiRoutes(fastify: FastifyInstance, _: FastifyPlug
     // activity
     fastify.get("/activity", getActivity)
     fastify.post("/activity", postActivity)
+    fastify.post("/activity/hide", postHideActivity)
 }

@@ -80,3 +80,9 @@ CREATE TABLE IF NOT EXISTS artists (
     skips INT DEFAULT 0,
     timestamp TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Hidden 
+CREATE TABLE IF NOT EXISTS "hidden" (
+    id SERIAL PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL
+);
