@@ -2,7 +2,7 @@ WITH artist_counts AS (
     SELECT 
         a.artist,
         COUNT(*) AS listens
-    FROM activites a
+    FROM activities a
     GROUP BY a.artist
 ),
 top_songs AS (
@@ -12,7 +12,7 @@ top_songs AS (
         s.album,
         s."image"
     FROM songs s
-    JOIN activites a 
+    JOIN activities a 
       ON s.name = a.song AND s.artist = a.artist
     ORDER BY s.artist, COUNT(a.*) OVER (PARTITION BY s.artist, s.name) DESC
 )

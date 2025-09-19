@@ -17,7 +17,7 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
         console.log(`Adding activity: song=${song}, artist=${artist}, user=${user}`)
 
         await run(
-            `INSERT INTO activites ("user", song, artist, album, "start", "end", source, avatar, user_id)
+            `INSERT INTO activities ("user", song, artist, album, "start", "end", source, avatar, user_id)
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`, 
             [user, song, artist, album, start, end, source, avatar, user_id]
         )

@@ -2,19 +2,19 @@ import run from "@/db"
 import { loadSQL } from "@utils/loadSQL"
 import { FastifyReply, FastifyRequest } from "fastify"
 
-type GetActivites = {
+type GetActivities = {
     id?: string
     page: string
     activitiesPerPage: string
 }
 
 export default async function getActivity(req: FastifyRequest, res: FastifyReply) {
-    const { id } =  (req.query as GetActivites) ?? {}
+    const { id } =  (req.query as GetActivities) ?? {}
     // nothing to search atm
-    // const { id, page, activitiesPerPage } =  (req.query as GetActivites) ?? {}
+    // const { id, page, activitiesPerPage } =  (req.query as GetActivities) ?? {}
 
     if (id) {
-        const result = await run(`SELECT * FROM activites WHERE id = $1;`, [id])
+        const result = await run(`SELECT * FROM activities WHERE id = $1;`, [id])
         return res.send(result.rows)
     }
 

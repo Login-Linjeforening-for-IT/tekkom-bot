@@ -2,7 +2,7 @@ SELECT
     a.*,
     s."image",
     s.listens AS listens
-FROM activites a
+FROM activities a
 LEFT JOIN songs s
   ON a.song = s.name
   AND a.artist = s.artist

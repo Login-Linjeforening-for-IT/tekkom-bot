@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS btg (
 );
 
 -- Activities
-CREATE TABLE IF NOT EXISTS activites (
+CREATE TABLE IF NOT EXISTS activities (
     id SERIAL PRIMARY KEY,
     song TEXT NOT NULL,
     artist TEXT NOT NULL,

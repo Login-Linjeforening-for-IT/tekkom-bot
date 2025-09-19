@@ -6,7 +6,7 @@ WITH daily_counts AS (
         s.album,
         s."image",
         COUNT(*) AS listens
-    FROM activites a
+    FROM activities a
     JOIN songs s 
       ON a.song = s.name
      AND a.artist = s.artist

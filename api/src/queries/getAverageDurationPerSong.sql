@@ -17,4 +17,4 @@ SELECT
 
     -- Total number of songs played
     COUNT(*) AS total_songs
-FROM activites;
+FROM activities;
