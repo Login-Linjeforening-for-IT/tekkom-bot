@@ -1,4 +1,4 @@
-SELECT s.name AS song, s.artist, s.album, COUNT(*) AS play_count
+SELECT s.name AS song, s.artist, s.album, s."image", COUNT(*) AS play_count
 FROM activites a
 JOIN songs s ON a.song = s.name AND a.artist = s.artist AND a.album = s.album
 WHERE DATE_TRUNC('month', a."start") = DATE_TRUNC('month', CURRENT_DATE)
