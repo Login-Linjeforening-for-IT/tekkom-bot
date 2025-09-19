@@ -18,53 +18,120 @@ export default async function getActivity(req: FastifyRequest, res: FastifyReply
         return res.send(result.rows)
     }
 
-    const getAverageDurationPerSong = (await loadSQL('getAverageDurationPerSong.sql'))
-    const getCurrentlyPlaying = (await loadSQL('getCurrentlyPlaying.sql'))
-    const getMostPlayedAlbums = (await loadSQL('getMostPlayedAlbums.sql'))
-    const getMostPlayedArtists = (await loadSQL('getMostPlayedArtists.sql'))
-    const getMostPlayedSongs = (await loadSQL('getMostPlayedSongs.sql'))
-    const getSongsPlayedPerDay = (await loadSQL('getSongsPlayedPerDay.sql'))
-    const getTopFiveToday = (await loadSQL('getTopFiveSongsToday.sql'))
-    const getTopFiveYesterday = (await loadSQL('getTopFiveSongsYesterday.sql'))
-    const getTopFiveThisWeek = (await loadSQL('getTopFiveSongsThisWeek.sql'))
-    const getTopFiveLastWeek = (await loadSQL('getTopFiveSongsLastWeek.sql'))
-    const getTopFiveThisMonth = (await loadSQL('getTopFiveSongsThisMonth.sql'))
-    const getTopFiveLastMonth = (await loadSQL('getTopFiveSongsLastMonth.sql'))
-    const getTopFiveThisYear = (await loadSQL('getTopFiveSongsThisYear.sql'))
-    const getTopFiveLastYear = (await loadSQL('getTopFiveSongsLastYear.sql'))
-    const getMostActiveUsers = (await loadSQL('getMostActiveUsers.sql'))
-    const getMostLikedAlbums = (await loadSQL('getMostLikedAlbums.sql'))
-    const getMostLikedArtists = (await loadSQL('getMostLikedArtists.sql'))
-    const getMostLikedSongs = (await loadSQL('getMostLikedSongs.sql'))
-    const getMostSkippedAlbums = (await loadSQL('getMostSkippedAlbums.sql'))
-    const getMostSkippedArtists = (await loadSQL('getMostSkippedArtists.sql'))
-    const getMostSkippedSongs = (await loadSQL('getMostSkippedSongs.sql'))
-    
-    const stats = (await run(getAverageDurationPerSong)).rows[0]
-    const currentlyPlaying = (await run(getCurrentlyPlaying)).rows
-    const mostPlayedAlbums = (await run(getMostPlayedAlbums)).rows
-    const mostPlayedArtists = (await run(getMostPlayedArtists)).rows
-    const mostPlayedSongs = (await run(getMostPlayedSongs)).rows
-    const mostPlayedSongsPerDay = (await run(getSongsPlayedPerDay)).rows
-    const topFiveToday = (await run(getTopFiveToday)).rows
-    const topFiveYesterday = (await run(getTopFiveYesterday)).rows
-    const topFiveThisWeek = (await run(getTopFiveThisWeek)).rows
-    const topFiveLastWeek = (await run(getTopFiveLastWeek)).rows
-    const topFiveThisMonth = (await run(getTopFiveThisMonth)).rows
-    const topFiveLastMonth = (await run(getTopFiveLastMonth)).rows
-    const topFiveThisYear = (await run(getTopFiveThisYear)).rows
-    const topFiveLastYear = (await run(getTopFiveLastYear)).rows
-    const mostActiveUsers = (await run(getMostActiveUsers)).rows
-    const mostLikedAlbums = (await run(getMostLikedAlbums)).rows
-    const mostLikedArtists = (await run(getMostLikedArtists)).rows
-    const mostLikedSongs = (await run(getMostLikedSongs)).rows
-    const mostSkippedAlbums = (await run(getMostSkippedAlbums)).rows
-    const mostSkippedArtists = (await run(getMostSkippedArtists)).rows
-    const mostSkippedSongs = (await run(getMostSkippedSongs)).rows
+    const [
+        getAverageDurationPerSong,
+        getCurrentlyPlaying,
+        getMostPlayedAlbums,
+        getMostPlayedArtists,
+        getMostPlayedSongs,
+        getSongsPlayedPerDay,
+        getTopFiveToday,
+        getTopFiveYesterday,
+        getTopFiveThisWeek,
+        getTopFiveLastWeek,
+        getTopFiveThisMonth,
+        getTopFiveLastMonth,
+        getTopFiveThisYear,
+        getTopFiveLastYear,
+        getMostActiveUsers,
+        getMostLikedAlbums,
+        getMostLikedArtists,
+        getMostLikedSongs,
+        getMostSkippedAlbums,
+        getMostSkippedArtists,
+        getMostSkippedSongs
+    ] = await Promise.all([
+        loadSQL('getAverageDurationPerSong.sql'),
+        loadSQL('getCurrentlyPlaying.sql'),
+        loadSQL('getMostPlayedAlbums.sql'),
+        loadSQL('getMostPlayedArtists.sql'),
+        loadSQL('getMostPlayedSongs.sql'),
+        loadSQL('getSongsPlayedPerDay.sql'),
+        loadSQL('getTopFiveSongsToday.sql'),
+        loadSQL('getTopFiveSongsYesterday.sql'),
+        loadSQL('getTopFiveSongsThisWeek.sql'),
+        loadSQL('getTopFiveSongsLastWeek.sql'),
+        loadSQL('getTopFiveSongsThisMonth.sql'),
+        loadSQL('getTopFiveSongsLastMonth.sql'),
+        loadSQL('getTopFiveSongsThisYear.sql'),
+        loadSQL('getTopFiveSongsLastYear.sql'),
+        loadSQL('getMostActiveUsers.sql'),
+        loadSQL('getMostLikedAlbums.sql'),
+        loadSQL('getMostLikedArtists.sql'),
+        loadSQL('getMostLikedSongs.sql'),
+        loadSQL('getMostSkippedAlbums.sql'),
+        loadSQL('getMostSkippedArtists.sql'),
+        loadSQL('getMostSkippedSongs.sql')
+    ])
 
-    // nothing to search atm
-    // const pageInt = parseInt(page || "1", 10)
-    // const perPageInt = parseInt(activitiesPerPage || "10", 10)
+    const [
+        statsResult,
+        currentlyPlayingResult,
+        mostPlayedAlbumsResult,
+        mostPlayedArtistsResult,
+        mostPlayedSongsResult,
+        mostPlayedSongsPerDayResult,
+        topFiveTodayResult,
+        topFiveYesterdayResult,
+        topFiveThisWeekResult,
+        topFiveLastWeekResult,
+        topFiveThisMonthResult,
+        topFiveLastMonthResult,
+        topFiveThisYearResult,
+        topFiveLastYearResult,
+        mostActiveUsersResult,
+        mostLikedAlbumsResult,
+        mostLikedArtistsResult,
+        mostLikedSongsResult,
+        mostSkippedAlbumsResult,
+        mostSkippedArtistsResult,
+        mostSkippedSongsResult
+    ] = await Promise.all([
+        run(getAverageDurationPerSong),
+        run(getCurrentlyPlaying),
+        run(getMostPlayedAlbums),
+        run(getMostPlayedArtists),
+        run(getMostPlayedSongs),
+        run(getSongsPlayedPerDay),
+        run(getTopFiveToday),
+        run(getTopFiveYesterday),
+        run(getTopFiveThisWeek),
+        run(getTopFiveLastWeek),
+        run(getTopFiveThisMonth),
+        run(getTopFiveLastMonth),
+        run(getTopFiveThisYear),
+        run(getTopFiveLastYear),
+        run(getMostActiveUsers),
+        run(getMostLikedAlbums),
+        run(getMostLikedArtists),
+        run(getMostLikedSongs),
+        run(getMostSkippedAlbums),
+        run(getMostSkippedArtists),
+        run(getMostSkippedSongs)
+    ])
+    
+    const stats = statsResult.rows[0]
+    const currentlyPlaying = currentlyPlayingResult.rows
+    const mostPlayedAlbums = mostPlayedAlbumsResult.rows
+    const mostPlayedArtists = mostPlayedArtistsResult.rows
+    const mostPlayedSongs = mostPlayedSongsResult.rows
+    const mostPlayedSongsPerDay = mostPlayedSongsPerDayResult.rows
+    const topFiveToday = topFiveTodayResult.rows
+    const topFiveYesterday = topFiveYesterdayResult.rows
+    const topFiveThisWeek = topFiveThisWeekResult.rows
+    const topFiveLastWeek = topFiveLastWeekResult.rows
+    const topFiveThisMonth = topFiveThisMonthResult.rows
+    const topFiveLastMonth = topFiveLastMonthResult.rows
+    const topFiveThisYear = topFiveThisYearResult.rows
+    const topFiveLastYear = topFiveLastYearResult.rows
+    const mostActiveUsers = mostActiveUsersResult.rows
+    const mostLikedAlbums = mostLikedAlbumsResult.rows
+    const mostLikedArtists = mostLikedArtistsResult.rows
+    const mostLikedSongs = mostLikedSongsResult.rows
+    const mostSkippedAlbums = mostSkippedAlbumsResult.rows
+    const mostSkippedArtists = mostSkippedArtistsResult.rows
+    const mostSkippedSongs = mostSkippedSongsResult.rows
+    
     res.send({
         stats,
         currentlyPlaying,
