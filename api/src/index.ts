@@ -3,11 +3,13 @@ import Fastify from 'fastify'
 import apiRoutes from './routes'
 import getIndex from './handlers/index/getIndex'
 import cron from '@utils/cron'
+import cachedActivity from '@utils/cachedActivity'
 
 const fastify = Fastify({
     logger: true
 })
 
+fastify.decorate('cachedJSON', Buffer.from(''))
 fastify.register(cors, {
     origin: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD']
@@ -15,6 +17,7 @@ fastify.register(cors, {
 
 const port = Number(process.env.PORT) || 8080
 
+fastify.register(cachedActivity)
 fastify.register(apiRoutes, { prefix: "/api" })
 fastify.get('/', getIndex)
 
