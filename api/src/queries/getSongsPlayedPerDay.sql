@@ -10,7 +10,7 @@ WITH daily_counts AS (
     JOIN songs s 
       ON a.song = s.name
      AND a.artist = s.artist
-    WHERE a."start" >= NOW() - INTERVAL '365 days'
+    WHERE a."start" >= NOW() - INTERVAL '365 days' AND a.skipped = false
     GROUP BY day, s.name, s.artist, s.album, s."image"
 ),
 ranked AS (
