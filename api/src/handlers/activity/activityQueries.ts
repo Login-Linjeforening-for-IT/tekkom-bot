@@ -3,7 +3,7 @@ import { loadSQL } from "@utils/loadSQL"
 
 export async function preloadActivityQueries() {
     const [
-        getAverageDurationPerSong,
+        getStatistics,
         getCurrentlyPlaying,
         getMostPlayedAlbums,
         getMostPlayedArtists,
@@ -18,6 +18,7 @@ export async function preloadActivityQueries() {
         getTopFiveThisYear,
         getTopFiveLastYear,
         getMostActiveUsers,
+        getMostSkippingUsers,
         getMostLikedAlbums,
         getMostLikedArtists,
         getMostLikedSongs,
@@ -25,7 +26,7 @@ export async function preloadActivityQueries() {
         getMostSkippedArtists,
         getMostSkippedSongs
     ] = await Promise.all([
-        loadSQL('getAverageDurationPerSong.sql'),
+        loadSQL('getStatistics.sql'),
         loadSQL('getCurrentlyPlaying.sql'),
         loadSQL('getMostPlayedAlbums.sql'),
         loadSQL('getMostPlayedArtists.sql'),
@@ -40,6 +41,7 @@ export async function preloadActivityQueries() {
         loadSQL('getTopFiveSongsThisYear.sql'),
         loadSQL('getTopFiveSongsLastYear.sql'),
         loadSQL('getMostActiveUsers.sql'),
+        loadSQL('getMostSkippingUsers.sql'),
         loadSQL('getMostLikedAlbums.sql'),
         loadSQL('getMostLikedArtists.sql'),
         loadSQL('getMostLikedSongs.sql'),
@@ -64,6 +66,7 @@ export async function preloadActivityQueries() {
         topFiveThisYearResult,
         topFiveLastYearResult,
         mostActiveUsersResult,
+        mostSkippingUsersResult,
         mostLikedAlbumsResult,
         mostLikedArtistsResult,
         mostLikedSongsResult,
@@ -71,7 +74,7 @@ export async function preloadActivityQueries() {
         mostSkippedArtistsResult,
         mostSkippedSongsResult
     ] = await Promise.all([
-        run(getAverageDurationPerSong),
+        run(getStatistics),
         run(getCurrentlyPlaying),
         run(getMostPlayedAlbums),
         run(getMostPlayedArtists),
@@ -86,6 +89,7 @@ export async function preloadActivityQueries() {
         run(getTopFiveThisYear),
         run(getTopFiveLastYear),
         run(getMostActiveUsers),
+        run(getMostSkippingUsers),
         run(getMostLikedAlbums),
         run(getMostLikedArtists),
         run(getMostLikedSongs),
@@ -109,6 +113,7 @@ export async function preloadActivityQueries() {
     const topFiveThisYear = topFiveThisYearResult.rows
     const topFiveLastYear = topFiveLastYearResult.rows
     const mostActiveUsers = mostActiveUsersResult.rows
+    const mostSkippingUsers = mostSkippingUsersResult.rows
     const mostLikedAlbums = mostLikedAlbumsResult.rows
     const mostLikedArtists = mostLikedArtistsResult.rows
     const mostLikedSongs = mostLikedSongsResult.rows
@@ -132,6 +137,7 @@ export async function preloadActivityQueries() {
         topFiveThisYear,
         topFiveLastYear,
         mostActiveUsers,
+        mostSkippingUsers,
         mostLikedAlbums,
         mostLikedArtists,
         mostLikedSongs,

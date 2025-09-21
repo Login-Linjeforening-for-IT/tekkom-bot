@@ -253,8 +253,13 @@ client.on<Events.PresenceUpdate>(Events.PresenceUpdate, async (oldPresence, newP
 
         if (listening.syncId) {
             const last = lastSpotify.get(newPresence.userId)
+            if (!last && skipped) {
+                const response = await sendActivity(activity)
+                console.log(response.message)
+            }
+
             if (!last) {
-                lastSpotify.set(newPresence.userId!, { 
+                lastSpotify.set(newPresence.userId, { 
                     syncId: listening.syncId, 
                     start: new Date(start).getTime(), 
                     end: new Date(end).getTime()
@@ -265,7 +270,10 @@ client.on<Events.PresenceUpdate>(Events.PresenceUpdate, async (oldPresence, newP
         if (!skipped) {
             const response = await sendActivity(activity)
             console.log(response.message)
+            return
         }
+
+        return
     }
 
     if (playing) {
@@ -285,6 +293,7 @@ client.on<Events.PresenceUpdate>(Events.PresenceUpdate, async (oldPresence, newP
 
         const response = await sendGame(activity)
         console.log(response.message)
+        return
     }
 })
 
@@ -306,8 +315,8 @@ process.on("uncaughtExceptionMonitor", async (err) => {
     console.error("Uncaught Promise Exception (Monitor):\n", err)
 })
 
-setInterval(() => {
-    checkAndHandleRepeats(client, lastSpotify)
+setInterval(async() => {
+    await checkAndHandleRepeats(client, lastSpotify)
 }, 5000)
 
 export default client
