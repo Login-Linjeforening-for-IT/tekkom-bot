@@ -56,11 +56,12 @@ export default async function checkAndHandleRepeats(
             // Repeated song (new startTime)
             if (spotify.syncId === last.syncId && startTime > last.start) {
                 const response = await sendActivity(activity)
-                if (!('error' in response)) {
-                    console.log(`${member.user.tag} repeated the song: ${spotify.details} by ${spotify.state}, skipped: ${skipped}`)
-                } else {
+                const isError = 'error' in response
+                if (isError) {
                     console.log(response.message, response.error)
                 }
+                
+                console.log(`${member.user.tag} ${isError ? 'tried to repeat' : 'repeated'} the song: ${spotify.details} by ${spotify.state}, skipped: ${skipped}`)
             } else if (spotify.syncId !== last?.syncId) {
                 // New song
                 const response = await sendActivity(activity)
