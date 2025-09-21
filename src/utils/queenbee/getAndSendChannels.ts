@@ -55,8 +55,8 @@ export default async function getAndSendTextChannels(client: Client): Promise<vo
             throw new Error(await response.text())
         }
 
-        const result = await response.json() as object
-        console.log(result)
+        const result = await response.json() as { message: string }
+        console.log(result.message)
     } catch (error) {
         console.error(error)
     }
