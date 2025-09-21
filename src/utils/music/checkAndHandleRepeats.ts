@@ -52,28 +52,23 @@ export default async function checkAndHandleRepeats(
             }
             const startTime = spotify.timestamps.start.getTime()
             const endTime = spotify.timestamps.end.getTime()
-            if (!last.start) {
-                lastSpotify.set(userId, { syncId: spotify.syncId, start: startTime, end: endTime })
-            }
 
             // Repeated song (new startTime)
             if (spotify.syncId === last.syncId && startTime > last.start) {
                 const response = await sendActivity(activity)
-                if (typeof response.message === 'string') {
+                if (!('error' in response)) {
                     console.log(`${member.user.tag} repeated the song: ${spotify.details} by ${spotify.state}, skipped: ${skipped}`)
+                } else {
+                    console.log(response.message, response.error)
                 }
-
-                // Stores new reference
-                lastSpotify.set(userId, { syncId: spotify.syncId, start: startTime, end: endTime })
-            } else if (spotify.syncId !== last?.syncId && skipped) {
+            } else if (spotify.syncId !== last?.syncId) {
+                // New song
                 const response = await sendActivity(activity)
-                if (typeof response.message === 'string') {
-                    console.log(`${member.user.tag} new song: ${spotify.details} by ${spotify.state}, skipped: ${skipped}`)
-                }
-
-                // Stores new reference
-                lastSpotify.set(userId, { syncId: spotify.syncId, start: startTime, end: endTime })
+                console.log(response.message)    
             }
+
+            // Stores new reference
+            lastSpotify.set(userId, { syncId: spotify.syncId, start: startTime, end: endTime })
         }
     }
 }

@@ -14,7 +14,7 @@ export default async function sendActivity({
     user_id,
     avatar,
     skipped
-}: SendActivity) {
+}: SendActivity): Promise<{ message: string } | { error: unknown, message: string }> {
     try {
         const response = await fetch(`${config.tekkomBotApiUrl}/activity`, {
             method: 'POST',
@@ -46,6 +46,6 @@ export default async function sendActivity({
         return data
     } catch (error) {
         console.log(error)
-        return { error, humanReadable: `Failed to add activity ${song} by ${artist} for ${user}.` }
+        return { error, message: `Failed to add activity ${song} by ${artist} for ${user}.` }
     }
 }

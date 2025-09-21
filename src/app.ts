@@ -222,6 +222,8 @@ client.on<Events.PresenceUpdate>(Events.PresenceUpdate, async (oldPresence, newP
     const oldData = oldPresence?.activities.find(a => a.type === 2 && a.name === 'Spotify')
     const listening = newPresence.activities.find(a => a.type === 2 && a.name === 'Spotify')
     const playing = newPresence.activities.find(a => a.type === 0) as unknown as Game
+    const user = newPresence.user?.tag ?? 'Unknown'
+    const user_id = newPresence.userId
 
     if (listening) {
         const oldStart = oldData?.timestamps?.start ?? null
@@ -238,7 +240,7 @@ client.on<Events.PresenceUpdate>(Events.PresenceUpdate, async (oldPresence, newP
         }
 
         const activity = {
-            user: newPresence.user?.tag ?? 'Unknown',
+            user,
             song: listening.details ?? 'Unknown',
             artist: listening.state ?? 'Unknown',
             start,
@@ -246,31 +248,20 @@ client.on<Events.PresenceUpdate>(Events.PresenceUpdate, async (oldPresence, newP
             album: listening.assets?.largeText ?? 'Unknown',
             image,
             source: listening.name,
-            user_id: newPresence.userId,
+            user_id,
             avatar: newPresence.user?.avatar,
             skipped
         }
 
-        if (listening.syncId) {
-            const last = lastSpotify.get(newPresence.userId)
-            if (!last && skipped) {
-                const response = await sendActivity(activity)
-                console.log(response.message)
-            }
-
-            if (!last) {
-                lastSpotify.set(newPresence.userId, { 
-                    syncId: listening.syncId, 
-                    start: new Date(start).getTime(), 
-                    end: new Date(end).getTime()
-                })
-            }
-        }
-
-        if (!skipped) {
+        const last = lastSpotify.get(user_id)
+        if (!last) {
             const response = await sendActivity(activity)
             console.log(response.message)
-            return
+            lastSpotify.set(user_id, { 
+                syncId: listening.syncId!, 
+                start: new Date(start).getTime(), 
+                end: new Date(end).getTime()
+            })
         }
 
         return
