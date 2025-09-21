@@ -210,4 +210,18 @@ declare global {
         album: string
         image: string
     }
+
+    type Game = {
+        name: string
+        user: string
+        user_id: string
+        avatar: string
+        details?: string
+        state?: string
+        application?: string
+        start: string
+        party?: string
+        image?: string
+        imageText?: string
+    }
 }

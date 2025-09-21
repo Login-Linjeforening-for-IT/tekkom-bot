@@ -17,6 +17,8 @@ import beekeeperMonitor from './utils/beekeeper/beekeeperMonitor.js'
 import queenbeeMonitor from './utils/queenbee/queenbeeMonitor.js'
 import heartbeat from './utils/heartbeat/heartbeat.js'
 import {
+    AutocompleteInteraction,
+    CacheType,
     ChatInputCommandInteraction,
     Client,
     Collection,
@@ -32,6 +34,9 @@ import {
     User
 } from 'discord.js'
 import sendActivity from './utils/music/sendActivity.js'
+import sendGame from './utils/music/sendGame.js'
+import checkAndHandleRepeats from './utils/music/checkAndHandleRepeats.js'
+import { DiscordClient } from './interfaces.js'
 
 const token = config.token
 const __filename = fileURLToPath(import.meta.url)
@@ -53,7 +58,7 @@ const client = new Client({
         Partials.Reaction,
         Partials.User,
     ],
-}) as any
+}) as DiscordClient
 
 client.commands = new Collection()
 const foldersPath = join(__dirname, 'commands')
@@ -72,6 +77,8 @@ for (const folder of commandFolders) {
         }
     }
 }
+
+const lastSpotify: Map<string, { syncId: string, start: number, end: number }> = new Map()
 
 client.once(Events.ClientReady, async () => {
     for (const role of roles) {
@@ -147,9 +154,9 @@ client.once(Events.ClientReady, async () => {
     console.log("Ready!")
 })
 
-client.on(Events.InteractionCreate, async (interaction: Interaction<"cached">) => {
+client.on<Events.InteractionCreate>(Events.InteractionCreate, async (interaction: Interaction<CacheType>) => {
     if (interaction.type === InteractionType.ApplicationCommandAutocomplete) {
-        Autocomplete(interaction)
+        Autocomplete(interaction as AutocompleteInteraction<"cached">)
         return
     }
 
@@ -211,13 +218,19 @@ client.on(Events.MessageCreate, async (message: Message) => {
     handleTickets({ matches, message })
 })
 
-client.on(Events.PresenceUpdate, async(oldPresence: Presence, newPresence: Presence) => {
+client.on<Events.PresenceUpdate>(Events.PresenceUpdate, async (oldPresence, newPresence: Presence) => {
     const oldData = oldPresence?.activities.find(a => a.type === 2 && a.name === 'Spotify')
-    const data = newPresence.activities.find(a => a.type === 2 && a.name === 'Spotify')
-    if (data) {
-        const oldStart = oldData?.timestamps?.start ?? null;
-        const oldEnd = oldData?.timestamps?.end ?? null;
+    const listening = newPresence.activities.find(a => a.type === 2 && a.name === 'Spotify')
+    const playing = newPresence.activities.find(a => a.type === 0) as unknown as Game
+
+    if (listening) {
+        const oldStart = oldData?.timestamps?.start ?? null
+        const oldEnd = oldData?.timestamps?.end ?? null
+        const start = listening.timestamps?.start?.toISOString() ?? new Date().toISOString()
+        const end = listening.timestamps?.end?.toISOString() ?? new Date().toISOString()
+        const image = listening.assets?.largeImage?.split(':')[1] ?? 'ab67616d0000b273153d79816d853f2694b2cc70'
         let skipped = false
+
         if (oldStart && oldEnd) {
             const listenedDuration = new Date().getTime() - oldStart.getTime()
             const totalDuration = oldData?.syncId ? (oldEnd.getTime() - oldStart.getTime()) : listenedDuration
@@ -226,19 +239,51 @@ client.on(Events.PresenceUpdate, async(oldPresence: Presence, newPresence: Prese
 
         const activity = {
             user: newPresence.user?.tag ?? 'Unknown',
-            song: data.details ?? 'Unknown',
-            artist: data.state ?? 'Unknown',
-            start: data.timestamps?.start?.toISOString() ?? new Date().toISOString(),
-            end: data.timestamps?.end?.toISOString()  ?? new Date().toISOString(),
-            album: data.assets?.largeText ?? 'Unknown',
-            image: data.assets?.largeImage?.split(':')[1] ?? 'ab67616d0000b273153d79816d853f2694b2cc70',
-            source: data.name,
-            user_id: newPresence.user?.id,
+            song: listening.details ?? 'Unknown',
+            artist: listening.state ?? 'Unknown',
+            start,
+            end,
+            album: listening.assets?.largeText ?? 'Unknown',
+            image,
+            source: listening.name,
+            user_id: newPresence.userId,
             avatar: newPresence.user?.avatar,
             skipped
         }
 
-        const response = await sendActivity(activity)
+        if (listening.syncId) {
+            const last = lastSpotify.get(newPresence.userId)
+            if (!last) {
+                lastSpotify.set(newPresence.userId!, { 
+                    syncId: listening.syncId, 
+                    start: new Date(start).getTime(), 
+                    end: new Date(end).getTime()
+                })
+            }
+        }
+
+        if (!skipped) {
+            const response = await sendActivity(activity)
+            console.log(response.message)
+        }
+    }
+
+    if (playing) {
+        const activity = {
+            user: newPresence.user?.tag ?? 'Unknown',
+            name: playing.name,
+            details: playing.details ?? null,
+            state: playing.state ?? null,
+            application: playing.applicationId,
+            start: playing.timestamps?.start?.toISOString() ?? new Date().toISOString(),
+            party: JSON.stringify(playing.party),
+            image: playing.assets?.smallImage ?? playing.assets?.largeImage ?? null,
+            imageText: playing.assets?.smallText ?? playing.assets?.largeText ?? null,
+            user_id: newPresence.userId,
+            avatar: newPresence.user?.avatar,
+        }
+
+        const response = await sendGame(activity)
         console.log(response.message)
     }
 })
@@ -260,5 +305,9 @@ process.on("uncaughtException", async (err) => {
 process.on("uncaughtExceptionMonitor", async (err) => {
     console.error("Uncaught Promise Exception (Monitor):\n", err)
 })
+
+setInterval(() => {
+    checkAndHandleRepeats(client, lastSpotify)
+}, 5000)
 
 export default client

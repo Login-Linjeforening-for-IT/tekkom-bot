@@ -39,8 +39,8 @@ const env = Object.fromEntries(
 
 const AUTH_URL = `${env.AUTHENTIK_API_URL}/application/o/authorize/`
 const TOKEN_URL = `${env.AUTHENTIK_API_URL}/application/o/token/`
-const USERINFO_URL = `${env.AUTHENTIK_API_URL}/application/o/userinfo/`
-const USER_ENDPOINT = `${env.AUTHENTIK_API_URL}/api/v3/core/users/`
+// const USERINFO_URL = `${env.AUTHENTIK_API_URL}/application/o/userinfo/`
+// const USER_ENDPOINT = `${env.AUTHENTIK_API_URL}/api/v3/core/users/`
 
 const config = {
     USERINFO_URL: `${env.AUTHENTIK_API_URL}/application/o/userinfo/`,

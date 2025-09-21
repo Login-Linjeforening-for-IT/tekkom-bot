@@ -1,4 +1,4 @@
-SELECT 
+SELECT DISTINCT ON (a.user_id)
     a.*,
     s."image",
     s.listens AS listens
@@ -9,4 +9,4 @@ LEFT JOIN songs s
 WHERE a."start" <= NOW()
   AND a."end" >= NOW()
   AND a.skipped = false
-ORDER BY a."start" DESC;
+ORDER BY a.user_id, a."start" DESC;

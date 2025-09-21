@@ -1,4 +1,5 @@
 import { Role } from "discord.js"
+import { Client, Collection } from 'discord.js'
 
 declare module 'discord.js' {
     interface Reaction {
@@ -7,7 +8,7 @@ declare module 'discord.js' {
         }
     }
     interface Client {
-        commands: string[]
+        commands: Collection<string, Command>
     }
 }
 
@@ -24,4 +25,13 @@ export enum Increment {
 export enum Build {
     DEPLOYMENT = 'deployment',
     RELEASE = 'release'
+}
+
+interface Command {
+    data: { name: string }
+    execute: (...args: any[]) => Promise<void>
+}
+
+export class DiscordClient extends Client<true> {
+    public commands: Collection<string, Command> = new Collection()
 }
