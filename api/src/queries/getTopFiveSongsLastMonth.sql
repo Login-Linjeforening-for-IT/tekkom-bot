@@ -9,7 +9,7 @@ JOIN songs s
     ON a.song = s.name 
    AND a.artist = s.artist 
    AND a.album = s.album
-WHERE DATE_TRUNC('month', a."start") = DATE_TRUNC('month', CURRENT_DATE - INTERVAL '1 month') AND a.skipped = false
+WHERE DATE_TRUNC('month', a."start") = DATE_TRUNC('month', CURRENT_DATE - INTERVAL '1 month') AND NOT a.skipped
 GROUP BY s.name, s.artist, s.album, s."image"
 ORDER BY listens DESC
 LIMIT 5;

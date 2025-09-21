@@ -8,5 +8,5 @@ LEFT JOIN songs s
   AND a.artist = s.artist
 WHERE a."start" <= NOW()
   AND a."end" >= NOW()
-  AND a.skipped = false
+  AND NOT a.skipped
 ORDER BY a.user_id, a."start" DESC;

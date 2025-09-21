@@ -6,7 +6,7 @@ SELECT
 FROM activities a
 LEFT JOIN hidden h
     ON h.name = a."user"
-WHERE a.skipped = false
+WHERE NOT a.skipped
 GROUP BY user_id, "user", avatar, h.name
 ORDER BY songs_played DESC
 LIMIT 100;
