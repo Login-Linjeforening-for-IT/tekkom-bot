@@ -1,6 +1,6 @@
 {
     "name": "tekkom-bot",
-    "version": "2.8.23",
+    "version": "2.8.24",
     "description": "TekKom Bot",
     "main": "app.js",
     "type": "module",
@@ -21,7 +21,7 @@
         "pg": "^8.16.3"
     },
     "devDependencies": {
-        "@types/node": "^24.3.1",
+        "@types/node": "^24.5.2",
         "@types/node-cron": "^3.0.11",
         "@types/pg": "^8.15.5",
         "typescript": "^5.9.2"

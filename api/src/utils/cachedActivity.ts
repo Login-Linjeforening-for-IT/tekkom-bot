@@ -8,6 +8,6 @@ export default fp(async (fastify) => {
         fastify.log.info('Activity queries refreshed')
     }
 
-    await refreshQueries()
+    refreshQueries()
     setInterval(refreshQueries, 5000)
 })
