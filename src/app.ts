@@ -223,7 +223,7 @@ client.on<Events.PresenceUpdate>(Events.PresenceUpdate, async (oldPresence, newP
     const listening = newPresence.activities.find(a => a.type === 2 && a.name === 'Spotify')
     const playing = newPresence.activities.find(a => a.type === 0) as unknown as Game
     const user = newPresence.user?.tag ?? 'Unknown'
-    const user_id = newPresence.userId
+    const userId = newPresence.userId
 
     if (listening) {
         const oldStart = oldData?.timestamps?.start ?? null
@@ -248,16 +248,17 @@ client.on<Events.PresenceUpdate>(Events.PresenceUpdate, async (oldPresence, newP
             album: listening.assets?.largeText ?? 'Unknown',
             image,
             source: listening.name,
-            user_id,
+            userId,
             avatar: newPresence.user?.avatar,
-            skipped
+            skipped,
+            syncId: listening.syncId ?? 'Unknown'
         }
 
-        const last = lastSpotify.get(user_id)
+        const last = lastSpotify.get(userId)
         if (!last) {
             const response = await sendActivity(activity)
             console.log(response.message)
-            lastSpotify.set(user_id, { 
+            lastSpotify.set(userId, { 
                 syncId: listening.syncId!, 
                 start: new Date(start).getTime(), 
                 end: new Date(end).getTime()
@@ -278,7 +279,7 @@ client.on<Events.PresenceUpdate>(Events.PresenceUpdate, async (oldPresence, newP
             party: JSON.stringify(playing.party),
             image: playing.assets?.smallImage ?? playing.assets?.largeImage ?? null,
             imageText: playing.assets?.smallText ?? playing.assets?.largeText ?? null,
-            user_id: newPresence.userId,
+            userId: newPresence.userId,
             avatar: newPresence.user?.avatar,
         }
 

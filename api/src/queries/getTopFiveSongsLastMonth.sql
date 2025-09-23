@@ -2,7 +2,8 @@ SELECT
     s.name AS song, 
     s.artist, 
     s.album, 
-    s."image", 
+    s."image",
+    s.sync_id,
     COUNT(*) AS listens
 FROM activities a
 JOIN songs s 
@@ -10,6 +11,6 @@ JOIN songs s
    AND a.artist = s.artist 
    AND a.album = s.album
 WHERE DATE_TRUNC('month', a."start") = DATE_TRUNC('month', CURRENT_DATE - INTERVAL '1 month') AND NOT a.skipped
-GROUP BY s.name, s.artist, s.album, s."image"
+GROUP BY s.name, s.artist, s.album, s."image", s.sync_id
 ORDER BY listens DESC
 LIMIT 5;

@@ -601,9 +601,10 @@ type SendActivity = {
     source: string
     user: string
     image: string
-    user_id: string | undefined
+    userId: string | undefined
     avatar: string | undefined | null
     skipped: boolean
+    syncId: string
 }
 
 type Activity = {
@@ -660,7 +661,7 @@ type Game = {
 
 type SendGame = {
     user: string
-    user_id: string | undefined
+    userId: string | undefined
     avatar: string | undefined | null
     name: string
     details: string | null

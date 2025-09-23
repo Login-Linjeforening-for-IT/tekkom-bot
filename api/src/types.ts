@@ -55,8 +55,9 @@ declare global {
         image: string
         source: string
         avatar: string
-        user_id: string
+        userId: string
         skipped: boolean
+        syncId: string
     }
 
     type Music = {
@@ -148,7 +149,7 @@ declare global {
     type MusicUser = {
         name: string
         avatar: string
-        user_id: string
+        userId: string
         songs_played: string
     }
 
@@ -214,7 +215,7 @@ declare global {
     type Game = {
         name: string
         user: string
-        user_id: string
+        userId: string
         avatar: string
         details?: string
         state?: string

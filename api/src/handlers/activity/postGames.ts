@@ -7,7 +7,7 @@ export default async function postGame(req: FastifyRequest, res: FastifyReply) {
     const {
         name,
         user,
-        user_id,
+        userId,
         avatar,
         details,
         state,
@@ -23,7 +23,7 @@ export default async function postGame(req: FastifyRequest, res: FastifyReply) {
         return res.status(400).send({ error: "Unauthorized" })
     }
 
-    if (!name || !user || !user_id || !avatar || !start) {
+    if (!name || !user || !userId || !avatar || !start) {
         return res.status(400).send({ error: "Please provide a valid game activity." })
     }
 
@@ -37,7 +37,7 @@ export default async function postGame(req: FastifyRequest, res: FastifyReply) {
         await run(gameActivityQuery, [
             name,
             user,
-            user_id,
+            userId,
             avatar,
             details ?? null,
             state ?? null,

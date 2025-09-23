@@ -46,9 +46,10 @@ export default async function checkAndHandleRepeats(
                 album: spotify.assets?.largeText ?? 'Unknown',
                 image,
                 source: spotify.name,
-                user_id: member.user.id,
+                userId: member.user.id,
                 avatar: member.user.avatar,
-                skipped
+                skipped,
+                syncId: spotify.syncId
             }
             const startTime = spotify.timestamps.start.getTime()
             const endTime = spotify.timestamps.end.getTime()

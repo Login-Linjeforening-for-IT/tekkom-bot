@@ -5,7 +5,7 @@ const tekkomBotApiToken = config.tekkomBotApiToken
 export default async function sendGame({
     name,
     user,
-    user_id,
+    userId,
     avatar,
     details,
     state,
@@ -26,7 +26,7 @@ export default async function sendGame({
             body: JSON.stringify({ 
                 name,
                 user,
-                user_id,
+                userId,
                 avatar,
                 details,
                 state,

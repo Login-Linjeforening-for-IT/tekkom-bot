@@ -5,13 +5,14 @@ WITH daily_counts AS (
         s.artist,
         s.album,
         s."image",
+        s.sync_id,
         COUNT(*) AS listens
     FROM activities a
     JOIN songs s 
       ON a.song = s.name
      AND a.artist = s.artist
     WHERE a."start" >= NOW() - INTERVAL '365 days' AND NOT a.skipped
-    GROUP BY day, s.name, s.artist, s.album, s."image"
+    GROUP BY day, s.name, s.artist, s.album, s."image", s.sync_id
 ),
 ranked AS (
     SELECT 

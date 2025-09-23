@@ -2,7 +2,8 @@ SELECT * FROM (
     SELECT DISTINCT ON (a.user_id)
         a.*,
         s."image",
-        s.listens AS listens
+        s.listens AS listens,
+        s.sync_id
     FROM activities a
     LEFT JOIN songs s
       ON a.song = s.name
