@@ -12,7 +12,7 @@ export default async function alertSlowQuery(duration: number, name: string) {
         let data: Data = {
             embeds: [
                 {
-                    title: `🐝 TekKom Bot API Cache Query Timing 🐝`,
+                    title: `🐝 TekKom Bot API ${firstUpperCaseName} Query Timing 🐝`,
                     description: `🐝 Slow ${lowerCaseName} query detected: ${duration.toFixed(2)}s`,
                     color: 0xff0000,
                     timestamp: new Date().toISOString()

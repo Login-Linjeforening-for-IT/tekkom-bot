@@ -1,6 +1,6 @@
 {
   "name": "tekkom-bot-api",
-  "version": "2.8.25",
+  "version": "2.8.26",
   "main": "index.js",
   "scripts": {
     "build": "tsc && tsc-alias",
