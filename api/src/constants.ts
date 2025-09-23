@@ -63,8 +63,8 @@ const config = {
     TEKKOM_BOT_BTG_TOKEN: env.TEKKOM_BOT_BTG_TOKEN,
     QUEENBEE_BTG_TOKEN: env.QUEENBEE_BTG_TOKEN,
     CRITICAL_ROLE: env.CRITICAL_ROLE,
-    WEBHOOK_URL: env.WEBHOOK_URL
-
+    WEBHOOK_URL: env.WEBHOOK_URL,
+    CACHE_TTL: 5000
 }
 
 export default config

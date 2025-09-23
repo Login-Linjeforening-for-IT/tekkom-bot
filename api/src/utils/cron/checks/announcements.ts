@@ -1,16 +1,8 @@
-import run from "@db"
-import { loadSQL } from "./loadSQL"
-import { schedule } from "node-cron"
+import run from '@db'
+import { loadSQL } from '@utils/loadSQL'
 import parser from "cron-parser"
 
-export default async function cron() {
-    schedule('* * * * *', async() => {
-        await checkAnnouncements()
-        await checkBtg()
-    })
-}
-
-async function checkAnnouncements() {
+export default async function checkAnnouncements() {
     const query = (await loadSQL('getSentAnnouncements.sql'))
     const result = await run(query)
     const announcements = result.rows as RecurringAnnouncement[]
@@ -24,11 +16,6 @@ async function checkAnnouncements() {
             )
         }
     }
-}
-
-async function checkBtg() {
-    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000)
-    await run(`DELETE FROM btg WHERE timestamp < $1;`, [oneDayAgo])
 }
 
 function cronTimeHasCome(announcement: RecurringAnnouncement) {

@@ -20,16 +20,26 @@ const pool = new Pool({
     port: Number(DB_PORT) || 5432,
     max: Number(DB_MAX_CONN) || 20,
     idleTimeoutMillis: Number(DB_IDLE_TIMEOUT_MS) || 5000,
-    connectionTimeoutMillis: Number(DB_TIMEOUT_MS) || 3000
+    connectionTimeoutMillis: Number(DB_TIMEOUT_MS) || 3000,
+    keepAlive: true
 })
 
 export default async function run(query: string, params?: SQLParamType) {
-    const client = await pool.connect()
-    try {
-        return await client.query(query, params ?? [])
-    } catch (error) {
-        throw error
-    } finally {
-        client.release()
+    while (true) {
+        try {
+            const client = await pool.connect()
+            try {
+                return await client.query(query, params ?? [])
+            } finally {
+                client.release()
+            }
+        } catch (error) {
+            console.log(`Pool currently unavailable, retrying in ${config.CACHE_TTL / 1000}s...`)
+            await sleep(config.CACHE_TTL)
+        }
     }
+}
+
+function sleep(ms: number) {
+    return new Promise(res => setTimeout(res, ms));
 }

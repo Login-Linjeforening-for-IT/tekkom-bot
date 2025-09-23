@@ -1,4 +1,5 @@
 import run from "@/db"
+import alertSlowQuery from '@utils/alertSlowQuery'
 import { loadSQL } from "@utils/loadSQL"
 import tokenWrapper from "@utils/tokenWrapper"
 import { FastifyReply, FastifyRequest } from "fastify"
@@ -28,6 +29,9 @@ export default async function getAnnouncements(req: FastifyRequest, res: Fastify
     const perPageInt = parseInt(announcementsPerPage || "10", 10)
     const activeBool = active === "true"
     const shouldBeSentBool = shouldBeSent === "true"
+    const start = Date.now()
     const result = await run(query, [pageInt, perPageInt, activeBool, shouldBeSentBool])
+    const duration = (Date.now() - start) / 1000
+    alertSlowQuery(duration, 'announcements')
     res.send(result.rows)
 }

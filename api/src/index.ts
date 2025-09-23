@@ -2,7 +2,7 @@ import cors from '@fastify/cors'
 import Fastify from 'fastify'
 import apiRoutes from './routes'
 import getIndex from './handlers/index/getIndex'
-import cron from '@utils/cron'
+import cron from '@utils/cron/cron'
 import cachedActivity from '@utils/cachedActivity'
 
 const fastify = Fastify({
