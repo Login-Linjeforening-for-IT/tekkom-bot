@@ -17,7 +17,9 @@ const requiredEnvironmentVariables = [
     'TEKKOM_BOT_BTG_TOKEN',
     'QUEENBEE_BTG_TOKEN',
     'CRITICAL_ROLE',
-    'WEBHOOK_URL'
+    'WEBHOOK_URL',
+    'SPOTIFY_CLIENT_ID',
+    'SPOTIFY_CLIENT_SECRET'
 ]
 
 const missingVariables = requiredEnvironmentVariables.filter(
@@ -64,7 +66,10 @@ const config = {
     QUEENBEE_BTG_TOKEN: env.QUEENBEE_BTG_TOKEN,
     CRITICAL_ROLE: env.CRITICAL_ROLE,
     WEBHOOK_URL: env.WEBHOOK_URL,
-    CACHE_TTL: 5000
+    CACHE_TTL: 5000,
+    SPOTIFY_API_TRACK_URL: 'https://api.spotify.com/v1/tracks',
+    SPOTIFY_API_TOKEN_URL: 'https://accounts.spotify.com/api/token',
+    SPOTIFY_API_TOKEN: Buffer.from(`${env.SPOTIFY_CLIENT_ID}:${env.SPOTIFY_CLIENT_SECRET}`).toString('base64')
 }
 
 export default config

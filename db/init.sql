@@ -67,6 +67,8 @@ CREATE TABLE IF NOT EXISTS songs (
     album TEXT NOT NULL,
     "image" TEXT NOT NULL,
     sync_id TEXT NOT NULL,
+    artist_id TEXT NOT NULL,
+    album_id TEXT NOT NULL,
     listens INT DEFAULT 1,
     skips INT DEFAULT 0,
     timestamp TIMESTAMPTZ DEFAULT NOW(),

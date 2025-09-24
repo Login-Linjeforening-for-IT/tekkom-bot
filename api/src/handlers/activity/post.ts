@@ -1,4 +1,6 @@
+import config from '@constants'
 import run from "@db"
+import getSpotifyToken from '@utils/getSpotifyToken'
 import { loadSQL } from '@utils/loadSQL'
 import tokenWrapper from "@utils/tokenWrapper"
 import { FastifyReply, FastifyRequest } from "fastify"
@@ -17,9 +19,18 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
     try {
         console.log(`Adding activity: song=${song}, artist=${artist}, user=${user}`)
 
+        const token = await getSpotifyToken()
+        const response = await fetch(`${config.SPOTIFY_API_TRACK_URL}/${syncId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        })
+
+        const data = await response.json()
+        const artistId = data?.artists[0]?.id ?? 'Unknown'
+        const albumId = data?.album?.id ?? 'Unknown'
+
         if (skipped) {
             const previous = await run(
-                `SELECT id, song, artist, album FROM activities WHERE user_id = $1 ORDER BY timestamp DESC LIMIT 1`,
+                `SELECT id, song, artist, album, sync_id FROM activities WHERE user_id = $1 ORDER BY timestamp DESC LIMIT 1`,
                 [userId]
             )
 
@@ -35,9 +46,11 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
                     `UPDATE songs
                     SET listens = GREATEST(listens - 1, 0),
                         skips = skips + 1,
-                        sync_id = $4
+                        sync_id = $4,
+                        artist_id = $5,
+                        album_id = $6
                     WHERE name = $1 AND artist = $2 AND album = $3`,
-                    [activitySong, activityArtist, activityAlbum, activitySongSyncId]
+                    [activitySong, activityArtist, activityAlbum, activitySongSyncId, artistId, albumId]
                 )
 
                 await run(
@@ -57,11 +70,11 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
         )
 
         await run(
-            `INSERT INTO songs AS s (name, artist, album, "image", sync_id)
-            VALUES ($1, $2, $3, $4, $5)
+            `INSERT INTO songs AS s (name, artist, album, "image", sync_id, artist_id, album_id)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
             ON CONFLICT (name, artist, album)
             DO UPDATE SET listens = s.listens + 1, sync_id = EXCLUDED.sync_id, timestamp = NOW();`,
-            [song, artist, album, image, syncId]
+            [song, artist, album, image, syncId, artistId, albumId]
         )
 
         await run(

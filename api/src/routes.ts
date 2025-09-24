@@ -18,6 +18,7 @@ import postActivity from './handlers/activity/post'
 import getActivity from './handlers/activity/get'
 import postHideActivity from './handlers/activity/postHide'
 import postGames from './handlers/activity/postGames'
+import getTrackPreview from './handlers/spotify/get'
 
 export default async function apiRoutes(fastify: FastifyInstance, _: FastifyPluginOptions) {
     // index
@@ -52,4 +53,7 @@ export default async function apiRoutes(fastify: FastifyInstance, _: FastifyPlug
     fastify.post("/activity", postActivity)
     fastify.post("/activity/games", postGames)
     fastify.post("/activity/hide", postHideActivity)
+
+    // spotify
+    fastify.get('/track/:id', getTrackPreview)
 }
