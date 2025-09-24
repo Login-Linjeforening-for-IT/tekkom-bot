@@ -88,7 +88,7 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
 
         const postActivityQuery = (await loadSQL('postActivity.sql'))
         await run(
-            postActivityQuery, 
+            postActivityQuery,
             [user, song, artist, album, start, end, source, avatar, userId]
         )
 
@@ -96,7 +96,12 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
             `INSERT INTO songs AS s (name, artist, album, "image", sync_id, artist_id, album_id)
             VALUES ($1, $2, $3, $4, $5, $6, $7)
             ON CONFLICT (name, artist, album)
-            DO UPDATE SET listens = s.listens + 1, sync_id = EXCLUDED.sync_id, timestamp = NOW();`,
+            DO UPDATE SET 
+            listens = s.listens + 1, 
+            sync_id = EXCLUDED.sync_id, 
+            artist_id = EXCLUDED.artist_id, 
+            album_id = EXCLUDED.album_id, 
+            timestamp = NOW();`,
             [song, artist, album, image, syncId, artistId, albumId]
         )
 
@@ -108,7 +113,7 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
             [artist]
         )
 
-        return res.send({ message: `Successfully added song ${song} by ${artist}, played by ${user}`})
+        return res.send({ message: `Successfully added song ${song} by ${artist}, played by ${user}` })
     } catch (error) {
         console.log(`Database error: ${JSON.stringify(error)}`)
         return res.status(500).send({ error: "Internal Server Error" })
