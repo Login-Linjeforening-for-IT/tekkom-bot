@@ -18,19 +18,42 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
 
     try {
         console.log(`Adding activity: song=${song}, artist=${artist}, user=${user}`)
+        let artistId = 'Unknown'
+        let albumId = 'Unknown'
 
-        const token = await getSpotifyToken()
-        const response = await fetch(`${config.SPOTIFY_API_TRACK_URL}/${syncId}`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        })
+        try {
+            const token = await getSpotifyToken()
+            const response = await fetch(`${config.SPOTIFY_API_TRACK_URL}/${syncId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
 
-        const data = await response.json()
-        const artistId = data?.artists[0]?.id ?? 'Unknown'
-        const albumId = data?.album?.id ?? 'Unknown'
+            if (!response.ok) {
+                throw new Error(`Status: ${response.status} ${await response.text()}`)
+            }
+
+            const data = await response.json()
+            if (data?.artists[0]?.id) {
+                artistId = data?.artists[0]?.id
+            }
+
+            if (data?.album?.id) {
+                albumId = data?.album?.id
+            }
+        } catch (error) {
+            console.log(error)
+        }
 
         if (skipped) {
             const previous = await run(
-                `SELECT id, song, artist, album, sync_id FROM activities WHERE user_id = $1 ORDER BY timestamp DESC LIMIT 1`,
+                `SELECT a.id, a.song, a.artist, a.album, s.sync_id
+                FROM activities a
+                JOIN songs s
+                ON a.song = s.name
+                AND a.artist = s.artist
+                AND a.album = s.album
+                WHERE a.user_id = $1
+                ORDER BY a.timestamp DESC
+                LIMIT 1;`,
                 [userId]
             )
 
@@ -46,9 +69,9 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
                     `UPDATE songs
                     SET listens = GREATEST(listens - 1, 0),
                         skips = skips + 1,
-                        sync_id = $4,
-                        artist_id = $5,
-                        album_id = $6
+                        sync_id = COALESCE($4, sync_id),
+                        artist_id = COALESCE($5, artist_id),
+                        album_id = COALESCE($6, album_id)
                     WHERE name = $1 AND artist = $2 AND album = $3`,
                     [activitySong, activityArtist, activityAlbum, activitySongSyncId, artistId, albumId]
                 )

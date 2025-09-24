@@ -16,12 +16,12 @@ WITH daily_counts AS (
 ),
 ranked AS (
     SELECT 
-        day, song, artist, album, "image", listens,
+        day, song, artist, album, "image", listens, sync_id,
         ROW_NUMBER() OVER (PARTITION BY day ORDER BY listens DESC) AS rn,
         SUM(listens) OVER (PARTITION BY day) AS total_songs_played
     FROM daily_counts
 )
-SELECT day, song, artist, album, "image", listens, total_songs_played
+SELECT day, song, artist, album, "image", listens, total_songs_played, sync_id
 FROM ranked
 WHERE rn = 1
 ORDER BY day ASC;

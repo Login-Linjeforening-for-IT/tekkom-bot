@@ -7,12 +7,12 @@ SELECT
     s_top.album_id
 FROM activities a
 JOIN LATERAL (
-    SELECT s.name, s."image"
+    SELECT s.name, s."image", s.album_id
     FROM songs s
     JOIN activities a2
       ON s.name = a2.song AND s.artist = a2.artist AND s.album = a2.album
     WHERE s.album = a.album AND s.artist = a.artist
-    GROUP BY s.name, s."image"
+    GROUP BY s.name, s."image", s.album_id
     ORDER BY COUNT(a2.*) DESC
     LIMIT 1
 ) AS s_top ON true
