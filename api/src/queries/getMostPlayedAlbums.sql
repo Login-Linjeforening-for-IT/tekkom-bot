@@ -17,6 +17,6 @@ JOIN LATERAL (
     ORDER BY COUNT(a2.*) DESC
     LIMIT 1
 ) AS s_top ON true
-GROUP BY a.album, a.artist, a.sync_id, s_top.name, s_top."image", s_top.album_id, s_top.sync_id
+GROUP BY a.album, a.artist, s_top.name, s_top."image", s_top.album_id, s_top.sync_id
 ORDER BY listens DESC
 LIMIT 5;

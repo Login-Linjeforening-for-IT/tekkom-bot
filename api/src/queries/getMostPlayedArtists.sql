@@ -24,7 +24,7 @@ SELECT
     ts.top_song,
     ts.album,
     ts."image",
-    ts.artist_id
+    ts.artist_id,
     ts.sync_id
 FROM artist_counts ac
 LEFT JOIN top_songs ts ON ac.artist = ts.artist
