@@ -46,5 +46,5 @@ export default async function Autocomplete(interaction: AutocompleteInteraction<
 
     await interaction
         .respond(uniqueResponse)
-        .catch(console.error)
+        .catch(console.log)
 }

@@ -33,7 +33,7 @@ function cronTimeHasCome(announcement: RecurringAnnouncement) {
         const lastSentDate = new Date(lastSent)
         return lastSentDate < prev
     } catch (err) {
-        console.error("Invalid cron expression:", interval, err)
+        console.log("Invalid cron expression:", interval, err)
         return false
     }
 }

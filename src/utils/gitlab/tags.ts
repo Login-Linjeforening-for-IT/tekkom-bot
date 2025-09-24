@@ -19,7 +19,7 @@ export default async function getTags(id: number): Promise<Tag[]> {
         return data
     } catch (error) {
         if (!JSON.stringify(error).includes('Skipped')) {
-            console.error(error)
+            console.log(error)
         }
 
         return []
@@ -50,14 +50,14 @@ export async function postTag(id: number, tag: string, ref?: string): Promise<Ta
         return data
     } catch (error: any) {
         if (!JSON.stringify(error).includes('Skipped')) {
-            console.error(error)
+            console.log(error)
             return 400
         }
 
         if (error.message.includes('already exists')) {
             return 409
         }
-        console.error(error)
+        console.log(error)
         return 404
     }
 }
@@ -79,7 +79,7 @@ export async function deleteTag(id: number, tag: string): Promise<boolean> {
         return true
     } catch (error) {
         if (!JSON.stringify(error).includes('Skipped')) {
-            console.error(`Failed to delete tag ${tag}:`, error)
+            console.log(`Failed to delete tag ${tag}:`, error)
         }
 
         return false

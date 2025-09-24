@@ -50,7 +50,7 @@ export default async function uploadAttachmentToWiki({attachment, week}: WikiAtt
 
         return name.toLowerCase()
     } catch (error) {
-        console.error('Error uploading attachment:', error)
+        console.log('Error uploading attachment:', error)
     }
 }
 

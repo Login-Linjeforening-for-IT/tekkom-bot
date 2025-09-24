@@ -26,7 +26,7 @@ export default async function postBtg(req: FastifyRequest, res: FastifyReply) {
 
         return res.send({ message: `Successfully added btg account ${name} for service ${service} by ${author}.` })
     } catch (error) {
-        console.error(`Database error: ${JSON.stringify(error)}`)
+        console.log(`Database error: ${JSON.stringify(error)}`)
         return res.status(500).send({ error: "Internal Server Error" })
     }
 }

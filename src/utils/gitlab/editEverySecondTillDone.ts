@@ -61,7 +61,7 @@ export default async function editEverySecondTillDone(message: Message, user: st
                         : [initialButtons]
             })
         } catch (error) {
-            console.error(`Discord message for ${name}, version ${tag}${dev} was deleted. Continuing on Gitlab, check UI for results.`)
+            console.log(`Discord message for ${name}, version ${tag}${dev} was deleted. Continuing on Gitlab, check UI for results.`)
             return false
         }
 
@@ -73,7 +73,7 @@ export default async function editEverySecondTillDone(message: Message, user: st
                 console.warn(`Deployment of ${name} version ${tag}${dev} deployed by ${user} was canceled after ${Seconds}s (Repository ID ${id}).`)
                 return false
             case 'failed':
-                console.error(`Deployment of ${name} version ${tag}${dev} deployed by ${user} failed after ${Seconds}s (Repository ID ${id}).`)
+                console.log(`Deployment of ${name} version ${tag}${dev} deployed by ${user} failed after ${Seconds}s (Repository ID ${id}).`)
                 return false
         }
     }
@@ -91,7 +91,7 @@ export default async function editEverySecondTillDone(message: Message, user: st
             }
 
             if (hourTimeout) {
-                console.error(`Deployment of ${name} version ${tag}${dev} deployed by ${user} timed out after 1 hour (Repository ID ${id}).`)
+                console.log(`Deployment of ${name} version ${tag}${dev} deployed by ${user} timed out after 1 hour (Repository ID ${id}).`)
                 resolve(false)
                 clearInterval(interval)
             }

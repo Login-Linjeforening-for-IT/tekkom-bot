@@ -110,7 +110,7 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
 
         return res.send({ message: `Successfully added song ${song} by ${artist}, played by ${user}`})
     } catch (error) {
-        console.error(`Database error: ${JSON.stringify(error)}`)
+        console.log(`Database error: ${JSON.stringify(error)}`)
         return res.status(500).send({ error: "Internal Server Error" })
     }
 }

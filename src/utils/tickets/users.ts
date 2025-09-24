@@ -84,7 +84,7 @@ export default async function manageUsers(interaction: ButtonInteraction, ping?:
         if (error.name === 'InteractionAlreadyReplied') {
             console.warn('Interaction has already been replied to or deferred.')
         } else {
-            console.error('Failed to update permissions:', error)
+            console.log('Failed to update permissions:', error)
         }
     }
 }

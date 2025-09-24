@@ -98,7 +98,7 @@ export async function reopenTicket(interaction: ButtonInteraction, view?: boolea
             flags: MessageFlags.Ephemeral
          })
     } catch (error) {
-        console.error(error)
+        console.log(error)
         await interaction.reply({
             content: `There was an error ${view ? 'viewing' : 'reopening'} the ticket. Please try again later.`,
             flags: MessageFlags.Ephemeral

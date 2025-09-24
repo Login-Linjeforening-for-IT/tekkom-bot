@@ -15,7 +15,7 @@ export default async function handleTag(interaction: ButtonInteraction, type: nu
         const tag = embedTag.match(/\(([^)]+)\)/)?.[1]
         await deploy(interaction, tag, name?.slice(28), id, '-dev', branch)
     } catch (error) {
-        console.error(error)
+        console.log(error)
     }
 }
 

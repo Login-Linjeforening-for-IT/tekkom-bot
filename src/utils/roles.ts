@@ -51,10 +51,10 @@ export async function removeRole({reaction, user}: RemoveProps) {
                 if (member && roleIds[i]) {
                     await member.roles.remove(roleIds[i])
                 } else {
-                    console.error('Member or role ID not found')
+                    console.log('Member or role ID not found')
                 }
             } catch (error) {
-                console.error('Error removing role:', error)
+                console.log('Error removing role:', error)
             }
 
             break

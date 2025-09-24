@@ -21,7 +21,7 @@ export default async function retryJob(projectId: number, jobId: number) {
         return data
     } catch (error) {
         if (!JSON.stringify(error).includes('Skipped')) {
-            console.error(error)
+            console.log(error)
         }
     }
 }

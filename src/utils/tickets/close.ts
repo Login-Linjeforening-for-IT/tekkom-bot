@@ -37,7 +37,7 @@ export async function handleCloseTicket(interaction: ButtonInteraction) {
                 content: `Closed by ${interaction.user.username}.`,
             })
         } catch (error) {
-            console.error(error)
+            console.log(error)
 
             await interaction.editReply({
                 content: 'There was an error closing the ticket. Please try again later.'
@@ -166,7 +166,7 @@ export async function handleCloseSelectedTicket(interaction: ButtonInteraction) 
         })
 
     } catch (error) {
-        console.error(`Failed to close the ticket: ${error}`)
+        console.log(`Failed to close the ticket: ${error}`)
         await interaction.reply({
             content: 'There was an error closing the ticket. Please try again later.',
             flags: MessageFlags.Ephemeral

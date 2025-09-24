@@ -34,7 +34,7 @@ for (const folder of commandFolders) {
                 console.warn(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`)
             }
         } catch (error) {
-            console.error(`Error importing ${filePath}: ${error}`)
+            console.log(`Error importing ${filePath}: ${error}`)
         }
     }
 }
@@ -53,7 +53,7 @@ const rest = new REST({ version: '10' }).setToken(token)
         const duplicates = commandNames.filter((name, index) => commandNames.indexOf(name) !== index)
 
         if (duplicates.length > 0) {
-            console.error(`Duplicate command names found: ${duplicates.join(', ')}`)
+            console.log(`Duplicate command names found: ${duplicates.join(', ')}`)
             return
         }
 
@@ -65,6 +65,6 @@ const rest = new REST({ version: '10' }).setToken(token)
 
         console.log(`Successfully reloaded ${data.length} application (/) commands.`)
     } catch (error) {
-        console.error("here", error)
+        console.log("here", error)
     }
 })()

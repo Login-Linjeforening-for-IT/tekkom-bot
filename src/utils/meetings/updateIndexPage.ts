@@ -130,7 +130,7 @@ export default async function updateIndex({path, query, isStyret}: UpdateIndexPr
             console.log(`${isStyret ? 'Styret' : 'TekKom'} index file updated successfully.`)
         }
     } catch (error) {
-        console.error(`Failed to update ${isStyret ? 'styret' : 'TekKom'} index file:\n${error}`)
+        console.log(`Failed to update ${isStyret ? 'styret' : 'TekKom'} index file:\n${error}`)
         logStack(error)
     }
 }

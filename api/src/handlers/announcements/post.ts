@@ -24,7 +24,7 @@ export default async function postAnnouncements(req: FastifyRequest, res: Fastif
 
         return res.send({ message: `Successfully added announcement ${title}${interval ? ` with interval ${interval}` : ''}.` })
     } catch (error) {
-        console.error(`Database error: ${JSON.stringify(error)}`)
+        console.log(`Database error: ${JSON.stringify(error)}`)
         return res.status(500).send({ error: "Internal Server Error" })
     }
 }

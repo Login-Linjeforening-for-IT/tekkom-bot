@@ -11,6 +11,6 @@ export default async function getAttachment(url: string) {
         const data = await response.json()
         return data
     } catch (error) {
-        console.error(`Failed to fetch attachment "${url}". Reason: ${JSON.stringify(error)}`)
+        console.log(`Failed to fetch attachment "${url}". Reason: ${JSON.stringify(error)}`)
     }
 }

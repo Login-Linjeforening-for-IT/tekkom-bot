@@ -125,7 +125,7 @@ export default async function handleComponents(interaction: ButtonInteraction | 
             await cancel(buttonInteraction, Build.RELEASE)
             break
         default:
-            console.error(`${buttonInteraction.customId || id} is unhandled in handleComponents.`)
+            console.log(`${buttonInteraction.customId || id} is unhandled in handleComponents.`)
             await buttonInteraction.reply({ content: `Unknown action. ${buttonInteraction.customId}`, flags: MessageFlags.Ephemeral })
             break
     }

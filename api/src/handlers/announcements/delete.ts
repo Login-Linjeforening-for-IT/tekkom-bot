@@ -21,7 +21,7 @@ export default async function deleteAnnouncements(req: FastifyRequest, res: Fast
         const result = await run(`DELETE FROM announcements WHERE id = $1`, [id])
         return res.send(result.rows)
     } catch (error) {
-        console.error(`Database error: ${JSON.stringify(error)}`)
+        console.log(`Database error: ${JSON.stringify(error)}`)
         return res.status(500).send({ error: "Internal Server Error" })
     }
 }

@@ -68,7 +68,7 @@ export async function tagTicket(interaction: ButtonInteraction) {
         if (error.name === 'InteractionAlreadyReplied') {
             console.warn('Interaction has already been replied to or deferred.')
         } else {
-            console.error('Failed to update channel description:', error)
+            console.log('Failed to update channel description:', error)
         }
     }
 }

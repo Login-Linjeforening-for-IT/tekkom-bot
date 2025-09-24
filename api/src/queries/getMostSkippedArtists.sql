@@ -11,7 +11,8 @@ top_songs AS (
         s.name AS top_song,
         s.album,
         s."image",
-        s.artist_id
+        s.artist_id,
+        s.sync_id
     FROM songs s
     JOIN activities a 
       ON s.name = a.song AND s.artist = a.artist
@@ -23,7 +24,8 @@ SELECT
     ts.top_song,
     ts.album,
     ts."image",
-    ts.artist_id
+    ts.artist_id,
+    ts.sync_id
 FROM artist_skips ak
 LEFT JOIN top_songs ts ON ak.artist = ts.artist
 ORDER BY ak.skips DESC

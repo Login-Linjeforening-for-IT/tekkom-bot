@@ -88,12 +88,12 @@ client.once(Events.ClientReady, async () => {
             // Fetch channel and message
             const channel = await client.channels.fetch(channelID)
             if (!channel) {
-                return console.error(`Channel with ID ${channelID} not found.`)
+                return console.log(`Channel with ID ${channelID} not found.`)
             }
 
             const roleMessage = await (channel as any).messages.fetch(message)
             if (!roleMessage) {
-                return console.error(`Message with ID ${message} not found.`)
+                return console.log(`Message with ID ${message} not found.`)
             }
 
             // Fetches missing partial data for the message
@@ -101,7 +101,7 @@ client.once(Events.ClientReady, async () => {
                 try {
                     await roleMessage.fetch()
                 } catch (error) {
-                    console.error(`Something went wrong when fetching role message partial: ${error}`)
+                    console.log(`Something went wrong when fetching role message partial: ${error}`)
                     return
                 }
             }
@@ -110,7 +110,7 @@ client.once(Events.ClientReady, async () => {
             const guild = client.guilds.cache.get(roleMessage.guildId)
             const content = roleMessage.embeds[0].data.fields[0].value
             if (!guild) {
-                return console.error(`Guild ${roleMessage.guildId} does not exist.`)
+                return console.log(`Guild ${roleMessage.guildId} does not exist.`)
             }
 
             const roleRegex = /<@&(\d+)>/g
@@ -129,7 +129,7 @@ client.once(Events.ClientReady, async () => {
 
             addRole({ collector: roleCollector, guild, roles: roleIds, icons })
         } catch (error: any) {
-            console.error("Error processing roles:", error)
+            console.log(`Error processing roles: ${error}`)
         }
     }
 
@@ -163,7 +163,7 @@ client.on<Events.InteractionCreate>(Events.InteractionCreate, async (interaction
     const chatInteraction = interaction as ChatInputCommandInteraction
 
     if (!interaction.isChatInputCommand() && !('customId' in interaction)) {
-        console.error('Input is not a command nor interaction.')
+        console.log('Input is not a command nor interaction.')
         return
     }
 
@@ -179,7 +179,7 @@ client.on<Events.InteractionCreate>(Events.InteractionCreate, async (interaction
         const customId = interaction.customId
         if (customId && !exceptions.includes(customId)) {
             // @ts-expect-error
-            console.error(`${interaction.commandName || interaction.customId} is not a valid command in app.ts`)
+            console.log(`${interaction.commandName || interaction.customId} is not a valid command in app.ts`)
         }
 
     }
@@ -202,7 +202,7 @@ client.on(Events.MessageReactionRemove, async (reaction: any, user: any) => {
         try {
             await reaction.fetch()
         } catch (error) {
-            console.error('Something went wrong when fetching the message:', error)
+            console.log('Something went wrong when fetching the message:', error)
             return
         }
     }
@@ -291,20 +291,20 @@ client.on<Events.PresenceUpdate>(Events.PresenceUpdate, async (oldPresence, newP
 
 client.login(token)
 
-process.on("unhandledRejection", async (err) => {
-    if ((err as { message: string }).message === "Interaction has already been acknowledged.") {
-        return console.error("Interaction has already been acknowledged.")
+process.on("unhandledRejection", async (error) => {
+    if ((error as { message: string }).message === "Interaction has already been acknowledged.") {
+        return console.log("Interaction has already been acknowledged.")
     }
 
-    console.error("Unhandled Promise Rejection:\n", err)
+    console.log(`Unhandled Promise Rejection:\n${error}`)
 })
 
-process.on("uncaughtException", async (err) => {
-    console.error("Uncaught Promise Exception:\n", err)
+process.on("uncaughtException", async (error) => {
+    console.log(`Uncaught Promise Exception:\n${error}`)
 })
 
-process.on("uncaughtExceptionMonitor", async (err) => {
-    console.error("Uncaught Promise Exception (Monitor):\n", err)
+process.on("uncaughtExceptionMonitor", async (error) => {
+    console.log(`Uncaught Promise Exception (Monitor):\n${error}`)
 })
 
 setInterval(async() => {

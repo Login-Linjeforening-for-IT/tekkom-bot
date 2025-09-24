@@ -48,7 +48,7 @@ export default async function postGame(req: FastifyRequest, res: FastifyReply) {
 
         return res.send({ message: `Successfully added game ${name} for ${user}.` })
     } catch (error) {
-        console.error(`Database error:`, error)
+        console.log(`Database error:`, error)
         return res.status(500).send({ error: "Internal Server Error" })
     }
 }

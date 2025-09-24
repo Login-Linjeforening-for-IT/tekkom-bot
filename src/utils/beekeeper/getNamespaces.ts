@@ -11,7 +11,7 @@ export default async function getNamespaces(): Promise<any[]> {
         const data = await response.json()
         return data
     } catch (error) {
-        console.error(error)
+        console.log(error)
         return []
     }
 }

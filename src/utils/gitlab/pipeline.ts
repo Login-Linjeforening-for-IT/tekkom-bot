@@ -18,7 +18,7 @@ export default async function getPipelines(id: number): Promise<Pipeline[]> {
         const data = await response.json()
         return data
     } catch (error) {
-        console.error(error)
+        console.log(error)
         return []
     }
 }
@@ -40,7 +40,7 @@ export async function getJobsForPipeline(projectID: number, id: number): Promise
         return data
     } catch (error) {
         if (!JSON.stringify(error).includes('Skipped')) {
-            console.error(error)
+            console.log(error)
         }
 
         return []
@@ -64,7 +64,7 @@ export async function getBridgesForPipeline(projectID: number, id: number): Prom
         return data
     } catch (error) {
         if (!JSON.stringify(error).includes('Skipped')) {
-            console.error(error)
+            console.log(error)
         }
 
         return []

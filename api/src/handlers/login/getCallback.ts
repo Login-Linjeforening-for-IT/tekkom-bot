@@ -70,7 +70,7 @@ export default async function getCallback(req: FastifyRequest, res: FastifyReply
         return res.redirect(redirectUrl.toString())
     } catch (err: unknown) {
         const error = err as Error
-        console.error('Error during OAuth2 flow:', error.message)
+        console.log('Error during OAuth2 flow:', error.message)
         return res.status(500).send('Authentication failed')
     }
 }

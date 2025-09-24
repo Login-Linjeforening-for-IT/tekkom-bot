@@ -124,7 +124,7 @@ async function handleMerge({ sorted, willMerge, repository, tag, finalResponse }
                 .setColor("#fd8738")
                 .setTimestamp()
             finalResponse.edit({ embeds: [...finalResponse.embeds, final] })
-            console.error(`Failed while merging merge requests for ${repository} v${tag}. Please merge remaining MRs manually.`)
+            console.log(`Failed while merging merge requests for ${repository} v${tag}. Please merge remaining MRs manually.`)
         }
     } else {
         const final = new EmbedBuilder()
@@ -133,7 +133,7 @@ async function handleMerge({ sorted, willMerge, repository, tag, finalResponse }
             .setColor("#fd8738")
             .setTimestamp()
         finalResponse.edit({ embeds: [...finalResponse.embeds, final] })
-        console.error(`Found no merge requests for ${repository} v${tag}. Please merge manually.`)
+        console.log(`Found no merge requests for ${repository} v${tag}. Please merge manually.`)
     }
 }
 

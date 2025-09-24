@@ -33,7 +33,7 @@ async function sync(client: Client) {
     )
 
     if (!ticketsCategory) {
-        console.error('Tickets category not found')
+        console.log('Tickets category not found')
         return
     }
 

@@ -201,7 +201,7 @@ export default async function handleCreateTicket(interaction: ButtonInteraction)
         }
 
     } catch (error) {
-        console.error("Error creating ticket channel:", error)
+        console.log("Error creating ticket channel:", error)
         await interaction.reply({ content: "There was an error creating the ticket. Please try again." })
     }
 }

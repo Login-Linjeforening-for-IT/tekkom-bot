@@ -3,7 +3,7 @@ export default function logNullValue(caller: string, names: string[], values: (s
 
     for (let i = 0; i < values.length; i++) {
         if (!values[i]) {
-            console.error(`${caller}: ${names[i]} is null (${values[i]}).`)
+            console.log(`${caller}: ${names[i]} is null (${values[i]}).`)
             err = i
         }
     }
