@@ -3,7 +3,8 @@ SELECT
     a.artist,
     SUM(CASE WHEN a.skipped THEN 1 ELSE 0 END) AS skips,
     s_top.name AS top_song,
-    s_top."image" AS top_song_image
+    s_top."image" AS top_song_image,
+    s.album_id
 FROM activities a
 JOIN LATERAL (
     SELECT s.name, s."image"
@@ -15,6 +16,6 @@ JOIN LATERAL (
     ORDER BY COUNT(a2.*) DESC
     LIMIT 1
 ) AS s_top ON true
-GROUP BY a.album, a.artist, s_top.name, s_top."image"
+GROUP BY a.album, a.artist, s_top.name, s_top."image", s.album_id
 ORDER BY skips DESC
 LIMIT 5;
