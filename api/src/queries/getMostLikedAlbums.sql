@@ -1,16 +1,21 @@
-SELECT 
-    a.album,
-    a.artist,
-    s."image",
-    s.album_id,
-    s.sync_id,
+SELECT
+    s.album,
+    s.artist,
+    s_top."image",
+    s_top.album_id,
+    s_top.sync_id,
     SUM(s.listens) AS total_listens,
     SUM(s.skips) AS total_skips,
     (SUM(s.listens)::float / NULLIF(SUM(s.listens + s.skips), 0)) AS like_ratio
 FROM songs s
-JOIN activities a
-  ON s.name = a.song AND s.artist = a.artist AND s.album = a.album
-GROUP BY a.album, a.artist, s."image", s.album_id, s.sync_id
+JOIN LATERAL (
+    SELECT *
+    FROM songs s2
+    WHERE s2.album = s.album AND s2.artist = s.artist
+    ORDER BY s2.listens DESC
+    LIMIT 1
+) AS s_top ON true
+GROUP BY s.album, s.artist, s_top."image", s_top.album_id, s_top.sync_id
 HAVING SUM(s.listens) >= 10
    AND SUM(s.skips) >= 5
 ORDER BY like_ratio DESC

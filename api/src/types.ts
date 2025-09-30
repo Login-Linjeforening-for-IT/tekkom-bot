@@ -62,7 +62,7 @@ declare global {
 
     type Music = {
         stats: MusicStats
-        currentlyPlaying: Song[]
+        currentlyPlaying: CurrentlyPlaying[]
         mostPlayedAlbums: Album[]
         mostPlayedArtists: ArtistPlayed[]
         mostPlayedSongs: CountedSong[]
@@ -91,7 +91,7 @@ declare global {
         total_songs: number
     }
 
-    type Song = {
+    type CurrentlyPlaying = {
         id: number
         song: string
         artist: string
@@ -101,21 +101,24 @@ declare global {
         source: string
         user: string
         timestamp: string
+        avatar: string
+        user_id: string
+        skipped: boolean
         image: string
-        listens: number
+        sync_id: string
     }
 
     type Album = {
         album: string
         artist: string
-        listens: string
+        listens: number
         top_song: string
         top_song_image: string
     }
 
     type Artist = {
         name: string
-        listens: string
+        listens: number
     }
 
     type CountedSong = {
@@ -128,13 +131,13 @@ declare global {
 
     type SongDay = {
         day: string
-        songs_played: string
+        songs_played: number
         albums: Album[]
     }
 
     type ActiveUser = {
         user: string
-        total_minutes: string
+        total_minutes: number
         image: string
     }
 
@@ -142,7 +145,7 @@ declare global {
         song: string
         artist: string
         album: string
-        listens: string
+        listens: number
         image: string
     }
 
@@ -150,22 +153,22 @@ declare global {
         name: string
         avatar: string
         userId: string
-        songs_played: string
+        songs_played: number
     }
 
     type LikedAlbum = {
         album: string
         artist: string
-        total_listens: string
-        total_skips: string
+        total_listens: number
+        total_skips: number
         like_ratio: number
         image: string
     }
 
     type LikedArtist = {
         artist: string
-        total_listens: string
-        total_skips: string
+        total_listens: number
+        total_skips: number
         like_ratio: number
         image: string
     }
@@ -206,7 +209,7 @@ declare global {
 
     type ArtistPlayed = {
         artist: string
-        listens: string
+        listens: number
         top_song: string
         album: string
         image: string

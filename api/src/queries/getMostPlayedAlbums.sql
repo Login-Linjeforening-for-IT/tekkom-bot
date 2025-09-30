@@ -1,7 +1,7 @@
 SELECT 
     a.album,
     a.artist,
-    COUNT(*) AS listens,
+    COUNT(*)::INT AS listens,
     s_top.name AS top_song,
     s_top."image" AS top_song_image,
     s_top.album_id,

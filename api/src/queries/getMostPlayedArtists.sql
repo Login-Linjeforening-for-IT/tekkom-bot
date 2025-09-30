@@ -1,7 +1,7 @@
 WITH artist_counts AS (
     SELECT 
         a.artist,
-        COUNT(*) AS listens
+        COUNT(*)::INT AS listens
     FROM activities a
     GROUP BY a.artist
 ),

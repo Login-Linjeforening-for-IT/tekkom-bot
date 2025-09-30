@@ -1,4 +1,4 @@
-SELECT s.name AS song, s.artist, s.album, s."image", s.sync_id, COUNT(*) AS listens
+SELECT s.name AS song, s.artist, s.album, s."image", s.sync_id, COUNT(*)::INT AS listens
 FROM activities a
 JOIN songs s ON a.song = s.name AND a.artist = s.artist AND a.album = s.album
 WHERE a."start"::date = CURRENT_DATE AND NOT a.skipped

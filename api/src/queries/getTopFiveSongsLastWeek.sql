@@ -4,7 +4,7 @@ SELECT
     s.album, 
     s."image",
     s.sync_id,
-    COUNT(*) AS listens
+    COUNT(*)::INT AS listens
 FROM activities a
 JOIN songs s 
     ON a.song = s.name 
