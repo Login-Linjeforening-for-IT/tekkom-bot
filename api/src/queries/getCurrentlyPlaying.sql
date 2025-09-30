@@ -5,11 +5,10 @@ SELECT * FROM (
         s.sync_id
     FROM activities a
     LEFT JOIN songs s
-      ON a.song = s.name
-      AND a.artist = s.artist
-    WHERE a."start" <= NOW()
-      AND a."end" >= NOW()
+      ON a.song_id = s.id
+    WHERE a.start_time <= NOW()
+      AND a.end_time >= NOW()
       AND NOT a.skipped
-    ORDER BY a.user_id, a."start" DESC
+    ORDER BY a.user_id, a.start_time DESC
 ) AS per_user
-ORDER BY (NOW() - per_user."start") ASC;
+ORDER BY (NOW() - per_user.start_time) ASC;

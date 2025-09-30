@@ -2,7 +2,7 @@ import config from '../config.js'
 
 const tekkomBotApiToken = config.tekkomBotApiToken
 
-export default async function sendActivity({
+export default async function sendListen({
     user,
     song,
     artist,
@@ -17,7 +17,7 @@ export default async function sendActivity({
     syncId
 }: SendActivity): Promise<{ message: string } | { error: unknown, message: string }> {
     try {
-        const response = await fetch(`${config.tekkomBotApiUrl}/activity`, {
+        const response = await fetch(`${config.tekkomBotApiUrl}/listen`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

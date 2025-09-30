@@ -1,14 +1,10 @@
 import { EmbedBuilder, Message, TextChannel } from "discord.js"
 import { ticketIdPattern } from "../../constants.js"
 import postMessage from "./postMessage.js"
-import fetchTicket from "../ticket.js"
 
-type HandleTicketProps = {
-    matches: RegExpMatchArray | null
-    message: Message
-}
-
-export default async function handleTickets({matches, message}: HandleTicketProps) {
+export default async function handleTickets(message: Message) {
+    const regex = /#\d{1,7}\b/g
+    const matches = message.content.match(regex)
     const channel = message.channel as TextChannel
     const ticketChannel = ticketIdPattern.test(channel.name)
     const ticketID = Number(channel.name)

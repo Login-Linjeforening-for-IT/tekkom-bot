@@ -43,17 +43,21 @@ CREATE TABLE IF NOT EXISTS btg (
     timestamp TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- Users
+CREATE TABLE IF NOT EXISTS users (
+    id TEXT PRIMARY KEY,
+    avatar TEXT NOT NULL,
+    "name" TEXT NOT NULL
+);
+
 -- Activities
 CREATE TABLE IF NOT EXISTS activities (
     id SERIAL PRIMARY KEY,
-    song TEXT NOT NULL,
-    artist TEXT NOT NULL,
-    album TEXT NOT NULL,
-    "start" TIMESTAMPTZ NOT NULL,
-    "end" TIMESTAMPTZ NOT NULL,
+    song_id INT NOT NULL REFERENCES songs(id),
+    user_id TEXT NOT NULL REFERENCES users(id),
+    start_time TIMESTAMPTZ NOT NULL,
+    end_time TIMESTAMPTZ NOT NULL,
     source TEXT NOT NULL,
-    "user" TEXT NOT NULL,
-    user_id TEXT NOT NULL,
     skipped BOOLEAN NOT NULL DEFAULT false,
     timestamp TIMESTAMPTZ DEFAULT NOW()
 );
@@ -61,17 +65,21 @@ CREATE TABLE IF NOT EXISTS activities (
 -- Songs 
 CREATE TABLE IF NOT EXISTS songs (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    artist TEXT NOT NULL,
-    album TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    artist_id INT NOT NULL REFERENCES artists(id),
+    album_id INT NOT NULL REFERENCES albums(id),
     "image" TEXT NOT NULL,
     sync_id TEXT NOT NULL,
-    artist_id TEXT NOT NULL,
-    album_id TEXT NOT NULL,
     listens INT DEFAULT 1,
     skips INT DEFAULT 0,
     timestamp TIMESTAMPTZ DEFAULT NOW(),
-    UNIQUE (name, artist, album)
+    UNIQUE (name, artist_id, album_id)
+);
+
+-- Albums
+CREATE TABLE IF NOT EXISTS albums (
+    id SERIAL PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL
 );
 
 -- Artists 
@@ -95,14 +103,12 @@ CREATE TABLE IF NOT EXISTS games (
 -- Game Activity
 CREATE TABLE IF NOT EXISTS game_activity (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    "user" TEXT NOT NULL,
-    user_id TEXT NOT NULL,
-    avatar TEXT NOT NULL,
+    game_id INT NOT NULL REFERENCES games(id),
+    user_id TEXT NOT NULL REFERENCES users(id),
     details TEXT,
     state TEXT,
     application TEXT,
-    "start" TIMESTAMPTZ NOT NULL,
+    start_time TIMESTAMPTZ NOT NULL,
     party TEXT
 );
 
@@ -124,8 +130,11 @@ ON songs (artist, listens DESC);
 CREATE INDEX idx_songs_skips_desc 
 ON songs (skips DESC);
 
-CREATE INDEX idx_activities_skipped_user
-ON activities (skipped, "user");
+CREATE INDEX idx_activities_user_listens 
+ON activities (user_id, skipped);
+
+CREATE INDEX idx_activities_user_skipped 
+ON activities (user_id, skipped);
 
 CREATE INDEX idx_announcements_interval_sent_time 
 ON announcements (interval, sent, "time");
@@ -136,17 +145,8 @@ ON activities ("start") WHERE NOT skipped;
 CREATE INDEX idx_activities_not_skipped 
 ON activities (skipped) WHERE skipped = false;
 
-CREATE INDEX idx_activities_artist_album_song
-ON activities (artist, album, song);
-
-CREATE INDEX idx_activities_artist_album_skipped
-ON activities (artist, album) INCLUDE (skipped);
-
 CREATE INDEX idx_activities_active_now
 ON activities ("user_id", "start", "end", skipped);
-
-CREATE INDEX idx_activities_artist_skipped
-ON activities (artist) INCLUDE (skipped);
 
 -- For top songs per artist queries
 CREATE INDEX idx_songs_artist_name_album ON songs (artist, name, album);

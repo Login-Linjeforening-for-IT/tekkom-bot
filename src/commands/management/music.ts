@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, MessageFlags, EmbedBuilder } from 'discord.js'
-import postHide from '../../utils/music/postHide.js'
+import postHide from '../../utils/activity/postHide.js'
 
 export const data = new SlashCommandBuilder()
     .setName('music')

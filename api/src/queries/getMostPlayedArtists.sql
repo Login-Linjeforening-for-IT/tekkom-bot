@@ -1,25 +1,25 @@
 WITH artist_counts AS (
     SELECT 
-        a.artist,
+        s.artist_id,
         COUNT(*)::INT AS listens
     FROM activities a
-    GROUP BY a.artist
+    JOIN songs s ON a.song_id = s.id
+    GROUP BY s.artist_id
 ),
 top_songs AS (
-    SELECT DISTINCT ON (s.artist)
-        s.artist,
-        s.name AS top_song,
-        s.album,
-        s."image",
+    SELECT DISTINCT ON (s.artist_id)
         s.artist_id,
+        s.name AS top_song,
+        al.name AS album,
+        s."image",
         s.sync_id
     FROM songs s
-    JOIN activities a 
-      ON s.name = a.song AND s.artist = a.artist
-    ORDER BY s.artist, COUNT(a.*) OVER (PARTITION BY s.artist, s.name) DESC
+    JOIN activities a ON a.song_id = s.id
+    JOIN albums al ON s.album_id = al.id
+    ORDER BY s.artist_id, COUNT(a.*) OVER (PARTITION BY s.artist_id, s.id) DESC
 )
 SELECT 
-    ac.artist,
+    ar.name AS artist,
     ac.listens,
     ts.top_song,
     ts.album,
@@ -27,6 +27,7 @@ SELECT
     ts.artist_id,
     ts.sync_id
 FROM artist_counts ac
-LEFT JOIN top_songs ts ON ac.artist = ts.artist
+JOIN artists ar ON ac.artist_id = ar.id
+LEFT JOIN top_songs ts ON ac.artist_id = ts.artist_id
 ORDER BY ac.listens DESC
 LIMIT 5;

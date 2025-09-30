@@ -16,7 +16,7 @@ export default async function sendGame({
     imageText
 }: SendGame) {
     try {
-        const response = await fetch(`${config.tekkomBotApiUrl}/activity/games`, {
+        const response = await fetch(`${config.tekkomBotApiUrl}/playing`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -673,8 +673,19 @@ type SendGame = {
     imageText: string | null
 }
 
-type LastSpotify = Map<string, {
+type SendGameUpdate = {
+    userId,
+    game,
+    duration
+}
+
+type LastListens = Map<string, {
     syncId: string
     start: number
     end: number
+}>
+
+type CurrentlyPlaying = Map<string, {
+    game: string
+    start: number
 }>
