@@ -101,7 +101,6 @@ declare global {
         source: string
         user: string
         timestamp: string
-        avatar: string
         user_id: string
         skipped: boolean
         image: string

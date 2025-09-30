@@ -89,7 +89,7 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
         const postActivityQuery = (await loadSQL('postActivity.sql'))
         await run(
             postActivityQuery,
-            [user, song, artist, album, start, end, source, avatar, userId]
+            [user, song, artist, album, start, end, source, userId]
         )
 
         await run(
