@@ -53,7 +53,6 @@ CREATE TABLE IF NOT EXISTS activities (
     "end" TIMESTAMPTZ NOT NULL,
     source TEXT NOT NULL,
     "user" TEXT NOT NULL,
-    avatar TEXT NOT NULL,
     user_id TEXT NOT NULL,
     skipped BOOLEAN NOT NULL DEFAULT false,
     timestamp TIMESTAMPTZ DEFAULT NOW()
