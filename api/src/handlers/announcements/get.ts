@@ -1,5 +1,6 @@
 import run from "@/db"
 import alertSlowQuery from '@utils/alertSlowQuery'
+import formatRows from '@utils/formatRows'
 import { loadSQL } from "@utils/loadSQL"
 import tokenWrapper from "@utils/tokenWrapper"
 import { FastifyReply, FastifyRequest } from "fastify"
@@ -10,10 +11,11 @@ type GetAnnouncements = {
     announcementsPerPage: string
     active?: string
     shouldBeSent?: string
+    includePlaceholders?: boolean
 }
 
 export default async function getAnnouncements(req: FastifyRequest, res: FastifyReply) {
-    const { id, page, announcementsPerPage, active, shouldBeSent } =  (req.query as GetAnnouncements) ?? {}
+    const { id, page, announcementsPerPage, active, shouldBeSent, includePlaceholders } =  (req.query as GetAnnouncements) ?? {}
     const { valid } = await tokenWrapper(req, res, ['tekkom-bot'])
     if (!valid) {
         return res.status(400).send({ error: "Unauthorized" })
@@ -33,5 +35,11 @@ export default async function getAnnouncements(req: FastifyRequest, res: Fastify
     const result = await run(query, [pageInt, perPageInt, activeBool, shouldBeSentBool])
     const duration = (Date.now() - start) / 1000
     alertSlowQuery(duration, 'announcements')
-    res.send(result.rows)
+
+    if (includePlaceholders) {
+        res.send(result.rows)
+    }
+
+    const finalRows = formatRows(result.rows)
+    res.send(finalRows)
 }
