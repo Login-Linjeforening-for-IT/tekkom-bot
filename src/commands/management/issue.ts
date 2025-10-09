@@ -54,7 +54,7 @@ export const data = new SlashCommandBuilder()
                 { name: 'Development', value: 'dev' },
                 { name: 'Infrastructure', value: 'infra' }
             )
-            .setRequired(false)
+            .setRequired(true)
     )
 
 export async function execute(interaction: ChatInputCommandInteraction) {
