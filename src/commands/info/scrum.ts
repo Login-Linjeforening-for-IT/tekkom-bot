@@ -1,5 +1,4 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js'
-import sanitize from '../../utils/sanitize.js'
 
 export const data = new SlashCommandBuilder()
     .setName('scrum')
@@ -11,14 +10,14 @@ export const data = new SlashCommandBuilder()
     )
 
 export async function execute(message: ChatInputCommandInteraction) {
-    const user = sanitize(message.options.getString('user') || '')
+    const user = message.options.getUser('user')
 
     if (!user) {
         await message.reply({ content: 'Please specify a user to reply to!', ephemeral: true })
         return
     }
     
-    const scrumMessage = `scrum <3`
+    const scrumMessage = `${user} scrum <3`
     
     await message.reply(scrumMessage)
 }
