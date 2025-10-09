@@ -607,19 +607,6 @@ type SendActivity = {
     skipped: boolean
 }
 
-type Activity = {
-    id: string
-    song: string
-    artist: string
-    album: string
-    start: string
-    end: string
-    source: string
-    user: string
-    timestamp: string
-    // outdated, check code for new properties
-}
-
 type Song = {
     id: number
     name: string
