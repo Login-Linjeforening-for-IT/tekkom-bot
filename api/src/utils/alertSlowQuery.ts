@@ -21,7 +21,7 @@ export default async function alertSlowQuery(duration: number, name: string) {
         }
         
         if (duration > (config.CACHE_TTL - 1)) {
-            data.content = `🚨 <@&${config.CRITICAL_ROLE}> 🚨`
+            data.content = `🚨 <@&${config.CRITICAL_ROLE_DEV}> 🚨`
         }
 
         console.warn(`${firstUpperCaseName} query exceeded half of cache TTL: ${duration.toFixed(2)}s`)
