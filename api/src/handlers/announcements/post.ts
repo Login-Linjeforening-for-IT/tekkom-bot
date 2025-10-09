@@ -14,7 +14,7 @@ export default async function postAnnouncements(req: FastifyRequest, res: Fastif
     }
 
     try {
-        console.log(`Adding announcement: title=${title}, description=${description}, channel=${channel}, roles=${roles}, embed=${embed}, ${color}, ${interval}, ${time}`)
+        console.log(`Adding announcement '${title}' with description '${description}', channel '${channel}', roles '${roles}', embed '${embed}', color '${color}', interval '${interval}' and time '${time}'.`)
 
         await run(
             `INSERT INTO announcements (title, description, channel, roles, embed, color, interval, time) 

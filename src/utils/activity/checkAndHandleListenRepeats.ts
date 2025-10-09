@@ -41,7 +41,8 @@ export default async function checkAndHandleListenRepeats(
             const listenedDuration = new Date().getTime() - oldStart
             const totalDuration = last.syncId ? (oldEnd - oldStart) : listenedDuration
             const skipped = listenedDuration < (totalDuration * 2 / 3)
-            const activity = {
+            const listen = {
+                id: spotify.syncId,
                 user: member.user.tag ?? 'Unknown',
                 song: spotify.details ?? 'Unknown',
                 artist: spotify.state ?? 'Unknown',
@@ -53,14 +54,13 @@ export default async function checkAndHandleListenRepeats(
                 userId: member.user.id,
                 avatar: member.user.avatar,
                 skipped,
-                syncId: spotify.syncId
             }
             const startTime = spotify.timestamps.start.getTime()
             const endTime = spotify.timestamps.end.getTime()
 
             // Repeated song (new startTime)
             if (spotify.syncId === last.syncId && startTime > last.start) {
-                const response = await sendListen(activity)
+                const response = await sendListen(listen)
                 const isError = 'error' in response
                 if (isError) {
                     console.log(response.message, response.error)
@@ -69,7 +69,7 @@ export default async function checkAndHandleListenRepeats(
                 console.log(`${member.user.tag} ${isError ? 'tried to repeat' : 'repeated'} the song: ${spotify.details} by ${spotify.state}, skipped: ${skipped}`)
             } else if (spotify.syncId !== last?.syncId) {
                 // New song
-                const response = await sendListen(activity)
+                const response = await sendListen(listen)
                 console.log(response.message)    
             }
 

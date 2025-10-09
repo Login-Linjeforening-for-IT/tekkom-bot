@@ -3,6 +3,7 @@ import config from '#config'
 const tekkomBotApiToken = config.tekkomBotApiToken
 
 export default async function sendListen({
+    id,
     user,
     song,
     artist,
@@ -14,7 +15,6 @@ export default async function sendListen({
     userId,
     avatar,
     skipped,
-    syncId
 }: SendActivity): Promise<{ message: string } | { error: unknown, message: string }> {
     try {
         const response = await fetch(`${config.tekkomBotApiUrl}/activity/listen`, {
@@ -25,6 +25,7 @@ export default async function sendListen({
                 'btg': 'tekkom-bot',
             },
             body: JSON.stringify({ 
+                id,
                 user,
                 song,
                 artist,
@@ -36,7 +37,6 @@ export default async function sendListen({
                 userId,
                 avatar,
                 skipped,
-                syncId
             })
         })
 

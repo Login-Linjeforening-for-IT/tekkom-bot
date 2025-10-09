@@ -1,7 +1,7 @@
 UPDATE songs
 SET listens = GREATEST(listens - 1, 0),
     skips = skips + 1,
-    sync_id = COALESCE($4, sync_id),
-    artist_id = COALESCE($5, artist_id),
-    album_id = COALESCE($6, album_id)
+    id = COALESCE($4, id),
+    artist = COALESCE($5, artist),
+    album = COALESCE($6, album)
 WHERE name = $1 AND artist = $2 AND album = $3;

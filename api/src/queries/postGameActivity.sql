@@ -4,7 +4,7 @@ INSERT INTO game_activity (
     details,
     state,
     application,
-    start_time,
+    "start",
     party
 )
 VALUES ($1, $2, $3, $4, $5, $6, $7);

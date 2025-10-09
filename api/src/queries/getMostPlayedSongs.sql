@@ -4,9 +4,9 @@ SELECT
     al.name AS album, 
     s.listens, 
     s."image", 
-    s.sync_id
+    s.id
 FROM songs s
-JOIN artists ar ON s.artist_id = ar.id
-JOIN albums al ON s.album_id = al.id
+JOIN artists ar ON s.artist = ar.id
+JOIN albums al ON s.album = al.id
 ORDER BY s.listens DESC
 LIMIT 5;

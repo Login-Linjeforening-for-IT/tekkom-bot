@@ -47,6 +47,7 @@ declare global {
     type SQLParamType = (string | number | null | boolean | string[] | Date)[]
 
     type Activity = {
+        id: string
         user: string
         song: string
         artist: string
@@ -58,7 +59,6 @@ declare global {
         avatar: string
         userId: string
         skipped: boolean
-        syncId: string
     }
 
     type Music = {
@@ -83,6 +83,7 @@ declare global {
         mostSkippedAlbums: SkippedAlbum[]
         mostSkippedArtists: SkippedArtist[]
         mostSkippedSongs: SkippedSong[]
+        mostSkippingUsers: MusicSkipUser[]
     }
 
     type MusicStats = {
@@ -94,18 +95,14 @@ declare global {
 
     type CurrentlyListening = {
         id: number
-        song: string
-        artist: string
-        album: string
+        song_id: string
+        user_id: string
         start: string
         end: string
         source: string
-        user: string
-        timestamp: string
-        user_id: string
         skipped: boolean
+        timestamp: string
         image: string
-        sync_id: string
     }
 
     type Album = {
@@ -114,6 +111,7 @@ declare global {
         listens: number
         top_song: string
         top_song_image: string
+        top_song_id: string
     }
 
     type Artist = {
@@ -122,17 +120,23 @@ declare global {
     }
 
     type CountedSong = {
-        song: string
+        name: string
         artist: string
         album: string
         listens: number
         image: string
+        id: string
     }
 
     type SongDay = {
         day: string
-        songs_played: number
-        albums: Album[]
+        song: string
+        artist: string
+        album: string
+        image: string
+        listens: number
+        total_songs_played: number
+        id: string
     }
 
     type ActiveUser = {
@@ -145,15 +149,23 @@ declare global {
         song: string
         artist: string
         album: string
-        listens: number
         image: string
+        id: string
+        listens: number
     }
 
     type MusicUser = {
         name: string
         avatar: string
-        userId: string
+        user_id: string
         songs_played: number
+    }
+
+    type MusicSkipUser = {
+        name: string
+        avatar: string
+        user_id: string
+        songs_skipped: number
     }
 
     type LikedAlbum = {
@@ -189,14 +201,16 @@ declare global {
         skips: number
         top_song: string
         top_song_image: string
+        id: string
     }
 
     type SkippedArtist = {
         artist: string
-        skips: number
-        top_song: null
-        album: null
+        skips: string
+        top_song: string
+        album: string
         image: string
+        id: string
     }
 
     type SkippedSong = {
@@ -205,6 +219,7 @@ declare global {
         album: string
         skips: number
         image: string
+        id: string
     }
 
     type ArtistPlayed = {
@@ -213,6 +228,7 @@ declare global {
         top_song: string
         album: string
         image: string
+        id: string
     }
 
     type Game = {

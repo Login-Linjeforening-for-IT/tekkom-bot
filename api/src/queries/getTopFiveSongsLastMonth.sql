@@ -3,14 +3,14 @@ SELECT
     ar.name AS artist, 
     al.name AS album, 
     s."image",
-    s.sync_id,
+    s.id,
     COUNT(*)::INT AS listens
 FROM listens l
 JOIN songs s ON l.song_id = s.id
-JOIN artists ar ON s.artist_id = ar.id
-JOIN albums al ON s.album_id = al.id
-WHERE DATE_TRUNC('month', l.start_time) = DATE_TRUNC('month', CURRENT_DATE - INTERVAL '1 month')
+JOIN artists ar ON s.artist = ar.id
+JOIN albums al ON s.album = al.id
+WHERE DATE_TRUNC('month', l."start") = DATE_TRUNC('month', CURRENT_DATE - INTERVAL '1 month')
   AND NOT l.skipped
-GROUP BY s.name, ar.name, al.name, s."image", s.sync_id
+GROUP BY s.name, ar.name, al.name, s."image", s.id
 ORDER BY listens DESC
 LIMIT 5;

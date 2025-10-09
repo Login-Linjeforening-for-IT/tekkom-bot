@@ -27,7 +27,7 @@ export default async function handleListens({oldPresence, newPresence, lastListe
             skipped = listenedDuration < (totalDuration * 2 / 3)
         }
 
-        const activity = {
+        const listen = {
             user,
             song: listening.details ?? 'Unknown',
             artist: listening.state ?? 'Unknown',
@@ -39,12 +39,12 @@ export default async function handleListens({oldPresence, newPresence, lastListe
             userId,
             avatar: newPresence.user?.avatar,
             skipped,
-            syncId: listening.syncId ?? 'Unknown'
+            id: listening.syncId ?? 'Unknown'
         }
 
         const last = lastListens.get(userId)
         if (!last) {
-            const response = await sendListen(activity)
+            const response = await sendListen(listen)
             console.log(response.message)
             lastListens.set(userId, { 
                 syncId: listening.syncId!, 

@@ -15,7 +15,7 @@ export default async function postBtg(req: FastifyRequest, res: FastifyReply) {
     }
 
     try {
-        console.log(`Adding btg: name=${name}, service=${service}, author=${author}`)
+        console.log(`Adding btg exception with name '${name}' for service '${service}' by author '${author}'.`)
         await discordAlert(`BTG ping exception for user ${name}, service ${service} was added to the TekKom Bot API by <@${author}>. Please verify that there are currently known issues with Authentik and that this is expected.`, 'post')
 
         await run(

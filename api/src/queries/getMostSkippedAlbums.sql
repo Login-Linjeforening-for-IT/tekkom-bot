@@ -1,16 +1,16 @@
 WITH top_songs AS (
-    SELECT DISTINCT ON (s.album_id, s.artist_id)
-        s.album_id,
-        s.artist_id,
+    SELECT DISTINCT ON (s.album, s.artist)
+        s.album,
+        s.artist,
         s.name AS top_song,
         s."image" AS top_song_image,
-        s.sync_id,
+        s.id,
         COUNT(l2.*) AS play_count
     FROM songs s
     JOIN listens l2
         ON l2.song_id = s.id
-    GROUP BY s.album_id, s.artist_id, s.name, s."image", s.sync_id
-    ORDER BY s.album_id, s.artist_id, COUNT(l2.*) DESC
+    GROUP BY s.album, s.artist, s.name, s."image", s.id
+    ORDER BY s.album, s.artist, COUNT(l2.*) DESC
 )
 SELECT
     al.name AS album,
@@ -18,14 +18,14 @@ SELECT
     SUM(CASE WHEN l.skipped THEN 1 ELSE 0 END) AS skips,
     t.top_song,
     t.top_song_image,
-    t.album_id,
-    t.sync_id
+    t.album,
+    t.id
 FROM listens l
 JOIN songs s ON l.song_id = s.id
-JOIN albums al ON s.album_id = al.id
-JOIN artists ar ON s.artist_id = ar.id
+JOIN albums al ON s.album = al.id
+JOIN artists ar ON s.artist = ar.id
 JOIN top_songs t
-    ON s.album_id = t.album_id AND s.artist_id = t.artist_id
-GROUP BY al.name, ar.name, t.top_song, t.top_song_image, t.album_id, t.sync_id
+    ON s.album = t.album AND s.artist = t.artist
+GROUP BY al.name, ar.name, t.top_song, t.top_song_image, t.album, t.id
 ORDER BY skips DESC
 LIMIT 5;

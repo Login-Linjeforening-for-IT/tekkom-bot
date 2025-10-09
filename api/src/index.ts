@@ -3,7 +3,7 @@ import Fastify from 'fastify'
 import apiRoutes from './routes.ts'
 import getIndex from './handlers/index/getIndex.ts'
 import cron from './utils/cron/cron.ts'
-import cachedActivity from './utils/cachedActivity.ts'
+import fp from './utils/fp.ts'
 
 const fastify = Fastify({
     logger: true
@@ -17,7 +17,7 @@ fastify.register(cors, {
 
 const port = Number(process.env.PORT) || 8080
 
-fastify.register(cachedActivity)
+fastify.register(fp)
 fastify.register(apiRoutes, { prefix: "/api" })
 fastify.get('/', getIndex)
 

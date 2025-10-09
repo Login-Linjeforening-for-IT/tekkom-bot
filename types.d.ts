@@ -593,6 +593,7 @@ type Role = {
 }
 
 type SendActivity = {
+    id: string
     song: string
     artist: string
     album: string
@@ -604,7 +605,6 @@ type SendActivity = {
     userId: string | undefined
     avatar: string | undefined | null
     skipped: boolean
-    syncId: string
 }
 
 type Activity = {

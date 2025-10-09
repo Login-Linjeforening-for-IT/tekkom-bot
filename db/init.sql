@@ -28,39 +28,41 @@ CREATE TABLE IF NOT EXISTS users (
 
 -- Artists 
 CREATE TABLE IF NOT EXISTS artists (
-    id TEXT PRIMARY KEY,
-    name TEXT UNIQUE NOT NULL,
+    id TEXT NOT NULL,
+    name TEXT NOT NULL,
     listens INT DEFAULT 1,
     skips INT DEFAULT 0,
-    timestamp TIMESTAMPTZ DEFAULT NOW()
+    timestamp TIMESTAMPTZ DEFAULT NOW(),
+    PRIMARY KEY (id)
 );
 
 -- Albums
 CREATE TABLE IF NOT EXISTS albums (
-    id TEXT PRIMARY KEY,
-    name TEXT UNIQUE NOT NULL
+    id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    PRIMARY KEY (id)
 );
 
 -- Songs 
 CREATE TABLE IF NOT EXISTS songs (
-    id INT PRIMARY KEY,
+    id TEXT PRIMARY KEY,
     "name" TEXT NOT NULL,
-    artist_id TEXT NOT NULL REFERENCES artists(id),
-    album_id TEXT NOT NULL REFERENCES albums(id),
+    artist TEXT NOT NULL REFERENCES artists(id),
+    album TEXT NOT NULL REFERENCES albums(id),
     "image" TEXT NOT NULL,
     listens INT DEFAULT 1,
     skips INT DEFAULT 0,
     timestamp TIMESTAMPTZ DEFAULT NOW(),
-    UNIQUE (name, artist_id, album_id)
+    UNIQUE (name, artist, album)
 );
 
 -- Listens
 CREATE TABLE IF NOT EXISTS listens (
     id SERIAL PRIMARY KEY,
-    song_id INT NOT NULL REFERENCES songs(id),
+    song_id TEXT NOT NULL REFERENCES songs(id),
     user_id TEXT NOT NULL REFERENCES users(id),
-    start_time TIMESTAMPTZ NOT NULL,
-    end_time TIMESTAMPTZ NOT NULL,
+    "start" TIMESTAMPTZ NOT NULL,
+    "end" TIMESTAMPTZ NOT NULL,
     source TEXT NOT NULL,
     skipped BOOLEAN NOT NULL DEFAULT false,
     timestamp TIMESTAMPTZ DEFAULT NOW()
@@ -107,7 +109,7 @@ CREATE TABLE IF NOT EXISTS game_activity (
     details TEXT,
     state TEXT,
     application TEXT,
-    start_time TIMESTAMPTZ NOT NULL,
+    "start" TIMESTAMPTZ NOT NULL,
     party TEXT
 );
 
@@ -122,12 +124,6 @@ CREATE INDEX idx_listens_timestamp_desc ON listens ("timestamp" DESC);
 
 CREATE INDEX idx_songs_listens_skips
 ON songs (listens, skips);
-
-CREATE INDEX idx_songs_artist_listens_desc
-ON songs (artist, listens DESC);
-
-CREATE INDEX idx_songs_skips_desc 
-ON songs (skips DESC);
 
 CREATE INDEX idx_user_listens
 ON listens (user_id, skipped);
@@ -145,7 +141,7 @@ CREATE INDEX idx_listens_active_now
 ON listens ("user_id", "start", "end", skipped);
 
 -- For top songs per artist queries
-CREATE INDEX idx_songs_artist_name_album ON songs (artist, name, album);
+CREATE INDEX idx_songs_name_artist_album ON songs (name, artist, album);
 
 -- For queries ordering by listens or skips
 CREATE INDEX idx_songs_listens_desc ON songs (listens DESC);
@@ -154,29 +150,15 @@ CREATE INDEX idx_songs_skips_desc ON songs (skips DESC);
 -- For queries combining artist with listens
 CREATE INDEX idx_songs_artist_listens_desc ON songs (artist, listens DESC);
 CREATE INDEX idx_songs_artist_skips_desc ON songs (artist, skips DESC);
-
 CREATE INDEX idx_artists_listens_desc ON artists (listens DESC);
 CREATE INDEX idx_artists_skips_desc ON artists (skips DESC);
 
--- Requires altering the table, currently not implemented
--- CREATE INDEX idx_listens_start_date_not_skipped 
--- ON listens ("start"::date) WHERE NOT skipped;
+-- Unique ids if not unknown
+CREATE UNIQUE INDEX IF NOT EXISTS artists_unique_id
+ON artists(id) WHERE id <> 'Unknown';
 
--- CREATE INDEX idx_listens_start_month_not_skipped 
--- ON listens (DATE_TRUNC('month', "start")) 
--- WHERE NOT skipped;
-
--- CREATE INDEX idx_listens_start_week_not_skipped 
--- ON listens (DATE_TRUNC('week', "start")) 
--- WHERE NOT skipped;
-
--- CREATE INDEX idx_listens_start_year_not_skipped 
--- ON listens (DATE_TRUNC('year', "start")) 
--- WHERE NOT skipped;
-
--- CREATE INDEX idx_listens_start_year_skipped
--- ON listens ((DATE_TRUNC('year', "start"))) 
--- INCLUDE (skipped, song, artist, album);
+CREATE UNIQUE INDEX IF NOT EXISTS albums_unique_id
+ON albums(id) WHERE id <> 'Unknown';
 
 -- Number of helper functions per query to increase performance
 SET max_parallel_workers_per_gather = 4;

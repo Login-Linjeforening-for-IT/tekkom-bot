@@ -35,7 +35,7 @@ export default async function putAnnouncements(req: FastifyRequest, res: Fastify
     }
 
     try {
-        console.log(`Updating announcement: id=${id} title=${title}, description=${description}, channel=${channel}, roles=${roles}, embed=${embed}, color=${color}, interval=${interval}, time=${time}.`)
+        console.log(`Updating announcement ${id} with title '${title}', description '${description}', channel '${channel}', roles '${roles}', embed '${embed}', color '${color}', interval '${interval}' and time '${time}'.`)
 
         await run(
             `UPDATE announcements 
