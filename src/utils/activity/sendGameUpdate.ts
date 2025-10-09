@@ -4,7 +4,7 @@ const tekkomBotApiToken = config.tekkomBotApiToken
 
 export default async function sendGameUpdate({ userId, game, duration }: SendGameUpdate) {
     try {
-        const response = await fetch(`${config.tekkomBotApiUrl}/playing`, {
+        const response = await fetch(`${config.tekkomBotApiUrl}/activity/game`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

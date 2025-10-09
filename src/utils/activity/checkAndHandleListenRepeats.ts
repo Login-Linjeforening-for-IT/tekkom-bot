@@ -1,5 +1,5 @@
 import { DiscordClient } from '#interfaces'
-import sendActivity from '#utils/activity/sendListen.ts'
+import sendListen from '#utils/activity/sendListen.ts'
 
 const { DISCORD_GUILD_ID } = process.env
 
@@ -60,7 +60,7 @@ export default async function checkAndHandleListenRepeats(
 
             // Repeated song (new startTime)
             if (spotify.syncId === last.syncId && startTime > last.start) {
-                const response = await sendActivity(activity)
+                const response = await sendListen(activity)
                 const isError = 'error' in response
                 if (isError) {
                     console.log(response.message, response.error)
@@ -69,7 +69,7 @@ export default async function checkAndHandleListenRepeats(
                 console.log(`${member.user.tag} ${isError ? 'tried to repeat' : 'repeated'} the song: ${spotify.details} by ${spotify.state}, skipped: ${skipped}`)
             } else if (spotify.syncId !== last?.syncId) {
                 // New song
-                const response = await sendActivity(activity)
+                const response = await sendListen(activity)
                 console.log(response.message)    
             }
 

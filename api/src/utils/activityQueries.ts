@@ -4,7 +4,7 @@ import { loadSQL } from "#utils/loadSQL.ts"
 export async function preloadActivityQueries() {
     const [
         getStatistics,
-        getCurrentlyPlaying,
+        getCurrentlyListening,
         getMostPlayedAlbums,
         getMostPlayedArtists,
         getMostPlayedSongs,
@@ -27,7 +27,7 @@ export async function preloadActivityQueries() {
         getMostSkippedSongs
     ] = await Promise.all([
         loadSQL('getStatistics.sql'),
-        loadSQL('getCurrentlyPlaying.sql'),
+        loadSQL('getCurrentlyListening.sql'),
         loadSQL('getMostPlayedAlbums.sql'),
         loadSQL('getMostPlayedArtists.sql'),
         loadSQL('getMostPlayedSongs.sql'),
@@ -52,7 +52,7 @@ export async function preloadActivityQueries() {
 
     const [
         statsResult,
-        currentlyPlayingResult,
+        currentlyListeningResult,
         mostPlayedAlbumsResult,
         mostPlayedArtistsResult,
         mostPlayedSongsResult,
@@ -75,7 +75,7 @@ export async function preloadActivityQueries() {
         mostSkippedSongsResult
     ] = await Promise.all([
         run(getStatistics),
-        run(getCurrentlyPlaying),
+        run(getCurrentlyListening),
         run(getMostPlayedAlbums),
         run(getMostPlayedArtists),
         run(getMostPlayedSongs),
@@ -99,7 +99,7 @@ export async function preloadActivityQueries() {
     ])
 
     const stats = statsResult.rows[0]
-    const currentlyPlaying = currentlyPlayingResult.rows
+    const currentlyListening = currentlyListeningResult.rows
     const mostPlayedAlbums = mostPlayedAlbumsResult.rows
     const mostPlayedArtists = mostPlayedArtistsResult.rows
     const mostPlayedSongs = mostPlayedSongsResult.rows
@@ -123,7 +123,7 @@ export async function preloadActivityQueries() {
 
     return {
         stats,
-        currentlyPlaying,
+        currentlyListening,
         mostPlayedAlbums,
         mostPlayedArtists,
         mostPlayedSongs,

@@ -50,8 +50,8 @@ export default async function apiRoutes(fastify: FastifyInstance, _: FastifyPlug
 
     // activity
     fastify.get("/activity", getActivity)
-    fastify.post("/activity", postActivity)
-    fastify.post("/activity/games", postGames)
+    fastify.post("/activity/listen", postActivity)
+    fastify.post("/activity/game", postGames)
     fastify.post("/activity/hide", postHideActivity)
 
     // spotify

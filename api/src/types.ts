@@ -63,7 +63,7 @@ declare global {
 
     type Music = {
         stats: MusicStats
-        currentlyPlaying: CurrentlyPlaying[]
+        currentlyListening: CurrentlyListening[]
         mostPlayedAlbums: Album[]
         mostPlayedArtists: ArtistPlayed[]
         mostPlayedSongs: CountedSong[]
@@ -92,7 +92,7 @@ declare global {
         total_songs: number
     }
 
-    type CurrentlyPlaying = {
+    type CurrentlyListening = {
         id: number
         song: string
         artist: string
