@@ -15,7 +15,7 @@ WITH top_songs AS (
 SELECT
     al.name AS album,
     ar.name AS artist,
-    SUM(CASE WHEN l.skipped THEN 1 ELSE 0 END) AS skips,
+    SUM(CASE WHEN l.skipped THEN 1 ELSE 0 END)::INT AS skips,
     t.top_song,
     t.top_song_image,
     t.album,
