@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 -- Artists 
 CREATE TABLE IF NOT EXISTS artists (
-    id SERIAL PRIMARY KEY,
+    id TEXT PRIMARY KEY,
     name TEXT UNIQUE NOT NULL,
     listens INT DEFAULT 1,
     skips INT DEFAULT 0,
@@ -37,18 +37,17 @@ CREATE TABLE IF NOT EXISTS artists (
 
 -- Albums
 CREATE TABLE IF NOT EXISTS albums (
-    id SERIAL PRIMARY KEY,
+    id TEXT PRIMARY KEY,
     name TEXT UNIQUE NOT NULL
 );
 
 -- Songs 
 CREATE TABLE IF NOT EXISTS songs (
-    id SERIAL PRIMARY KEY,
+    id INT PRIMARY KEY,
     "name" TEXT NOT NULL,
-    artist_id INT NOT NULL REFERENCES artists(id),
-    album_id INT NOT NULL REFERENCES albums(id),
+    artist_id TEXT NOT NULL REFERENCES artists(id),
+    album_id TEXT NOT NULL REFERENCES albums(id),
     "image" TEXT NOT NULL,
-    sync_id TEXT NOT NULL,
     listens INT DEFAULT 1,
     skips INT DEFAULT 0,
     timestamp TIMESTAMPTZ DEFAULT NOW(),
