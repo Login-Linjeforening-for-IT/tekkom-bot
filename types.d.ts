@@ -686,3 +686,118 @@ type Reaction = {
 type Client = {
     commands: Collection<string, Command>
 }
+
+type GithubUser = {
+    avatar_url: string
+    events_url: string
+    followers_url: string
+    following_url: string
+    gists_url: string
+    gravatar_id: string | null
+    html_url: string
+    id: number
+    node_id: string
+    login: string
+    organizations_url: string
+    received_events_url: string
+    repos_url: string
+    site_admin: boolean
+    starred_url: string
+    subscriptions_url: string
+    type: string
+    url: string
+    starred_at: string
+    user_view_type: string
+}
+
+type GithubLicense = {
+    key: string
+    name: string
+    url: string | null
+    spdx_id: string | null
+    node_id: string
+    html_url: string
+}
+
+type GithubRepoSearchResultItem = {
+    archive_url: string
+    assignees_url: string
+    blobs_url: string
+    branches_url: string
+    collaborators_url: string
+    comments_url: string
+    commits_url: string
+    compare_url: string
+    contents_url: string
+    contributors_url: string
+    deployments_url: string
+    description: string | null
+    downloads_url: string
+    events_url: string
+    fork: boolean
+    forks_url: string
+    full_name: string
+    git_commits_url: string
+    git_refs_url: string
+    git_tags_url: string
+    hooks_url: string
+    html_url: string
+    id: number
+    node_id: string
+    issue_comment_url: string
+    issue_events_url: string
+    issues_url: string
+    keys_url: string
+    labels_url: string
+    languages_url: string
+    merges_url: string
+    milestones_url: string
+    name: string
+    notifications_url: string
+    owner: User | null
+    private: boolean
+    pulls_url: string
+    releases_url: string
+    stargazers_url: string
+    statuses_url: string
+    subscribers_url: string
+    subscription_url: string
+    tags_url: string
+    teams_url: string
+    trees_url: string
+    url: string
+    clone_url: string
+    default_branch: string
+    forks: number
+    forks_count: number
+    git_url: string
+    has_downloads: boolean
+    has_issues: boolean
+    has_projects: boolean
+    has_wiki: boolean
+    has_pages: boolean
+    homepage: string | null
+    language: string | null
+    archived: boolean
+    disabled: boolean
+    mirror_url: string | null
+    open_issues: number
+    open_issues_count: number
+    license: License | null
+    pushed_at: string
+    size: number
+    ssh_url: string
+    stargazers_count: number
+    svn_url: string
+    watchers: number
+    watchers_count: number
+    created_at: string
+    updated_at: string
+    score: number
+}
+
+type GithubRepoSearchResponse = {
+    total_count: number
+    incomplete_results: boolean
+    items: GithubRepoSearchResultItem[]
+}

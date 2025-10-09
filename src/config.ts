@@ -20,6 +20,7 @@ const {
     MINECRAFT_PORT,
     API,
     PRIVATE_TOKEN,
+    GITHUB_TOKEN,
     DISCORD_SERVICE_MONITORING_CHANNEL_ID,
     DISCORD_BEEKEEPER_ROLE_ID,
     TEKKOM_BOT_API_URL,
@@ -48,6 +49,7 @@ if (
     || !MINECRAFT_PORT
     || !API
     || !PRIVATE_TOKEN
+    || !GITHUB_TOKEN
     || !TEKKOM_BOT_API_URL
     || !TEKKOM_BOT_API_TOKEN
     || !HEARTBEAT_URL
@@ -81,6 +83,7 @@ const config = {
     ],
     api: API,
     privateToken: PRIVATE_TOKEN,
+    githubToken: GITHUB_TOKEN,
     tekkomBotApiUrl: TEKKOM_BOT_API_URL,
     tekkomBotApiToken: TEKKOM_BOT_API_TOKEN,
     tekkomBotBtgToken: TEKKOM_BOT_BTG_TOKEN,
