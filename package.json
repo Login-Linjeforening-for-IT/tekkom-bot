@@ -5,7 +5,7 @@
     "main": "app.js",
     "type": "module",
     "scripts": {
-        "start": "node src/index.ts",
+        "start": "node src/deployCommands.ts; node src/index.ts",
         "fast": "tsc && node dist/app.js"
     },
     "author": "Login - Linjeforeningen for IT",

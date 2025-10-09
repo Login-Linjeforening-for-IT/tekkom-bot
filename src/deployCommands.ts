@@ -13,7 +13,7 @@ const commands = []
 // Fetching folders inside of the commands folder
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-const foldersPath = join(__dirname, '..', 'commands')
+const foldersPath = join(__dirname, 'commands')
 const commandFolders = readdirSync(foldersPath)
 
 for (const folder of commandFolders) {
