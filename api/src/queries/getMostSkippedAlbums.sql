@@ -5,12 +5,12 @@ WITH top_songs AS (
         s.name AS top_song,
         s."image" AS top_song_image,
         s.sync_id,
-        COUNT(a2.*) AS play_count
+        COUNT(l2.*) AS play_count
     FROM songs s
-    JOIN listens a2
-        ON a2.song_id = s.id
+    JOIN listens l2
+        ON l2.song_id = s.id
     GROUP BY s.album_id, s.artist_id, s.name, s."image", s.sync_id
-    ORDER BY s.album_id, s.artist_id, COUNT(a2.*) DESC
+    ORDER BY s.album_id, s.artist_id, COUNT(l2.*) DESC
 )
 SELECT
     al.name AS album,

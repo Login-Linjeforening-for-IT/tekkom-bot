@@ -14,7 +14,7 @@ top_songs AS (
         s."image",
         s.sync_id
     FROM songs s
-    JOIN listens a ON l.song_id = s.id
+    JOIN listens l ON l.song_id = s.id
     JOIN albums al ON s.album_id = al.id
     ORDER BY s.artist_id, COUNT(l.*) OVER (PARTITION BY s.artist_id, s.id) DESC
 )

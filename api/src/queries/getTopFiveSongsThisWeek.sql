@@ -5,7 +5,7 @@ SELECT
     s."image",
     s.sync_id,
     COUNT(*)::INT AS listens
-FROM listens a
+FROM listens l
 JOIN songs s ON l.song_id = s.id
 JOIN artists ar ON s.artist_id = ar.id
 JOIN albums al ON s.album_id = al.id
