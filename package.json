@@ -25,9 +25,14 @@
         "typescript": "^5.9.2"
     },
     "imports": {
-        "#utils/*": "./src/utils/*",
         "#constants": "./src/constants.ts",
+        "#config": "./src/config.ts",
+        "#interfaces": "./src/interfaces.ts",
+        "#package": "./package.json",
+        "#utils/*": "./src/utils/*",
         "#components/*": "./src/components/*",
+        "#managed/*": "./src/managed/*",
+        "#commands/*": "./src/commands/*",
         "#/*": "./src/*"
     }
 }

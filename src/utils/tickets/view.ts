@@ -8,8 +8,8 @@ import {
     StringSelectMenuBuilder,
     TextChannel, 
 } from "discord.js"
-import { ticketIdPattern } from "../../constants.ts"
-import formatChannelName from "./format.ts"
+import { ticketIdPattern } from "#constants"
+import formatChannelName from "#utils/tickets/format.ts"
 
 export default async function handleViewTicket(interaction: ButtonInteraction) {
     // Fetches all text channels that the user has access to

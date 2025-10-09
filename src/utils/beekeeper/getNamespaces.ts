@@ -1,4 +1,4 @@
-import config from "../config.ts"
+import config from "#config"
 
 export default async function getNamespaces(): Promise<any[]> {
     try {

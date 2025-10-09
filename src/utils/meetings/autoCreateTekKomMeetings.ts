@@ -1,9 +1,8 @@
 import { Client, TextChannel } from "discord.js"
 import { schedule } from "node-cron"
-import autoCreate from "./wiki.ts"
+import autoCreate from '#utils/meetings/wiki.ts'
 import dotenv from 'dotenv'
-import getNextPathYearAndWeek from "./getNextPathYearAndWeek.ts"
-
+import getNextPathYearAndWeek from '#utils/meetings/getNextPathYearAndWeek.ts'
 dotenv.config()
 
 const { DISCORD_TEKKOM_VERV_CHANNEL_ID } = process.env

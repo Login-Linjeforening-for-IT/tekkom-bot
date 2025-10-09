@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-import logStack from './logStack.ts'
+import logStack from '#utils/meetings/logStack.ts'
 
 type RequestWithRetriesProps = {
     query: string

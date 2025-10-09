@@ -1,4 +1,4 @@
-import config from "./config.ts"
+import config from "#config"
 
 // Fetches all articles (messages) for a specific Zammad ticket
 export default async function fetchTicket(id: number, recipient: boolean = false): Promise<ErrorClosed | ReducedMessage[] | string | Error> {

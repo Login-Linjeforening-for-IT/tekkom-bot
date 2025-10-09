@@ -1,8 +1,8 @@
 import type { CacheType, ChatInputCommandInteraction } from 'discord.js'
 import { SlashCommandBuilder, MessageFlags } from "discord.js"
-import log from '../../utils/logger.ts'
-import config from '../../utils/config.ts'
-import sanitize from '../../utils/sanitize.ts'
+import log from '#utils/logger.ts'
+import config from '#config'
+import sanitize from '#utils/sanitize.ts'
 
 /**
  * Builds a new slash command with the given name, description and options

@@ -1,6 +1,6 @@
 import { Client, TextChannel } from "discord.js"
 import { schedule } from "node-cron"
-import autoCreate from "./wiki.ts"
+import autoCreate from "#utils/meetings/wiki.ts"
 import dotenv from 'dotenv'
 
 dotenv.config()

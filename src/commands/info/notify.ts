@@ -1,8 +1,8 @@
 import { ChatInputCommandInteraction, MessageFlags, Role, SlashCommandBuilder } from 'discord.js'
-import type { Roles } from '../../interfaces.ts'
-import sendNotification from '../../utils/sendNotification.ts'
-import config from '../../utils/config.ts'
-import sanitize from '../../utils/sanitize.ts'
+import type { Roles } from '#interfaces'
+import sendNotification from '#utils/sendNotification.ts'
+import config from '#config'
+import sanitize from '#utils/sanitize.ts'
 
 /**
  * Builds a new slash command with the given name, description and options

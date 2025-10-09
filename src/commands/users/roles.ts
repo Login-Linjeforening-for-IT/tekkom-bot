@@ -1,8 +1,8 @@
 import { SlashCommandBuilder, EmbedBuilder, ChatInputCommandInteraction, Role, MessageFlags } from 'discord.js'
-import storedEmbeds from "../../managed/roles.ts"
-import config from '../../utils/config.ts'
-import type { Roles } from '../../interfaces.ts'
-import addRole from '../../utils/roles.ts'
+import storedEmbeds from "#managed/roles.ts"
+import config from '#config'
+import type { Roles } from '#interfaces'
+import addRole from '#utils/roles.ts'
 
 export const data = new SlashCommandBuilder()
     .setName('roles')

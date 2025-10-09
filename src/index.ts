@@ -1,20 +1,20 @@
-import config from './utils/config.ts'
-import { removeRole } from './utils/roles.ts'
-import autoCreateTekKomMeetings from './utils/meetings/autoCreateTekKomMeetings.ts'
-import handleTickets from './utils/tickets/handler.ts'
-import autoSyncZammad from './utils/tickets/autoSyncZammad.ts'
-import autoCreateStyretMeetings from './utils/meetings/autoCreateStyretMeetings.ts'
-import channelTemplates from './utils/channelTemplates.ts'
-import beekeeperMonitor from './utils/beekeeper/beekeeperMonitor.ts'
-import queenbeeMonitor from './utils/queenbee/queenbeeMonitor.ts'
-import heartbeat from './utils/heartbeat/heartbeat.ts'
-import handleListens from './utils/activity/handleListens.ts'
-import handlePlays from './utils/activity/handlePlays.ts'
-import checkAndHandleListenRepeats from './utils/activity/checkAndHandleListenRepeats.ts'
-import checkAndHandlePlayRepeats from './utils/activity/checkAndHandlePlays.ts'
-import handleInteraction from './utils/handleInteraction.ts'
-import handleRoles from './utils/handleRoles.ts'
-import setupClient from './utils/setupClient.ts'
+import config from '#config'
+import { removeRole } from '#utils/roles.ts'
+import autoCreateTekKomMeetings from '#utils/meetings/autoCreateTekKomMeetings.ts'
+import handleTickets from '#utils/tickets/handler.ts'
+import autoSyncZammad from '#utils/tickets/autoSyncZammad.ts'
+import autoCreateStyretMeetings from '#utils/meetings/autoCreateStyretMeetings.ts'
+import channelTemplates from '#utils/channelTemplates.ts'
+import beekeeperMonitor from '#utils/beekeeper/beekeeperMonitor.ts'
+import queenbeeMonitor from '#utils/queenbee/queenbeeMonitor.ts'
+import heartbeat from '#utils/heartbeat/heartbeat.ts'
+import handleListens from '#utils/activity/handleListens.ts'
+import handlePlays from '#utils/activity/handlePlays.ts'
+import checkAndHandleListenRepeats from '#utils/activity/checkAndHandleListenRepeats.ts'
+import checkAndHandlePlayRepeats from '#utils/activity/checkAndHandlePlays.ts'
+import handleInteraction from '#utils/handleInteraction.ts'
+import handleRoles from '#utils/handleRoles.ts'
+import setupClient from '#utils/setupClient.ts'
 import type { CacheType, ThreadChannel, Presence, Message, Interaction } from "discord.js"
 import { Events } from 'discord.js'
 
@@ -60,7 +60,7 @@ client.on(Events.MessageCreate, async (message: Message) => {
     handleTickets(message)
 })
 
-client.on<Events.PresenceUpdate>(Events.PresenceUpdate, async (oldPresence, newPresence: Presence) => {
+client.on<Events.PresenceUpdate>(Events.PresenceUpdate, async (oldPresence: Presence | null, newPresence: Presence) => {
     handleListens({ oldPresence, newPresence, lastListens })
     handlePlays({ newPresence, currentlyPlaying })
 })

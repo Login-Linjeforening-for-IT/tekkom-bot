@@ -1,7 +1,7 @@
 import { Message } from "discord.js"
-import fetchTicket from "../ticket.ts"
-import attachmentAsBase64 from "./attachmentAsBase64.ts"
-import config from "../config.ts"
+import fetchTicket from "#utils/ticket.ts"
+import attachmentAsBase64 from "#utils/tickets/attachmentAsBase64.ts"
+import config from "#config"
 
 export default async function postMessage(ticketID: number, message: Message, body: string | undefined = undefined) {
     const recipient = await fetchTicket(ticketID, true)

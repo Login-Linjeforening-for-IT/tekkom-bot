@@ -1,6 +1,6 @@
-import storedEmbeds from "../../managed/roles.ts"
-import config from '../../utils/config.ts'
-import type { Roles } from '../../interfaces.ts'
+import storedEmbeds from "#managed/roles.ts"
+import config from '#config'
+import type { Roles } from '#interfaces'
 import { 
     SlashCommandBuilder, 
     EmbedBuilder, 

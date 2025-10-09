@@ -1,8 +1,8 @@
 import { ButtonInteraction } from "discord.js"
-import deploy from "./deploy.ts"
-import getPipelines, { getJobsForPipeline } from "./pipeline.ts"
-import formatVersion from "./formatVersion.ts"
-import retryJob from "./retryJob.ts"
+import deploy from "#utils/gitlab/deploy.ts"
+import getPipelines, { getJobsForPipeline } from "#utils/gitlab/pipeline.ts"
+import formatVersion from "#utils/gitlab/formatVersion.ts"
+import retryJob from "#utils/gitlab/retryJob.ts"
 
 export default async function retryDeployment(interaction: ButtonInteraction) {
     const message = interaction.message

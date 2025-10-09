@@ -1,10 +1,10 @@
 import { Client } from "discord.js"
 import { schedule } from "node-cron"
-import getAndSendChannels from "./getAndSendChannels.ts"
-import getMessages from "./getMessages.ts"
-import sendMessages from "./sendMessages.ts"
-import updateApi from "./updateApi.ts"
-import getAndSendRoles from "./getAndSendRoles.ts"
+import getAndSendChannels from "#utils/queenbee/getAndSendChannels.ts"
+import getMessages from "#utils/queenbee/getMessages.ts"
+import sendMessages from "#utils/queenbee/sendMessages.ts"
+import updateApi from "#utils/queenbee/updateApi.ts"
+import getAndSendRoles from "#utils/queenbee/getAndSendRoles.ts"
 
 export default async function queenbeeMonitor(client: Client) {
     schedule('* * * * *', async() => {

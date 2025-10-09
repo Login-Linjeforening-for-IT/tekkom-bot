@@ -1,5 +1,5 @@
 import { Client, Role } from "discord.js"
-import config from "../config.ts"
+import config from "#config"
 
 const tekkomBotApiUrl = config.tekkomBotApiUrl
 const tekkomBotApiToken = config.tekkomBotApiToken

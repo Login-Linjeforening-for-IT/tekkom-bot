@@ -1,5 +1,5 @@
-import type { Roles } from '../../interfaces.ts'
-import config from '../../utils/config.ts'
+import type { Roles } from '#interfaces'
+import config from '#config'
 import {
     SlashCommandBuilder,
     EmbedBuilder,
@@ -10,13 +10,13 @@ import {
     ActionRowBuilder,
     MessageFlags
 } from 'discord.js'
-import getRepositories from '../../utils/gitlab/getRepositories.ts'
-import sanitize from '../../utils/sanitize.ts'
-import { FALLBACK_TAG, GITLAB_BASE, TWO_WEEKS } from '../../constants.ts'
-import getTags from '../../utils/gitlab/tags.ts'
-import getCommits from '../../utils/gitlab/getCommits.ts'
-import formatCommits from '../../utils/gitlab/formatCommits.ts'
-import continueDeployment from '../../utils/gitlab/continueDeployment.ts'
+import getRepositories from '#utils/gitlab/getRepositories.ts'
+import sanitize from '#utils/sanitize.ts'
+import { FALLBACK_TAG, GITLAB_BASE, TWO_WEEKS } from '#constants'
+import getTags from '#utils/gitlab/tags.ts'
+import getCommits from '#utils/gitlab/getCommits.ts'
+import formatCommits from '#utils/gitlab/formatCommits.ts'
+import continueDeployment from '#utils/gitlab/continueDeployment.ts'
 
 export const data = new SlashCommandBuilder()
     .setName('deploy')

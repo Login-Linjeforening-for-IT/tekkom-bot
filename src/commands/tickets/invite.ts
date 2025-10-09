@@ -1,5 +1,5 @@
 import { ButtonInteraction, SlashCommandBuilder } from "discord.js"
-import invite from "../../utils/tickets/invite.ts"
+import invite from "#utils/tickets/invite.ts"
 
 export const data = new SlashCommandBuilder()
     .setName('invite')

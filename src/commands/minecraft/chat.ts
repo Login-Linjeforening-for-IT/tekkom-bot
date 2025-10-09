@@ -1,7 +1,7 @@
 import type { CacheType, ChatInputCommandInteraction, Message, TextChannel } from 'discord.js'
 import { MessageFlags, SlashCommandBuilder } from 'discord.js'
 import http from "http"
-import config from '../../utils/config.ts'
+import config from '#config'
 
 export const data = new SlashCommandBuilder()
     .setName('chat')

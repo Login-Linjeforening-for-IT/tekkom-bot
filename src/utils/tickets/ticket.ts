@@ -6,8 +6,8 @@ import {
     PermissionsBitField, 
     TextChannel 
 } from "discord.js"
-import { ticketIdPattern } from "../../constants.ts"
-import formatChannelName from "./format.ts"
+import { ticketIdPattern } from "#constants"
+import formatChannelName from "#utils/tickets/format.ts"
 
 export default async function isTicketChannel(interaction: ButtonInteraction): Promise<boolean> {
     const channel = interaction.channel as TextChannel
@@ -29,9 +29,7 @@ export async function getTickets(interaction: ButtonInteraction) {
     const guild = interaction.guild as Guild
     const channels = guild.channels.cache
             .filter(channel => 
-                // Only considers text channels
                 channel instanceof TextChannel &&
-                // Match ticket ID scheme
                 ticketIdPattern.test(channel.name) &&
                 channel.permissionsFor(interaction.user)?.has(PermissionsBitField.Flags.ViewChannel) &&
                 !(channel.parent && channel.parent.name.toLowerCase().includes('archive'))
@@ -59,8 +57,8 @@ export async function getArchivedTickets(interaction: ButtonInteraction) {
     const guild = interaction.guild as Guild
     const channels = guild.channels.cache
             .filter(channel => 
-                channel instanceof TextChannel &&  // Only consider text channels
-                ticketIdPattern.test(channel.name) &&  // Match ticket ID scheme
+                channel instanceof TextChannel &&
+                ticketIdPattern.test(channel.name) &&
                 (channel.parent && channel.parent.name.toLowerCase().includes('archive'))
             ) as any
 

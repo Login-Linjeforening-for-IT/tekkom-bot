@@ -1,11 +1,11 @@
 import { TextChannel } from 'discord.js'
 import dotenv from 'dotenv'
-import updateStyretTemplate from './updateStyretTemplate.ts'
-import getQuery from './getQuery.ts'
-import requestWithRetries from './requestWithEntries.ts'
-import getNextPathYearAndWeek from './getNextPathYearAndWeek.ts'
-import updateIndex from './updateIndexPage.ts'
-import createPage from './createPage.ts'
+import updateStyretTemplate from '#utils/meetings/updateStyretTemplate.ts'
+import getQuery from '#utils/meetings/getQuery.ts'
+import requestWithRetries from '#utils/meetings/requestWithEntries.ts'
+import getNextPathYearAndWeek from '#utils/meetings/getNextPathYearAndWeek.ts'
+import updateIndex from '#utils/meetings/updateIndexPage.ts'
+import createPage from '#utils/meetings/createPage.ts'
 
 dotenv.config()
 

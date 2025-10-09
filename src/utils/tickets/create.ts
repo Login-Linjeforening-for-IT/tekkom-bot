@@ -17,9 +17,9 @@ import {
     ButtonStyle,
     MessageFlags
 } from "discord.js"
-import topics from "./topics.ts"
-import { DISCORD_URL, ZAMMAD_URL } from "../../constants.ts"
-import config from "../config.ts"
+import topics from "#utils/tickets/topics.ts"
+import { DISCORD_URL, ZAMMAD_URL } from "#constants"
+import config from "#config"
 
 export default async function handleCreateTicket(interaction: ButtonInteraction) {
     const guild = interaction.guild as Guild

@@ -9,7 +9,7 @@ import {
     StringSelectMenuBuilder, 
     TextChannel 
 } from "discord.js"
-import { getTickets } from "./ticket.ts"
+import { getTickets } from "#utils/tickets/ticket.ts"
 
 export default async function invite(interaction: ButtonInteraction) {
     // Fetches all text channels that the user has access to

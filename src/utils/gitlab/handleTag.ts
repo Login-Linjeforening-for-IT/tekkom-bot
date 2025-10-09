@@ -1,8 +1,8 @@
 import { ButtonInteraction, GuildMember, MessageFlags, Role } from "discord.js"
-import { deleteTag } from "./tags.ts"
-import deploy from "./deploy.ts"
-import { abortButtons, errorButtons } from "./buttons.ts"
-import config from "../config.ts"
+import { deleteTag } from "#utils/gitlab/tags.ts"
+import deploy from "#utils/gitlab/deploy.ts"
+import { abortButtons, errorButtons } from "#utils/gitlab/buttons.ts"
+import config from "#config"
 
 export default async function handleTag(interaction: ButtonInteraction, type: number) {
     try {

@@ -1,6 +1,6 @@
-import getRepositories from "./getRepositories.ts"
+import getRepositories from "#utils/gitlab/getRepositories.ts"
 import { AutocompleteInteraction } from "discord.js"
-import sanitize from "../sanitize.ts"
+import sanitize from "#utils/sanitize.ts"
 
 const REPOSITORY = "repository"
 const DEPLOY = "deploy"

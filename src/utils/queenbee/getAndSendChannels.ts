@@ -1,6 +1,6 @@
 import { ChannelType, Client, PermissionsBitField } from "discord.js"
 import type { NonThreadGuildBasedChannel } from 'discord.js'
-import config from "../config.ts"
+import config from "#config"
 
 const tekkomBotApiUrl = config.tekkomBotApiUrl
 const tekkomBotApiToken = config.tekkomBotApiToken

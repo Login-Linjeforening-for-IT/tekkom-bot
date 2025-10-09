@@ -1,11 +1,11 @@
 import { EmbedBuilder } from 'discord.js'
 import type { ButtonInteraction, CacheType, ChatInputCommandInteraction, Message } from "discord.js"
-import { postTag } from "./tags.ts"
-import editEverySecondTillDone from "./editEverySecondTillDone.ts"
-import getOpenMergeRequests from "./getMergeRequests.ts"
-import { INFRA_PROD_CLUSTER } from "../../constants.ts"
-import formatVersion from "./formatVersion.ts"
-import postMerge from "./postMerge.ts"
+import { postTag } from "#utils/gitlab/tags.ts"
+import editEverySecondTillDone from "#utils/gitlab/editEverySecondTillDone.ts"
+import getOpenMergeRequests from "#utils/gitlab/getMergeRequests.ts"
+import { INFRA_PROD_CLUSTER } from "#constants"
+import formatVersion from "#utils/gitlab/formatVersion.ts"
+import postMerge from "#utils/gitlab/postMerge.ts"
 
 type HandleMergeProps = {
     sorted: MergeRequest[]

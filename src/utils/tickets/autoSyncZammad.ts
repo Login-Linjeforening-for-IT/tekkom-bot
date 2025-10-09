@@ -1,9 +1,9 @@
 import dotenv from 'dotenv'
-import { ticketIdPattern } from "../../constants.ts"
-import postMessage from "./postMessage.ts"
-import fetchTicket from "../ticket.ts"
-import closeChannel from './closeChannel.ts'
-import getAttachment from './getAttachment.ts'
+import { ticketIdPattern } from "#constants"
+import postMessage from "#utils/tickets/postMessage.ts"
+import fetchTicket from "#utils/ticket.ts"
+import closeChannel from '#utils/tickets/closeChannel.ts'
+import getAttachment from '#utils/tickets/getAttachment.ts'
 import { 
     AttachmentBuilder, 
     ChannelType, 

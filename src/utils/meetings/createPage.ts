@@ -1,4 +1,4 @@
-import requestWithRetries from "./requestWithEntries.ts"
+import requestWithRetries from "#utils/meetings/requestWithEntries.ts"
 
 type CreatePageProps = {
     content: string

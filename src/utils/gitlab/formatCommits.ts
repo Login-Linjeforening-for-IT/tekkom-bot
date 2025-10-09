@@ -1,4 +1,4 @@
-import { DISCORD_MAX_INLINE_EMBED_FIELD_LENGTH } from "../../constants.ts"
+import { DISCORD_MAX_INLINE_EMBED_FIELD_LENGTH } from "#constants"
 
 export default function formatCommits(commits: Commit[], count: number) {
     let authors = ""

@@ -1,6 +1,6 @@
-import { GITLAB_API } from "../../constants.ts"
-import config from "../config.ts"
-import logNullValue from "../logNullValue.ts"
+import { GITLAB_API } from "#constants"
+import config from "#config"
+import logNullValue from "#utils/logNullValue.ts"
 
 export default async function retryJob(projectId: number, jobId: number) {
     try {

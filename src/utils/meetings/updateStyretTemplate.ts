@@ -1,8 +1,8 @@
 import { Message, TextChannel } from "discord.js"
-import getQuery from "./getQuery.ts"
-import requestWithRetries from "./requestWithEntries.ts"
-import getLatestCase from "./getLatestCase.ts"
-import uploadAttachmentToWiki from "./uploadAttachment.ts"
+import getQuery from "#utils/meetings/getQuery.ts"
+import requestWithRetries from "#utils/meetings/requestWithEntries.ts"
+import getLatestCase from "#utils/meetings/getLatestCase.ts"
+import uploadAttachmentToWiki from "#utils/meetings/uploadAttachment.ts"
 
 type StyretTemplateProps = {
     channel: TextChannel

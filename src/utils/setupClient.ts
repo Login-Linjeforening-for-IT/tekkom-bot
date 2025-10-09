@@ -7,7 +7,7 @@ import {
     GatewayIntentBits,
     Partials,
 } from 'discord.js'
-import { DiscordClient } from '../interfaces.ts'
+import { DiscordClient } from '#interfaces'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)

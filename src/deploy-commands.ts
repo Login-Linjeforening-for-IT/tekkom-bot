@@ -1,5 +1,5 @@
 import { REST, Routes } from 'discord.js'
-import config from './utils/config.ts'
+import config from '#config'
 import { readdirSync } from 'fs'
 import { fileURLToPath } from 'url'
 import { join, dirname } from 'path'

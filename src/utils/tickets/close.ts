@@ -8,11 +8,11 @@ import {
     TextChannel
 } from "discord.js"
 import type { CategoryChildChannel } from "discord.js"
-import { getTickets } from "./ticket.ts"
-import formatChannelName from "./format.ts"
-import { MAX_CHANNELS, ticketIdPattern } from "../../constants.ts"
-import { closeTicket } from "../ticket.ts"
-import closeChannel from "./closeChannel.ts"
+import { getTickets } from "#utils/tickets/ticket.ts"
+import formatChannelName from "#utils/tickets/format.ts"
+import { MAX_CHANNELS, ticketIdPattern } from "#constants"
+import { closeTicket } from "#utils/ticket.ts"
+import closeChannel from "#utils/tickets/closeChannel.ts"
 
 export async function handleCloseTicket(interaction: ButtonInteraction) {
     const guild = interaction.guild

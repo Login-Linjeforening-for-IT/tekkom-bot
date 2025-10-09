@@ -1,8 +1,8 @@
-import Autocomplete from './gitlab/autoComplete.ts'
-import validCommands, { exceptions } from './valid.ts'
-import handleComponents from './handleComponents.ts'
-import getID from './tickets/getID.ts'
-import { DiscordClient } from '../interfaces.ts'
+import Autocomplete from '#utils/gitlab/autoComplete.ts'
+import validCommands, { exceptions } from '#utils/valid.ts'
+import handleComponents from '#utils/handleComponents.ts'
+import getID from '#utils/tickets/getID.ts'
+import { DiscordClient } from '#interfaces'
 import type {
     AutocompleteInteraction,
     CacheType,
