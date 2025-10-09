@@ -1,4 +1,4 @@
-import { Guild, Reaction, ReactionCollector, User } from "discord.js"
+import { Guild, ReactionCollector, User } from "discord.js"
 
 type CollectProps = {
     collector: ReactionCollector

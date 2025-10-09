@@ -1,13 +1,12 @@
-import storedEmbeds from "../../managed/roles.js"
-import config from '../../utils/config.js'
-import { Roles } from '../../interfaces.js'
+import storedEmbeds from "../../managed/roles.ts"
+import config from '../../utils/config.ts'
+import type { Roles } from '../../interfaces.ts'
 import { 
     SlashCommandBuilder, 
     EmbedBuilder, 
     ChatInputCommandInteraction, 
     User, 
     Role, 
-    Reaction, 
     MessageFlags
 } from 'discord.js'
 

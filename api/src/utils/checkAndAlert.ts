@@ -1,5 +1,5 @@
-import run from '@db'
-import discordAlert from './discordAlert'
+import run from '#db'
+import discordAlert from '#utils/discordAlert.ts'
 
 export default async function checkAndAlert(name: string, service: string, middleware: boolean) {
     let ping = true

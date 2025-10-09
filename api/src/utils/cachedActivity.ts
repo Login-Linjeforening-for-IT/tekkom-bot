@@ -1,7 +1,7 @@
-import { preloadActivityQueries } from '@/utils/activityQueries'
-import config from '@constants'
+import { preloadActivityQueries } from '#utils/activityQueries.ts'
+import config from '#constants'
 import fp from 'fastify-plugin'
-import alertSlowQuery from './alertSlowQuery'
+import alertSlowQuery from '#utils/alertSlowQuery.ts'
 
 export default fp(async (fastify) => {
     async function refreshQueries() {

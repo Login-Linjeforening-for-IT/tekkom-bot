@@ -1,9 +1,9 @@
-import run from "@/db"
-import alertSlowQuery from '@utils/alertSlowQuery'
-import formatRows from '@utils/formatRows'
-import { loadSQL } from "@utils/loadSQL"
-import tokenWrapper from "@utils/tokenWrapper"
-import { FastifyReply, FastifyRequest } from "fastify"
+import run from '#db'
+import alertSlowQuery from '#utils/alertSlowQuery.ts'
+import formatRows from '#utils/formatRows.ts'
+import { loadSQL } from "#utils/loadSQL.ts"
+import tokenWrapper from "#utils/tokenWrapper.ts"
+import type { FastifyReply, FastifyRequest } from "fastify"
 
 type GetAnnouncements = {
     id?: string

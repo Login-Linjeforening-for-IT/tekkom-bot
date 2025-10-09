@@ -1,5 +1,5 @@
 import { Presence } from 'discord.js'
-import sendGame from './sendGame.js'
+import sendGame from './sendGame.ts'
 
 type HandlePlayProps = {
     newPresence: Presence

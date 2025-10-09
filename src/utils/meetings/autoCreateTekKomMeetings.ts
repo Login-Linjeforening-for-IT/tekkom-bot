@@ -1,8 +1,8 @@
 import { Client, TextChannel } from "discord.js"
 import { schedule } from "node-cron"
-import autoCreate from "./wiki.js"
+import autoCreate from "./wiki.ts"
 import dotenv from 'dotenv'
-import getNextPathYearAndWeek from "./getNextPathYearAndWeek.js"
+import getNextPathYearAndWeek from "./getNextPathYearAndWeek.ts"
 
 dotenv.config()
 

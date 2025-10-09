@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, EmbedBuilder } from "discord.js"
-import { Build } from "../../interfaces.js"
+import { Build } from "../../interfaces.ts"
 
 export default async function cancel(interaction: ButtonInteraction, build: Build) {
     let buttons: ActionRowBuilder<ButtonBuilder>

@@ -7,7 +7,7 @@ import {
     GatewayIntentBits,
     Partials,
 } from 'discord.js'
-import { DiscordClient } from '../interfaces.js'
+import { DiscordClient } from '../interfaces.ts'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -37,7 +37,7 @@ export default async function setupClient() {
     
     for (const folder of commandFolders) {
         const commandsPath = join(foldersPath, folder)
-        const commandFiles = readdirSync(commandsPath).filter(file => file.endsWith('.js'))
+        const commandFiles = readdirSync(commandsPath).filter(file => file.endsWith('.ts'))
         for (const file of commandFiles) {
             const filePath = join(commandsPath, file)
             const command = await import(filePath)

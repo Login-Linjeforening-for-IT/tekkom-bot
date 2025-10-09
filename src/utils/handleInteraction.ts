@@ -1,15 +1,15 @@
-import Autocomplete from './gitlab/autoComplete.js'
-import validCommands, { exceptions } from './valid.js'
-import handleComponents from './handleComponents.js'
-import getID from './tickets/getID.js'
-import { DiscordClient } from '../interfaces.js'
-import {
+import Autocomplete from './gitlab/autoComplete.ts'
+import validCommands, { exceptions } from './valid.ts'
+import handleComponents from './handleComponents.ts'
+import getID from './tickets/getID.ts'
+import { DiscordClient } from '../interfaces.ts'
+import type {
     AutocompleteInteraction,
     CacheType,
     ChatInputCommandInteraction,
     Interaction,
-    InteractionType
 } from 'discord.js'
+import { InteractionType } from "discord.js"
 
 type HandleInteractionProps = {
     interaction: Interaction<CacheType>

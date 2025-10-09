@@ -1,7 +1,7 @@
-import config from '@constants'
-import getSpotifyToken from '@utils/getSpotifyToken'
-import tokenWrapper from '@utils/tokenWrapper'
-import { FastifyReply, FastifyRequest } from 'fastify'
+import config from '#constants'
+import getSpotifyToken from '#utils/getSpotifyToken.ts'
+import tokenWrapper from '#utils/tokenWrapper.ts'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 
 export default async function getTrackPreview(req: FastifyRequest, res: FastifyReply) {
     const { valid } = await tokenWrapper(req, res, ['tekkom-bot'])

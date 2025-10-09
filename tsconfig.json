@@ -2,14 +2,15 @@
     "compilerOptions": {
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
-        "module": "nodenext",
-        "moduleResolution": "nodenext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
         "rootDir": "src",
-        "outDir": "dist",
         "strict": true,
         "target": "es2022",
         "skipLibCheck": true,
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "allowImportingTsExtensions": true,
+        "noEmit": true
     },
     "include": [
         "**/*.ts",

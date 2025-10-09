@@ -1,9 +1,9 @@
-import config from '@constants'
-import run from "@db"
-import getSpotifyToken from '@utils/getSpotifyToken'
-import { loadSQL } from '@utils/loadSQL'
-import tokenWrapper from "@utils/tokenWrapper"
-import { FastifyReply, FastifyRequest } from "fastify"
+import config from '#constants'
+import run from "#db"
+import getSpotifyToken from '#utils/getSpotifyToken.ts'
+import { loadSQL } from '#utils/loadSQL.ts'
+import tokenWrapper from "#utils/tokenWrapper.ts"
+import type { FastifyReply, FastifyRequest } from "fastify"
 
 export default async function postActivity(req: FastifyRequest, res: FastifyReply) {
     const { user, song, artist, start, end, album, image, source, avatar, userId, skipped, syncId } = req.body as Activity ?? {}

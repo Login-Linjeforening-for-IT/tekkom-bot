@@ -1,28 +1,22 @@
-import config from './utils/config.js'
-import { removeRole } from './utils/roles.js'
-import autoCreateTekKomMeetings from './utils/meetings/autoCreateTekKomMeetings.js'
-import handleTickets from './utils/tickets/handler.js'
-import autoSyncZammad from './utils/tickets/autoSyncZammad.js'
-import autoCreateStyretMeetings from './utils/meetings/autoCreateStyretMeetings.js'
-import channelTemplates from './utils/channelTemplates.js'
-import beekeeperMonitor from './utils/beekeeper/beekeeperMonitor.js'
-import queenbeeMonitor from './utils/queenbee/queenbeeMonitor.js'
-import heartbeat from './utils/heartbeat/heartbeat.js'
-import {
-    CacheType,
-    Events,
-    Interaction,
-    Message,
-    Presence,
-    ThreadChannel,
-} from 'discord.js'
-import handleListens from './utils/activity/handleListens.js'
-import handlePlays from './utils/activity/handlePlays.js'
-import checkAndHandleListenRepeats from './utils/activity/checkAndHandleListenRepeats.js'
-import checkAndHandlePlayRepeats from './utils/activity/checkAndHandlePlays.js'
-import handleInteraction from './utils/handleInteraction.js'
-import handleRoles from './utils/handleRoles.js'
-import setupClient from './utils/setupClient.js'
+import config from './utils/config.ts'
+import { removeRole } from './utils/roles.ts'
+import autoCreateTekKomMeetings from './utils/meetings/autoCreateTekKomMeetings.ts'
+import handleTickets from './utils/tickets/handler.ts'
+import autoSyncZammad from './utils/tickets/autoSyncZammad.ts'
+import autoCreateStyretMeetings from './utils/meetings/autoCreateStyretMeetings.ts'
+import channelTemplates from './utils/channelTemplates.ts'
+import beekeeperMonitor from './utils/beekeeper/beekeeperMonitor.ts'
+import queenbeeMonitor from './utils/queenbee/queenbeeMonitor.ts'
+import heartbeat from './utils/heartbeat/heartbeat.ts'
+import handleListens from './utils/activity/handleListens.ts'
+import handlePlays from './utils/activity/handlePlays.ts'
+import checkAndHandleListenRepeats from './utils/activity/checkAndHandleListenRepeats.ts'
+import checkAndHandlePlayRepeats from './utils/activity/checkAndHandlePlays.ts'
+import handleInteraction from './utils/handleInteraction.ts'
+import handleRoles from './utils/handleRoles.ts'
+import setupClient from './utils/setupClient.ts'
+import type { CacheType, ThreadChannel, Presence, Message, Interaction } from "discord.js"
+import { Events } from 'discord.js'
 
 const token = config.token
 const client = await setupClient()

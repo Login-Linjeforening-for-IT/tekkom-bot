@@ -5,15 +5,13 @@
     "main": "app.js",
     "type": "module",
     "scripts": {
-        "start": "rm -rf dist; tsc; node dist/deploy-commands.js; node dist/app.js",
-        "build": "tsc",
-        "prod": "node dist/app.js",
+        "start": "node src/index.ts",
         "fast": "tsc && node dist/app.js"
     },
     "author": "Login - Linjeforeningen for IT",
     "license": "MIT",
     "dependencies": {
-        "discord.js": "^14.22.1",
+        "discord.js": "^14.23.2",
         "dotenv": "^17.2.2",
         "firebase-admin": "^13.5.0",
         "fs": "^0.0.1-security",
@@ -25,5 +23,11 @@
         "@types/node-cron": "^3.0.11",
         "@types/pg": "^8.15.5",
         "typescript": "^5.9.2"
+    },
+    "imports": {
+        "#utils/*": "./src/utils/*",
+        "#constants": "./src/constants.ts",
+        "#components/*": "./src/components/*",
+        "#/*": "./src/*"
     }
 }

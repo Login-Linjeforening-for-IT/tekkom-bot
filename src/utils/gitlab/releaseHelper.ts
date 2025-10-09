@@ -1,6 +1,6 @@
 import { ButtonInteraction, EmbedBuilder } from "discord.js"
-import continueRelease from "./continueRelease.js"
-import { EDIT_INTERVAL_SECONDS } from "../../constants.js"
+import continueRelease from "./continueRelease.ts"
+import { EDIT_INTERVAL_SECONDS } from "../../constants.ts"
 
 export default async function releaseHelper(interaction: ButtonInteraction) {
     const message = interaction.message

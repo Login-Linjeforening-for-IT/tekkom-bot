@@ -1,5 +1,5 @@
-import { ButtonInteraction, CacheType } from "discord.js"
-import continueDeployment from "./continueDeployment.js"
+import type { ButtonInteraction, CacheType } from "discord.js"
+import continueDeployment from "./continueDeployment.ts"
 
 export default async function deployHelper(interaction: ButtonInteraction<CacheType>) {
     const message = interaction.message

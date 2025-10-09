@@ -1,31 +1,24 @@
 import { Role } from "discord.js"
 import { Client, Collection } from 'discord.js'
 
-declare module 'discord.js' {
-    interface Reaction {
-        _emoji: {
-            name: string
-        }
-    }
-    interface Client {
-        commands: Collection<string, Command>
-    }
-}
-
-export interface Roles {
+export type Roles = {
     cache: Role[]
 }
 
-export enum Increment {
-    MAJOR,
-    MINOR,
-    PATCH
+export const Increment = {
+  MAJOR: 0,
+  MINOR: 1,
+  PATCH: 2
+} as const
+
+export type Increment = typeof Increment[keyof typeof Increment]
+
+export const Build = {
+    DEPLOYMENT: 'deployment',
+    RELEASE: 'release'
 }
 
-export enum Build {
-    DEPLOYMENT = 'deployment',
-    RELEASE = 'release'
-}
+export type Build = typeof Build[keyof typeof Build]
 
 interface Command {
     data: { name: string }

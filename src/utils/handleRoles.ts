@@ -1,7 +1,6 @@
-import { Reaction } from 'discord.js'
-import { DiscordClient } from '../interfaces.js'
-import roles from '../managed/roles.js'
-import addRole from './roles.js'
+import { DiscordClient } from '../interfaces.ts'
+import roles from '../managed/roles.ts'
+import addRole from './roles.ts'
 
 export default async function handleRoles(client: DiscordClient) {
     for (const role of roles) {

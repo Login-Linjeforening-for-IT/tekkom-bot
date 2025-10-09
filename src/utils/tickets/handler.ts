@@ -1,6 +1,6 @@
 import { EmbedBuilder, Message, TextChannel } from "discord.js"
-import { ticketIdPattern } from "../../constants.js"
-import postMessage from "./postMessage.js"
+import { ticketIdPattern } from "../../constants.ts"
+import postMessage from "./postMessage.ts"
 
 export default async function handleTickets(message: Message) {
     const regex = /#\d{1,7}\b/g

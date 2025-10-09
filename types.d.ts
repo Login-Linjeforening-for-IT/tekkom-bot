@@ -689,3 +689,13 @@ type CurrentlyPlaying = Map<string, {
     game: string
     start: number
 }>
+
+type Reaction = {
+    _emoji: {
+        name: string
+    }
+}
+
+type Client = {
+    commands: Collection<string, Command>
+}

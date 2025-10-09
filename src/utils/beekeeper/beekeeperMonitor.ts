@@ -1,7 +1,7 @@
 import { Client, EmbedBuilder, Message, TextChannel } from "discord.js"
 import { schedule } from "node-cron"
-import getNamespaces from "./getNamespaces.js"
-import config from "../config.js"
+import getNamespaces from "./getNamespaces.ts"
+import config from "../config.ts"
 
 const STATUS_TITLE = "Beekeeper Monitor"
 const ONE_DAY_MS = 24 * 60 * 60 * 1000

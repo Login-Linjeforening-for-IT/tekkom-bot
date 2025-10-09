@@ -4,8 +4,8 @@ import {
     StringSelectMenuBuilder,
     TextChannel, 
 } from "discord.js"
-import topics from "./topics.js"
-import isTicketChannel from "./ticket.js"
+import topics from "./topics.ts"
+import isTicketChannel from "./ticket.ts"
 
 export default async function handleTagTicket(interaction: ButtonInteraction) {
     const selectTags = new StringSelectMenuBuilder()

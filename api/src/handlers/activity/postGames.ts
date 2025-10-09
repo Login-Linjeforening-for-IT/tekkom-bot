@@ -1,7 +1,7 @@
-import run from "@db"
-import { loadSQL } from '@utils/loadSQL'
-import tokenWrapper from "@utils/tokenWrapper"
-import { FastifyReply, FastifyRequest } from "fastify"
+import run from "#db"
+import { loadSQL } from '#utils/loadSQL.ts'
+import tokenWrapper from "#utils/tokenWrapper.ts"
+import type { FastifyReply, FastifyRequest } from "fastify"
 
 export default async function postGame(req: FastifyRequest, res: FastifyReply) {
     const {

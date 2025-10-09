@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction, MessageFlags, Role, SlashCommandBuilder } from 'discord.js'
-import config from '../../utils/config.js'
-import { Roles } from '../../interfaces.js'
+import config from '../../utils/config.ts'
+import type { Roles } from '../../interfaces.ts'
 
 /**
  * Builds a new slash command with the given name, description and options

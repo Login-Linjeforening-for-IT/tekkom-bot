@@ -1,6 +1,6 @@
-import { GITLAB_API, INFRA_PROD_CLUSTER } from "../../constants.js"
-import config from "../config.js"
-import logNullValue from "../logNullValue.js"
+import { GITLAB_API, INFRA_PROD_CLUSTER } from "../../constants.ts"
+import config from "../config.ts"
+import logNullValue from "../logNullValue.ts"
 
 export default async function postMerge(id: number) {
     try {

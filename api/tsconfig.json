@@ -2,31 +2,14 @@
     "compilerOptions": {
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
-        "module": "nodenext",
-        "moduleResolution": "nodenext",
-        "rootDir": "src",
-        "outDir": "dist",
+        "module": "esnext",
+        "moduleResolution": "bundler",
         "strict": true,
         "target": "es2022",
         "skipLibCheck": true,
         "resolveJsonModule": true,
-        "paths": {
-            "@components/*": [
-                "./src/components/*"
-            ],
-            "@utils/*": [
-                "./src/utils/*"
-            ],
-            "@constants": [
-                "./src/constants"
-            ],
-            "@db": [
-                "./src/db"
-            ],
-            "@/*": [
-                "./src/*"
-            ]
-        },
+        "allowImportingTsExtensions": true,
+        "noEmit": true,
     },
     "include": [
         "**/*.ts",

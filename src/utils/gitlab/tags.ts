@@ -1,6 +1,6 @@
-import { GITLAB_API } from "../../constants.js"
-import config from "../config.js"
-import logNullValue from "../logNullValue.js"
+import { GITLAB_API } from "../../constants.ts"
+import config from "../config.ts"
+import logNullValue from "../logNullValue.ts"
 
 export default async function getTags(id: number): Promise<Tag[]> {
     try {

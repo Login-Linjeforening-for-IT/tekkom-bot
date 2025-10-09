@@ -1,5 +1,5 @@
-import { DiscordClient } from '../../interfaces.js'
-import sendActivity from './sendListen.js'
+import { DiscordClient } from '../../interfaces.ts'
+import sendActivity from './sendListen.ts'
 
 const { DISCORD_GUILD_ID } = process.env
 

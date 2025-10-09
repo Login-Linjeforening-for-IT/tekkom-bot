@@ -1,5 +1,5 @@
-import { Roles } from '../../interfaces.js'
-import config from '../../utils/config.js'
+import type { Roles } from '../../interfaces.ts'
+import config from '../../utils/config.ts'
 import {
     SlashCommandBuilder,
     EmbedBuilder,
@@ -10,13 +10,13 @@ import {
     ButtonStyle,
     MessageFlags
 } from 'discord.js'
-import getRepositories from '../../utils/gitlab/getRepositories.js'
-import sanitize from '../../utils/sanitize.js'
-import { EDIT_INTERVAL_SECONDS, FALLBACK_TAG, GITLAB_BASE, TWO_WEEKS } from '../../constants.js'
-import getTags from '../../utils/gitlab/tags.js'
-import formatCommits from '../../utils/gitlab/formatCommits.js'
-import getCommits from '../../utils/gitlab/getCommits.js'
-import continueRelease from '../../utils/gitlab/continueRelease.js'
+import getRepositories from '../../utils/gitlab/getRepositories.ts'
+import sanitize from '../../utils/sanitize.ts'
+import { EDIT_INTERVAL_SECONDS, FALLBACK_TAG, GITLAB_BASE, TWO_WEEKS } from '../../constants.ts'
+import getTags from '../../utils/gitlab/tags.ts'
+import formatCommits from '../../utils/gitlab/formatCommits.ts'
+import getCommits from '../../utils/gitlab/getCommits.ts'
+import continueRelease from '../../utils/gitlab/continueRelease.ts'
 
 export const data = new SlashCommandBuilder()
     .setName('release')

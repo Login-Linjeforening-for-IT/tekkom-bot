@@ -1,4 +1,5 @@
-import { Client, ColorResolvable, EmbedBuilder, TextChannel } from "discord.js"
+import { Client, EmbedBuilder, TextChannel } from "discord.js"
+import type { ColorResolvable } from "discord.js"
 
 export default async function sendMessages(client: Client, messages: Announcement[]) {
     const sent = []

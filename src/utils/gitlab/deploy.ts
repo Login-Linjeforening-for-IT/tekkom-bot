@@ -1,7 +1,7 @@
 import { ButtonInteraction, EmbedBuilder } from "discord.js"
-import { postTag } from "./tags.js"
-import { initialButtons } from "./buttons.js"
-import editEverySecondTillDone from "./editEverySecondTillDone.js"
+import { postTag } from "./tags.ts"
+import { initialButtons } from "./buttons.ts"
+import editEverySecondTillDone from "./editEverySecondTillDone.ts"
 
 export default async function deploy(interaction: ButtonInteraction, tag: string, name: string, id: number, dev: string, ref?: string, rerun?: true) {
     const message = interaction.message

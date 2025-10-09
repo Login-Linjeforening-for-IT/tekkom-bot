@@ -5,9 +5,9 @@ import {
     ButtonStyle, 
     Embed, 
     EmbedBuilder, 
-    EmbedField 
 } from "discord.js"
-import pages from "./commands.js"
+import type { EmbedField } from "discord.js"
+import pages from "./commands.ts"
 
 const commands = {
     add: "Adds member or roles to the current channel. An interactive menu will be provided when you run: `/add`",

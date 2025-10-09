@@ -1,5 +1,5 @@
-import config from '@constants'
-import run from '@db'
+import config from '#constants'
+import run from '#db'
 
 export default async function checkMaxConnections() {
     try {

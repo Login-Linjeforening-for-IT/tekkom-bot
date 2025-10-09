@@ -1,5 +1,5 @@
 import { REST, Routes } from 'discord.js'
-import config from './utils/config.js'
+import config from './utils/config.ts'
 import { readdirSync } from 'fs'
 import { fileURLToPath } from 'url'
 import { join, dirname } from 'path'
@@ -13,13 +13,13 @@ const commands = []
 // Fetching folders inside of the commands folder
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-const foldersPath = join(__dirname, 'commands')
+const foldersPath = join(__dirname, '..', 'commands')
 const commandFolders = readdirSync(foldersPath)
 
 for (const folder of commandFolders) {
     // Fetching all commands from all folders in the commands directory
     const commandsPath = join(foldersPath, folder)
-    const commandFiles = readdirSync(commandsPath).filter(file => file.endsWith('.js'))
+    const commandFiles = readdirSync(commandsPath).filter(file => file.endsWith('.ts'))
 
     for (const file of commandFiles) {
         const filePath = join(commandsPath, file)

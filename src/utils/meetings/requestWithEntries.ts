@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-import logStack from './logStack.js'
+import logStack from './logStack.ts'
 
 type RequestWithRetriesProps = {
     query: string

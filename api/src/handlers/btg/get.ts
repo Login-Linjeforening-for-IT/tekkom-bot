@@ -1,7 +1,7 @@
-import run from "@/db"
-import discordAlert from '@utils/discordAlert'
-import tokenWrapper from "@utils/tokenWrapper"
-import { FastifyReply, FastifyRequest } from "fastify"
+import run from "#db"
+import discordAlert from '#utils/discordAlert.ts'
+import tokenWrapper from "#utils/tokenWrapper.ts"
+import type { FastifyReply, FastifyRequest } from "fastify"
 
 export default async function getBtg(req: FastifyRequest, res: FastifyReply) {
     const { name, service, author } =  (req.query as Btg) ?? {}

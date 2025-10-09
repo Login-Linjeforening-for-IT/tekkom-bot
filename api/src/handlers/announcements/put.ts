@@ -1,6 +1,6 @@
-import run from "@/db"
-import tokenWrapper from "@utils/tokenWrapper"
-import { FastifyReply, FastifyRequest } from "fastify"
+import run from "#db"
+import tokenWrapper from "#utils/tokenWrapper.ts"
+import type { FastifyReply, FastifyRequest } from "fastify"
 
 type PutAnnouncements = {
     id: number

@@ -1,6 +1,6 @@
-import run from "@db"
-import tokenWrapper from "@utils/tokenWrapper"
-import { FastifyReply, FastifyRequest } from "fastify"
+import run from "#db"
+import tokenWrapper from "#utils/tokenWrapper.ts"
+import type { FastifyReply, FastifyRequest } from "fastify"
 
 export default async function postAnnouncements(req: FastifyRequest, res: FastifyReply) {
     const { title, description, channel, roles, embed, color, interval, time } = req.body as Announcement ?? {}

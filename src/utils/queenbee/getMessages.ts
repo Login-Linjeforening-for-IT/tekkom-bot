@@ -1,4 +1,4 @@
-import config from "../config.js"
+import config from "../config.ts"
 
 const tekkomBotApiUrl = config.tekkomBotApiUrl
 const tekkomBotApiToken = config.tekkomBotApiToken

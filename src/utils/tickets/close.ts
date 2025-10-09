@@ -2,17 +2,17 @@ import {
     ActionRowBuilder,
     ButtonInteraction,
     CategoryChannel,
-    CategoryChildChannel,
     Collection,
     MessageFlags,
     StringSelectMenuBuilder,
     TextChannel
 } from "discord.js"
-import { getTickets } from "./ticket.js"
-import formatChannelName from "./format.js"
-import { MAX_CHANNELS, ticketIdPattern } from "../../constants.js"
-import { closeTicket } from "../ticket.js"
-import closeChannel from "./closeChannel.js"
+import type { CategoryChildChannel } from "discord.js"
+import { getTickets } from "./ticket.ts"
+import formatChannelName from "./format.ts"
+import { MAX_CHANNELS, ticketIdPattern } from "../../constants.ts"
+import { closeTicket } from "../ticket.ts"
+import closeChannel from "./closeChannel.ts"
 
 export async function handleCloseTicket(interaction: ButtonInteraction) {
     const guild = interaction.guild

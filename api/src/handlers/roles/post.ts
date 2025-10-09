@@ -1,6 +1,6 @@
-import { roles } from "@constants"
-import tokenWrapper from "@utils/tokenWrapper"
-import { FastifyReply, FastifyRequest } from "fastify"
+import { roles } from "#constants"
+import tokenWrapper from "#utils/tokenWrapper.ts"
+import type { FastifyReply, FastifyRequest } from "fastify"
 
 export default async function postRoles(req: FastifyRequest, res: FastifyReply) {
     const newRoles = req.body as Role[] ?? []

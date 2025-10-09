@@ -1,4 +1,4 @@
-import getWeek from './getWeek'
+import getWeek from '#utils/getWeek.ts'
 
 export default function formatRows(rows: Announcement[]) {
     const now = new Date()

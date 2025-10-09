@@ -1,6 +1,5 @@
 import { Presence } from 'discord.js'
-import sendActivity from './sendListen.js'
-import sendListen from './sendListen.js'
+import sendListen from './sendListen.ts'
 
 type HandleListenProps = {
     oldPresence: Presence | null

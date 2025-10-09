@@ -1,4 +1,4 @@
-import config from "@constants"
+import config from "#constants"
 
 const { CRITICAL_ROLE, WEBHOOK_URL } = config
 

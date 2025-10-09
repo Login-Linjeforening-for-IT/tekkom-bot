@@ -1,10 +1,11 @@
-import { ButtonInteraction, CacheType, ChatInputCommandInteraction, EmbedBuilder, Message } from "discord.js"
-import { postTag } from "./tags.js"
-import editEverySecondTillDone from "./editEverySecondTillDone.js"
-import getOpenMergeRequests from "./getMergeRequests.js"
-import { INFRA_PROD_CLUSTER } from "../../constants.js"
-import formatVersion from "./formatVersion.js"
-import postMerge from "./postMerge.js"
+import { EmbedBuilder } from 'discord.js'
+import type { ButtonInteraction, CacheType, ChatInputCommandInteraction, Message } from "discord.js"
+import { postTag } from "./tags.ts"
+import editEverySecondTillDone from "./editEverySecondTillDone.ts"
+import getOpenMergeRequests from "./getMergeRequests.ts"
+import { INFRA_PROD_CLUSTER } from "../../constants.ts"
+import formatVersion from "./formatVersion.ts"
+import postMerge from "./postMerge.ts"
 
 type HandleMergeProps = {
     sorted: MergeRequest[]

@@ -1,3 +1,4 @@
+export {}
 declare global {
     type Channel = { 
         guildId: string

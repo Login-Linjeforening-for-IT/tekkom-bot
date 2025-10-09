@@ -1,7 +1,7 @@
 import { EmbedBuilder, Message } from "discord.js"
-import { FALLBACK_PIPELINE, SUCCESS } from "../../constants.js"
-import getPipelines, { getBridgesForPipeline, getJobsForPipeline } from "./pipeline.js"
-import { errorButtons, initialButtons, successButtons } from "./buttons.js"
+import { FALLBACK_PIPELINE, SUCCESS } from "../../constants.ts"
+import getPipelines, { getBridgesForPipeline, getJobsForPipeline } from "./pipeline.ts"
+import { errorButtons, initialButtons, successButtons } from "./buttons.ts"
 
 export default async function editEverySecondTillDone(message: Message, user: string, id: number, tag: string, name: string, seconds: number = 1, prod?: true): Promise<boolean> {
     const startTime = new Date().getTime()

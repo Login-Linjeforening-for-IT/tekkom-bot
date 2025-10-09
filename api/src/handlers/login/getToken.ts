@@ -1,6 +1,6 @@
-import { FastifyReply, FastifyRequest } from "fastify"
-import tokenWrapper from "@utils/tokenWrapper.js"
-import checkAndAlert from '@utils/checkAndAlert'
+import type { FastifyReply, FastifyRequest } from "fastify"
+import tokenWrapper from '#utils/tokenWrapper.ts'
+import checkAndAlert from '#utils/checkAndAlert.ts'
 
 export default async function getToken(req: FastifyRequest, res: FastifyReply) {
     const response = await tokenWrapper(req, res, ['tekkom-bot', 'queenbee-btg'])

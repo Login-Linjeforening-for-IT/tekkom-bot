@@ -1,5 +1,5 @@
-import logStack from "./logStack.js"
-import requestWithRetries from "./requestWithEntries.js"
+import logStack from "./logStack.ts"
+import requestWithRetries from "./requestWithEntries.ts"
 import dotenv from "dotenv"
 
 type ModifyPageProps = {

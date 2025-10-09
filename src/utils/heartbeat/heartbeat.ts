@@ -1,5 +1,5 @@
 import { schedule } from "node-cron"
-import config from "../config.js"
+import config from "../config.ts"
 
 export default async function heartbeat() {
     try {

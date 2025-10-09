@@ -5,7 +5,7 @@ import {
     RoleSelectMenuBuilder,
     UserSelectMenuBuilder, 
 } from "discord.js"
-import isTicketChannel from "./ticket.js"
+import isTicketChannel from "./ticket.ts"
 
 export default async function handleAddToTicket(interaction: ButtonInteraction) {
     const isTicket = await isTicketChannel(interaction)

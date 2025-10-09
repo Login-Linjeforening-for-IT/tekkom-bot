@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, MessageFlags, Embed, EmbedBuilder } from 'discord.js'
-import getBtg from '../../utils/btg/getBtg.js'
-import postBtg from '../../utils/btg/postBtg.js'
+import getBtg from '../../utils/btg/getBtg.ts'
+import postBtg from '../../utils/btg/postBtg.ts'
 
 export const data = new SlashCommandBuilder()
     .setName('btg')

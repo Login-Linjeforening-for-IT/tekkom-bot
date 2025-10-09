@@ -1,6 +1,6 @@
-import { channels } from "@constants"
-import tokenWrapper from "@utils/tokenWrapper"
-import { FastifyReply, FastifyRequest } from "fastify"
+import { channels } from "#constants"
+import tokenWrapper from "#utils/tokenWrapper.ts"
+import type { FastifyReply, FastifyRequest } from "fastify"
 
 export default async function getChannels(req: FastifyRequest, res: FastifyReply) {
     const { valid } = await tokenWrapper(req, res)

@@ -1,5 +1,5 @@
-import run from '@db'
-import { loadSQL } from '@utils/loadSQL'
+import run from '#db'
+import { loadSQL } from '#utils/loadSQL.ts'
 import parser from "cron-parser"
 
 export default async function checkAnnouncements() {

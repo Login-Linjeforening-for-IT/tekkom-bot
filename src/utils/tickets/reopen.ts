@@ -8,9 +8,9 @@ import {
     TextChannel,
     UserSelectMenuBuilder
 } from "discord.js"
-import { getArchivedTickets } from "./ticket.js"
-import topics from "./topics.js"
-import formatChannelName from "./format.js"
+import { getArchivedTickets } from "./ticket.ts"
+import topics from "./topics.ts"
+import formatChannelName from "./format.ts"
 
 export default async function handleReopenTicket(interaction: ButtonInteraction) {
     const options = await getArchivedTickets(interaction)

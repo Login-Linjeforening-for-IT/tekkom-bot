@@ -1,4 +1,4 @@
-import requestWithRetries from "./requestWithEntries.js"
+import requestWithRetries from "./requestWithEntries.ts"
 
 type CreatePageProps = {
     content: string

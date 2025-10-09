@@ -1,6 +1,6 @@
-import { Increment } from "../../interfaces.js"
-import { UNKNOWN_VERSION } from "../../constants.js"
-import { errorButtons } from '../../utils/gitlab/buttons.js'
+import { Increment } from "../../interfaces.ts"
+import { UNKNOWN_VERSION } from "../../constants.ts"
+import { errorButtons } from '../../utils/gitlab/buttons.ts'
 import {
     ActionRowBuilder,
     ButtonBuilder,
