@@ -13,7 +13,7 @@ import getRoles from './handlers/roles/get.ts'
 import postRoles from './handlers/roles/post.ts'
 import getBtg from './handlers/btg/get.ts'
 import postBtg from './handlers/btg/post.ts'
-import postActivity from './handlers/activity/post.ts'
+import postListen from './handlers/activity/postListen.ts'
 import getActivity from './handlers/activity/get.ts'
 import postHideActivity from './handlers/activity/postHide.ts'
 import postGames from './handlers/activity/postGame.ts'
@@ -50,7 +50,7 @@ export default async function apiRoutes(fastify: FastifyInstance, _: FastifyPlug
 
     // activity
     fastify.get("/activity", getActivity)
-    fastify.post("/activity/listen", postActivity)
+    fastify.post("/activity/listen", postListen)
     fastify.post("/activity/game", postGames)
     fastify.post("/activity/hide", postHideActivity)
 

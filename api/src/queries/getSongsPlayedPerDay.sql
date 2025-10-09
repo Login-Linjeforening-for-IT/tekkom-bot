@@ -1,18 +1,18 @@
 WITH daily_counts AS (
     SELECT 
-        DATE(a.start_time) AS day,
+        DATE(l.start_time) AS day,
         s.name AS song,
         ar.name AS artist,
         al.name AS album,
         s."image",
         s.sync_id,
         COUNT(*)::INT AS listens
-    FROM activities a
-    JOIN songs s ON a.song_id = s.id
+    FROM listens l
+    JOIN songs s ON l.song_id = s.id
     JOIN artists ar ON s.artist_id = ar.id
     JOIN albums al ON s.album_id = al.id
-    WHERE a.start_time >= NOW() - INTERVAL '365 days'
-      AND NOT a.skipped
+    WHERE l.start_time >= NOW() - INTERVAL '365 days'
+      AND NOT l.skipped
     GROUP BY day, s.name, ar.name, al.name, s."image", s.sync_id
 ),
 ranked AS (

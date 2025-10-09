@@ -2,8 +2,8 @@ WITH artist_counts AS (
     SELECT 
         s.artist_id,
         COUNT(*)::INT AS listens
-    FROM activities a
-    JOIN songs s ON a.song_id = s.id
+    FROM listens l
+    JOIN songs s ON l.song_id = s.id
     GROUP BY s.artist_id
 ),
 top_songs AS (
@@ -14,9 +14,9 @@ top_songs AS (
         s."image",
         s.sync_id
     FROM songs s
-    JOIN activities a ON a.song_id = s.id
+    JOIN listens a ON l.song_id = s.id
     JOIN albums al ON s.album_id = al.id
-    ORDER BY s.artist_id, COUNT(a.*) OVER (PARTITION BY s.artist_id, s.id) DESC
+    ORDER BY s.artist_id, COUNT(l.*) OVER (PARTITION BY s.artist_id, s.id) DESC
 )
 SELECT 
     ar.name AS artist,

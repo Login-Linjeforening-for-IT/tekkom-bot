@@ -10,5 +10,5 @@ SELECT
         )
     )::INT AS total_minutes_this_year,
     COUNT(*)::INT AS total_songs
-FROM activities
+FROM listens
 WHERE NOT skipped;

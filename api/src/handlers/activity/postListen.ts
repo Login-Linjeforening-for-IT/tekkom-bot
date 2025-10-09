@@ -5,7 +5,7 @@ import { loadSQL } from '#utils/loadSQL.ts'
 import tokenWrapper from "#utils/tokenWrapper.ts"
 import type { FastifyReply, FastifyRequest } from "fastify"
 
-export default async function postActivity(req: FastifyRequest, res: FastifyReply) {
+export default async function postListen(req: FastifyRequest, res: FastifyReply) {
     const { user, song, artist, start, end, album, image, source, avatar, userId, skipped, syncId } = req.body as Activity ?? {}
     const { valid } = await tokenWrapper(req, res, ['tekkom-bot'])
     if (!valid) {
@@ -13,11 +13,12 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
     }
 
     if (!user || !song || !artist || !start || !end || !album || !image || !source || !avatar || !userId || !syncId) {
-        return res.status(400).send({ error: "Please provide a valid activity." })
+        console.log(`Missing those that are undefined:\n${JSON.stringify({ user, song, artist, start, end, album, image, source, avatar, userId, syncId })}`)
+        return res.status(400).send({ error: "Please provide a valid listen activity." })
     }
 
     try {
-        console.log(`Adding activity: song=${song}, artist=${artist}, user=${user}`)
+        console.log(`Adding listen: song: '${song}', artist: '${artist}', user: '${user}'`)
         let artistId = 'Unknown'
         let albumId = 'Unknown'
 
@@ -44,7 +45,8 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
         }
 
         if (skipped) {
-            const previous = await run('getPreviousSongForUser.sql', [userId])
+            const previousQuery = await loadSQL('getPreviousSongForUser.sql')
+            const previous = await run(previousQuery, [userId])
 
             if (previous && previous.rows.length > 0) {
                 const activityId = previous.rows[0].id
@@ -53,7 +55,7 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
                 const activityArtist = previous.rows[0].artist
                 const activityAlbum = previous.rows[0].album
 
-                await run(`UPDATE activities SET skipped = $1 WHERE id = $2`, [true, activityId])
+                await run(`UPDATE listens SET skipped = $1 WHERE id = $2`, [true, activityId])
                 await run(
                     `UPDATE songs
                     SET listens = GREATEST(listens - 1, 0),
@@ -75,9 +77,12 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
             }
         }
 
-        const postActivityQuery = (await loadSQL('postActivity.sql'))
+        const userQuery = await loadSQL('postUser.sql')
+        await run(userQuery, [userId, avatar, user])
+
+        const postListenQuery = (await loadSQL('postListen.sql'))
         await run(
-            postActivityQuery,
+            postListenQuery,
             [user, song, artist, album, start, end, source, userId]
         )
 

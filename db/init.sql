@@ -55,8 +55,8 @@ CREATE TABLE IF NOT EXISTS songs (
     UNIQUE (name, artist_id, album_id)
 );
 
--- Activities
-CREATE TABLE IF NOT EXISTS activities (
+-- Listens
+CREATE TABLE IF NOT EXISTS listens (
     id SERIAL PRIMARY KEY,
     song_id INT NOT NULL REFERENCES songs(id),
     user_id TEXT NOT NULL REFERENCES users(id),
@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS "hidden" (
 );
 
 -- Optimalizations
-CREATE INDEX idx_activities_timestamp_desc ON activities ("timestamp" DESC);
+CREATE INDEX idx_listens_timestamp_desc ON listens ("timestamp" DESC);
 
 CREATE INDEX idx_songs_listens_skips
 ON songs (listens, skips);
@@ -130,23 +130,20 @@ ON songs (artist, listens DESC);
 CREATE INDEX idx_songs_skips_desc 
 ON songs (skips DESC);
 
-CREATE INDEX idx_activities_user_listens 
-ON activities (user_id, skipped);
-
-CREATE INDEX idx_activities_user_skipped 
-ON activities (user_id, skipped);
+CREATE INDEX idx_user_listens
+ON listens (user_id, skipped);
 
 CREATE INDEX idx_announcements_interval_sent_time 
 ON announcements (interval, sent, "time");
 
-CREATE INDEX idx_activities_start_not_skipped 
-ON activities ("start") WHERE NOT skipped;
+CREATE INDEX idx_listens_start_not_skipped 
+ON listens ("start") WHERE NOT skipped;
 
-CREATE INDEX idx_activities_not_skipped 
-ON activities (skipped) WHERE skipped = false;
+CREATE INDEX idx_listens_not_skipped 
+ON listens (skipped) WHERE skipped = false;
 
-CREATE INDEX idx_activities_active_now
-ON activities ("user_id", "start", "end", skipped);
+CREATE INDEX idx_listens_active_now
+ON listens ("user_id", "start", "end", skipped);
 
 -- For top songs per artist queries
 CREATE INDEX idx_songs_artist_name_album ON songs (artist, name, album);
@@ -163,23 +160,23 @@ CREATE INDEX idx_artists_listens_desc ON artists (listens DESC);
 CREATE INDEX idx_artists_skips_desc ON artists (skips DESC);
 
 -- Requires altering the table, currently not implemented
--- CREATE INDEX idx_activities_start_date_not_skipped 
--- ON activities ("start"::date) WHERE NOT skipped;
+-- CREATE INDEX idx_listens_start_date_not_skipped 
+-- ON listens ("start"::date) WHERE NOT skipped;
 
--- CREATE INDEX idx_activities_start_month_not_skipped 
--- ON activities (DATE_TRUNC('month', "start")) 
+-- CREATE INDEX idx_listens_start_month_not_skipped 
+-- ON listens (DATE_TRUNC('month', "start")) 
 -- WHERE NOT skipped;
 
--- CREATE INDEX idx_activities_start_week_not_skipped 
--- ON activities (DATE_TRUNC('week', "start")) 
+-- CREATE INDEX idx_listens_start_week_not_skipped 
+-- ON listens (DATE_TRUNC('week', "start")) 
 -- WHERE NOT skipped;
 
--- CREATE INDEX idx_activities_start_year_not_skipped 
--- ON activities (DATE_TRUNC('year', "start")) 
+-- CREATE INDEX idx_listens_start_year_not_skipped 
+-- ON listens (DATE_TRUNC('year', "start")) 
 -- WHERE NOT skipped;
 
--- CREATE INDEX idx_activities_start_year_skipped
--- ON activities ((DATE_TRUNC('year', "start"))) 
+-- CREATE INDEX idx_listens_start_year_skipped
+-- ON listens ((DATE_TRUNC('year', "start"))) 
 -- INCLUDE (skipped, song, artist, album);
 
 -- Number of helper functions per query to increase performance

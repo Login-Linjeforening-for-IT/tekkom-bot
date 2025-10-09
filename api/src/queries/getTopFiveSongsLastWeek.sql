@@ -5,12 +5,12 @@ SELECT
     s."image",
     s.sync_id,
     COUNT(*)::INT AS listens
-FROM activities a
-JOIN songs s ON a.song_id = s.id
+FROM listens l
+JOIN songs s ON l.song_id = s.id
 JOIN artists ar ON s.artist_id = ar.id
 JOIN albums al ON s.album_id = al.id
-WHERE DATE_TRUNC('week', a.start_time) = DATE_TRUNC('week', CURRENT_DATE - INTERVAL '1 week')
-  AND NOT a.skipped
+WHERE DATE_TRUNC('week', l.start_time) = DATE_TRUNC('week', CURRENT_DATE - INTERVAL '1 week')
+  AND NOT l.skipped
 GROUP BY s.name, ar.name, al.name, s."image", s.sync_id
 ORDER BY listens DESC
 LIMIT 5;
