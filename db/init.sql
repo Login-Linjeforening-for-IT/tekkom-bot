@@ -19,6 +19,54 @@ BEGIN
     END IF;
 END $$;
 
+-- Users
+CREATE TABLE IF NOT EXISTS users (
+    id TEXT PRIMARY KEY,
+    avatar TEXT NOT NULL,
+    "name" TEXT NOT NULL
+);
+
+-- Artists 
+CREATE TABLE IF NOT EXISTS artists (
+    id SERIAL PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL,
+    listens INT DEFAULT 1,
+    skips INT DEFAULT 0,
+    timestamp TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Albums
+CREATE TABLE IF NOT EXISTS albums (
+    id SERIAL PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL
+);
+
+-- Songs 
+CREATE TABLE IF NOT EXISTS songs (
+    id SERIAL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    artist_id INT NOT NULL REFERENCES artists(id),
+    album_id INT NOT NULL REFERENCES albums(id),
+    "image" TEXT NOT NULL,
+    sync_id TEXT NOT NULL,
+    listens INT DEFAULT 1,
+    skips INT DEFAULT 0,
+    timestamp TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE (name, artist_id, album_id)
+);
+
+-- Activities
+CREATE TABLE IF NOT EXISTS activities (
+    id SERIAL PRIMARY KEY,
+    song_id INT NOT NULL REFERENCES songs(id),
+    user_id TEXT NOT NULL REFERENCES users(id),
+    start_time TIMESTAMPTZ NOT NULL,
+    end_time TIMESTAMPTZ NOT NULL,
+    source TEXT NOT NULL,
+    skipped BOOLEAN NOT NULL DEFAULT false,
+    timestamp TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- Announcements
 CREATE TABLE IF NOT EXISTS announcements (
     id SERIAL PRIMARY KEY,
@@ -40,54 +88,6 @@ CREATE TABLE IF NOT EXISTS btg (
     name TEXT NOT NULL,
     service TEXT NOT NULL,
     author TEXT NOT NULL,
-    timestamp TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Users
-CREATE TABLE IF NOT EXISTS users (
-    id TEXT PRIMARY KEY,
-    avatar TEXT NOT NULL,
-    "name" TEXT NOT NULL
-);
-
--- Activities
-CREATE TABLE IF NOT EXISTS activities (
-    id SERIAL PRIMARY KEY,
-    song_id INT NOT NULL REFERENCES songs(id),
-    user_id TEXT NOT NULL REFERENCES users(id),
-    start_time TIMESTAMPTZ NOT NULL,
-    end_time TIMESTAMPTZ NOT NULL,
-    source TEXT NOT NULL,
-    skipped BOOLEAN NOT NULL DEFAULT false,
-    timestamp TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Songs 
-CREATE TABLE IF NOT EXISTS songs (
-    id SERIAL PRIMARY KEY,
-    "name" TEXT NOT NULL,
-    artist_id INT NOT NULL REFERENCES artists(id),
-    album_id INT NOT NULL REFERENCES albums(id),
-    "image" TEXT NOT NULL,
-    sync_id TEXT NOT NULL,
-    listens INT DEFAULT 1,
-    skips INT DEFAULT 0,
-    timestamp TIMESTAMPTZ DEFAULT NOW(),
-    UNIQUE (name, artist_id, album_id)
-);
-
--- Albums
-CREATE TABLE IF NOT EXISTS albums (
-    id SERIAL PRIMARY KEY,
-    name TEXT UNIQUE NOT NULL
-);
-
--- Artists 
-CREATE TABLE IF NOT EXISTS artists (
-    id SERIAL PRIMARY KEY,
-    name TEXT UNIQUE NOT NULL,
-    listens INT DEFAULT 1,
-    skips INT DEFAULT 0,
     timestamp TIMESTAMPTZ DEFAULT NOW()
 );
 
