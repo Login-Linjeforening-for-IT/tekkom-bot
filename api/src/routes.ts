@@ -16,7 +16,7 @@ import postBtg from './handlers/btg/post.ts'
 import postActivity from './handlers/activity/post.ts'
 import getActivity from './handlers/activity/get.ts'
 import postHideActivity from './handlers/activity/postHide.ts'
-import postGames from './handlers/activity/postGames.ts'
+import postGames from './handlers/activity/postGame.ts'
 import getTrackPreview from './handlers/spotify/get.ts'
 import type { FastifyInstance, FastifyPluginOptions } from "fastify"
 

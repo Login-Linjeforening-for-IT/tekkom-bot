@@ -44,18 +44,7 @@ export default async function postActivity(req: FastifyRequest, res: FastifyRepl
         }
 
         if (skipped) {
-            const previous = await run(
-                `SELECT a.id, a.song, a.artist, a.album, s.sync_id
-                FROM activities a
-                JOIN songs s
-                ON a.song = s.name
-                AND a.artist = s.artist
-                AND a.album = s.album
-                WHERE a.user_id = $1
-                ORDER BY a.timestamp DESC
-                LIMIT 1;`,
-                [userId]
-            )
+            const previous = await run('getPreviousSongForUser.sql', [userId])
 
             if (previous && previous.rows.length > 0) {
                 const activityId = previous.rows[0].id

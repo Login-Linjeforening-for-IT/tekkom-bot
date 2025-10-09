@@ -31,20 +31,18 @@ export default async function postGame(req: FastifyRequest, res: FastifyReply) {
         console.log(`Adding game: name=${name}, user=${user}`)
 
         const gameQuery = await loadSQL('postGame.sql')
-        await run(gameQuery, [name, image ?? null, imageText ?? null]);
-
-        const gameActivityQuery = await loadSQL('postGameActivity.sql')
+        const gameResult = await run(gameQuery, [name, image ?? null, imageText ?? null])
+        const gameId = gameResult.rows[0].id
+        const gameActivityQuery = await loadSQL('postGameActivity.sql');
         await run(gameActivityQuery, [
-            name,
-            user,
+            gameId,
             userId,
-            avatar,
             details ?? null,
             state ?? null,
             application ?? null,
             start,
             party ?? null
-        ]);
+        ])
 
         return res.send({ message: `Successfully added game ${name} for ${user}.` })
     } catch (error) {
