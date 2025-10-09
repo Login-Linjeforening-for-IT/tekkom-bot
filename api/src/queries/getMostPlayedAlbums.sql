@@ -1,24 +1,21 @@
+WITH top_songs AS (
+    SELECT *,
+           ROW_NUMBER() OVER (PARTITION BY artist, album ORDER BY listens DESC) AS rn
+    FROM songs
+)
 SELECT 
     al.name AS album,
     ar.name AS artist,
-    COUNT(*)::INT AS listens,
-    s_top.name AS top_song,
-    s_top."image" AS top_song_image,
-    s_top.album,
-    s_top.id AS top_song_id
-FROM listens l
-JOIN songs s ON l.song_id = s.id
+    SUM(s.listens) AS total_listens,
+    ts.name AS top_song,
+    ts."image" AS top_song_image,
+    ts.album AS top_song_album,
+    ts.id AS top_song_id
+FROM songs s
 JOIN albums al ON s.album = al.id
 JOIN artists ar ON s.artist = ar.id
-JOIN LATERAL (
-    SELECT s2.name, s2."image", s2.album, s2.id
-    FROM listens l2
-    JOIN songs s2 ON l2.song_id = s2.id
-    WHERE s2.album = s.album AND s2.artist = s.artist
-    GROUP BY s2.name, s2."image", s2.album, s2.id
-    ORDER BY COUNT(l2.*) DESC
-    LIMIT 1
-) AS s_top ON true
-GROUP BY al.name, ar.name, s_top.name, s_top."image", s_top.album, s_top.id
-ORDER BY listens DESC
+JOIN top_songs ts 
+    ON ts.artist = s.artist AND ts.album = s.album AND ts.rn = 1
+GROUP BY al.name, ar.name, ts.name, ts."image", ts.album, ts.id
+ORDER BY total_listens DESC
 LIMIT 5;
