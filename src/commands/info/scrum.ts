@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js'
+import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
 
 export const data = new SlashCommandBuilder()
     .setName('scrum')
@@ -17,17 +17,16 @@ export async function execute(message: ChatInputCommandInteraction) {
         return
     }
 
-    const embed = {
-        color: 0x0099ff,
-        title: '/issue Command',
-        description: 'The `/issue` command helps you create, view, and manage issues in repositories directly from Discord.',
-        fields: [
+    const embed = new EmbedBuilder()
+        .setColor(0x0099ff)
+        .setTitle('/issue Command')
+        .setDescription('The `/issue` command helps you create, view, and manage issues in repositories directly from Discord.')
+        .addFields([
             {
                 name: 'Create an Issue',
                 value: '/issue repository:<name> title:<title> description:<description> type:<type> projecttype:<group>',
             },
-        ]
-    }
+        ])
 
     await message.reply({
         content: `${user}`,
