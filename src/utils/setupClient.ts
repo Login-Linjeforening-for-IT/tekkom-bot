@@ -32,7 +32,7 @@ export default async function setupClient() {
     }) as DiscordClient
     
     client.commands = new Collection()
-    const foldersPath = join(__dirname, 'commands')
+    const foldersPath = join(__dirname, '..', 'commands')
     const commandFolders = readdirSync(foldersPath)
     
     for (const folder of commandFolders) {
