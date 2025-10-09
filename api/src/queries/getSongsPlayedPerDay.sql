@@ -17,9 +17,15 @@ WITH daily_counts AS (
 ),
 ranked AS (
     SELECT 
-        day, song, artist, album, "image", listens, id,
+        day, 
+        song, 
+        artist, 
+        album, 
+        "image", 
+        listens, 
+        id,
         ROW_NUMBER() OVER (PARTITION BY day ORDER BY listens DESC) AS rn,
-        SUM(listens)::INT OVER (PARTITION BY day) AS total_songs_played
+        SUM(listens) OVER (PARTITION BY day)::INT AS total_songs_played
     FROM daily_counts
 )
 SELECT day, song, artist, album, "image", listens, total_songs_played, id

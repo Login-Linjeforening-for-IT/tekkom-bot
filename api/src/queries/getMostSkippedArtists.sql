@@ -1,7 +1,7 @@
 WITH artist_skips AS (
     SELECT 
         s.artist,
-        SUM(CASE WHEN l.skipped THEN 1 ELSE 0 END) AS skips
+        SUM(CASE WHEN l.skipped THEN 1 ELSE 0 END)::INT AS skips
     FROM listens l
     JOIN songs s ON l.song_id = s.id
     GROUP BY s.artist
@@ -12,11 +12,12 @@ top_songs AS (
         s.name AS top_song,
         al.name AS album,
         s."image",
-        s.id
+        s.id,
+        COUNT(l.*) OVER (PARTITION BY s.artist, s.id) AS play_count
     FROM songs s
     JOIN listens l ON l.song_id = s.id
     JOIN albums al ON s.album = al.id
-    ORDER BY s.artist, COUNT(l.*)::INT OVER (PARTITION BY s.artist, s.id) DESC
+    ORDER BY s.artist, play_count DESC
 )
 SELECT 
     ar.name AS artist,
