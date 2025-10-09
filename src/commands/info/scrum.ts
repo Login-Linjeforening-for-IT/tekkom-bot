@@ -16,8 +16,21 @@ export async function execute(message: ChatInputCommandInteraction) {
         await message.reply({ content: 'Please specify a user to reply to!', ephemeral: true })
         return
     }
-    
-    const scrumMessage = `${user} scrum <3`
-    
-    await message.reply(scrumMessage)
+
+    const embed = {
+        color: 0x0099ff,
+        title: '/issue Command',
+        description: 'The `/issue` command helps you create, view, and manage issues in repositories directly from Discord.',
+        fields: [
+            {
+                name: 'Create an Issue',
+                value: '/issue repository:<name> title:<title> description:<description> type:<type> projecttype:<group>',
+            },
+        ]
+    }
+
+    await message.reply({
+        content: `${user}`,
+        embeds: [embed]
+    })
 }
