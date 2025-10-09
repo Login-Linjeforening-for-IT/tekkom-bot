@@ -1,6 +1,6 @@
 {
   "name": "tekkom-bot-api",
-  "version": "2.12.2",
+  "version": "2.12.3",
   "main": "index.js",
   "scripts": {
     "dev": "tsx --watch src/index.ts",
