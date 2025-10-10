@@ -13,7 +13,7 @@ export default async function postProjectItem( project: 'dev' | 'infra', issueID
 
         const id = project === 'dev' ? DEV_PROJECT_ID : INFRA_PROJECT_ID
 
-        const response = await fetch(`${GITHUB_API}/orgs/${GITHUB_ORGANIZATION}/projectsV2/${id}/items`, {
+        const response = await fetch(`${GITHUB_API}orgs/${GITHUB_ORGANIZATION}/projectsV2/${id}/items`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${config.githubToken}`,
