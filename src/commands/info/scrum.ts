@@ -20,7 +20,7 @@ export async function execute(message: ChatInputCommandInteraction) {
     const embed = new EmbedBuilder()
         .setColor(0x0099ff)
         .setTitle('/issue Command')
-        .setDescription('The `/issue` command helps you create, view, and manage issues in repositories directly from Discord.')
+        .setDescription('The `/issue` command helps you create issues in repositories directly from Discord.')
         .addFields([
             {
                 name: 'Create an Issue',

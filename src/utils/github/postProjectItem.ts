@@ -1,4 +1,4 @@
-import { GITHUB_API, GITHUB_ORGANIZATION } from '#constants'
+import { GITHUB_API, GITHUB_ORGANIZATION, DEV_PROJECT_ID, INFRA_PROJECT_ID } from '#constants'
 import config from '#config'
 import logNullValue from '#utils/logNullValue.ts'
 
@@ -11,7 +11,7 @@ export default async function postProjectItem( project: 'dev' | 'infra', issueID
             id: issueID,
         }
 
-        const id = project === 'dev' ? process.env.DEV_PROJECT_ID : process.env.INFRA_PROJECT_ID
+        const id = project === 'dev' ? DEV_PROJECT_ID : INFRA_PROJECT_ID
 
         const response = await fetch(`${GITHUB_API}/orgs/${GITHUB_ORGANIZATION}/projectsV2/${id}/items`, {
             method: 'POST',

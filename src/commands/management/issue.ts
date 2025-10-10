@@ -125,7 +125,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                     inline: true
                 },
                 {
-                    name: '👨Created by',
+                    name: 'Created by',
                     value: `<@${interaction.user.id}>`,
                     inline: true
                 },
