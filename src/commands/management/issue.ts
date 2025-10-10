@@ -93,8 +93,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
         // Create the issue body with additional metadata
         const issueBody = `${description}` +
             '\n\n---\n' +
-            `**Type:** ${type.charAt(0).toUpperCase() + type.slice(1)}\n` +
-            `**Created by:** @${interaction.user.username} (${interaction.user.displayName})\n` +
+            `**Created by:** ${interaction.user.displayName} (${interaction.user.username})\n` +
             `**Created from:** Discord TekKom Bot`
 
         // Create the GitHub issue
@@ -114,7 +113,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
         }
 
         const embed = new EmbedBuilder()
-            .setTitle(`✅ Issue Created: ${title}`)
+            .setTitle(`Issue Created: ${title}`)
             .setDescription(description)
             .setTimestamp()
             .setColor('#28a745')
@@ -125,19 +124,18 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                     inline: true
                 },
                 {
-                    name: 'Created by',
-                    value: `<@${interaction.user.id}>`,
+                    name: 'Project Board',
+                    value: projectAdded ? `Added to ${projectType} board` : '⚠️ Not added to board',
                     inline: true
                 },
                 {
-                    name: 'Project Board',
-                    value: projectAdded ? '✅ Added to project' : '⚠️ Not added to project',
+                    name: 'Created by',
+                    value: `<@${interaction.user.id}>`,
                     inline: true
                 }
             ])
             .setFooter({ 
-                text: `Issue #${issueId} created in ${match.name}`,
-                iconURL: interaction.user.displayAvatarURL()
+                text: `Issue [#${issueId}](${match.html_url}) created in ${match.name}`,
             })
 
         await interaction.reply({ embeds: [embed] })
