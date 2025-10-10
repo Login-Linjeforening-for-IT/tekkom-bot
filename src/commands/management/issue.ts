@@ -114,6 +114,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
         const embed = new EmbedBuilder()
             .setTitle(`Issue Created: ${title}`)
+            .setURL(match.html_url)
             .setDescription(description)
             .setTimestamp()
             .setColor('#28a745')
@@ -135,7 +136,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                 }
             ])
             .setFooter({ 
-                text: `Issue [#${issueId}](${match.html_url}) created in ${match.name}`,
+                text: `Issue #${issueId} created in ${match.name}`,
             })
 
         await interaction.reply({ embeds: [embed] })
