@@ -6,7 +6,7 @@ export default async function getRepositories(limit: number, query: string): Pro
     try {
         logNullValue('getRepositories', ['limit'], [limit])
         const search = query ? `${query}+` : ''
-        const response = await fetch(`${GITHUB_API}q=search/repositories?${search}org:${GITHUB_ORGANIZATION}&per_page=${limit}`, {
+        const response = await fetch(`${GITHUB_API}search/repositories?q=${search}org:${GITHUB_ORGANIZATION}&per_page=${limit}`, {
             headers: {
                 'Authorization': `Bearer ${config.githubToken}`,
                 'X-GitHub-Api-Version': '2022-11-28',
