@@ -44,7 +44,7 @@ export default async function checkAndHandleListenRepeats(
             const listen = {
                 id: spotify.syncId,
                 user: member.user.tag ?? 'Unknown',
-                song: spotify.details ?? 'Unknown',
+                name: spotify.details ?? 'Unknown',
                 artist: spotify.state ?? 'Unknown',
                 start,
                 end,
