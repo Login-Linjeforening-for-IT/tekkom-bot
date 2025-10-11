@@ -38,20 +38,20 @@ export default async function discordIssue(title: string, description: string, f
 function getColor(name: string) {
     switch (name.toLowerCase()) {
         case 'blue':
-            return '#4493f8'
+            return 0x4493f8
         case 'green':
-            return '#3fb950'
+            return 0x3fb950
         case 'yellow':
-            return '#d29922'
+            return 0xd29922
         case 'orange':
-            return '#db6d28'
+            return 0xdb6d28
         case 'red':
-            return '#f85149'
+            return 0xf85149
         case 'pink':
-            return '#db61a2'
+            return 0xdb61a2
         case 'purple':
-            return '#ab7df8'
+            return 0xab7df8
         default:
-            return '#9198a1'
+            return 0x9198a1 // gray
     }
 }
