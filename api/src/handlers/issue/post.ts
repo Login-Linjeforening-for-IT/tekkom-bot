@@ -45,10 +45,10 @@ export default async function postIssue(req: FastifyRequest, res: FastifyReply) 
                 `Action by ${sender.login}`,
                 'green'
             )
-        } else if (action === 'edited' && changes?.field_value.to) {
+        } else if (action === 'edited' && changes?.field_value.to && changes.field_value.from) {
             await discordIssue(
                 'Moved',
-                `Issue '${issueTitle}' was moved to '${changes.field_value.to.name}'${changes.field_value.from ? ` from '${changes.field_value.from.name}'` : ''}`,
+                `Issue '${issueTitle}' was moved to '${changes.field_value.to.name}' from '${changes.field_value.from.name}'`,
                 `Action by ${sender.login}`,
                 changes.field_value.to.color
             )
