@@ -5,7 +5,7 @@ import sanitize from "#utils/sanitize.ts"
 const REPOSITORY = "repository"
 const DEPLOY = "deploy"
 
-export default async function Autocomplete(interaction: AutocompleteInteraction<"cached">) {
+export default async function handleDeployAndReleaseAutoComplete(interaction: AutocompleteInteraction<"cached">) {
     const focusedName = interaction.options.getFocused(true).name
     const query = sanitize(interaction.options.getFocused(true).value).toLowerCase()
     let relevant = new Set<RepositorySimple>()

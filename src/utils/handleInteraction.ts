@@ -1,4 +1,4 @@
-import Autocomplete from '#utils/gitlab/autoComplete.ts'
+import Autocomplete from '#utils/autocomplete/autoComplete.ts'
 import validCommands, { exceptions } from '#utils/valid.ts'
 import handleComponents from '#utils/handleComponents.ts'
 import getID from '#utils/tickets/getID.ts'

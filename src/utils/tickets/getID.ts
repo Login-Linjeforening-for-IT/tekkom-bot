@@ -8,7 +8,6 @@ export default function getID(command: string): string | undefined {
         case 'view':        return 'view_ticket'
         case 'tagticket':   return 'tag_ticket'
         case 'close':       return 'close_ticket'
-        case 'reopen':      return 'reopen_ticket'
         case 'add':         return 'add'
         case 'addviewer':   return 'addviewer'
         case 'remove':      return 'remove'

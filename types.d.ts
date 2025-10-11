@@ -686,3 +686,8 @@ type Reaction = {
 type Client = {
     commands: Collection<string, Command>
 }
+
+type TicketOption = {
+    label: string
+    value: string
+}

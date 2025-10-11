@@ -1,8 +1,7 @@
 import { ButtonInteraction, ChatInputCommandInteraction, MessageFlags } from "discord.js"
 import handleTagTicket, { tagTicket } from "#utils/tickets/tag.ts"
 import { handleCloseSelectedTicket, handleCloseTicket } from "#utils/tickets/close.ts"
-import handleViewTicket from "#utils/tickets/view.ts"
-import handleReopenTicket, { reopenTicket } from "#utils/tickets/reopen.ts"
+import handleViewTicket, { viewTicket } from "#utils/tickets/view.ts"
 import handleCreateTicket from "#utils/tickets/create.ts"
 import addRoleToCreate from "#utils/tickets/roles.ts"
 import manageUser from "#utils/tickets/users.ts"
@@ -35,9 +34,6 @@ export default async function handleComponents(interaction: ButtonInteraction | 
             break
         case 'close_ticket':
             await handleCloseTicket(buttonInteraction)
-            break
-        case 'reopen_ticket':
-            await handleReopenTicket(buttonInteraction)
             break
         case 'close_ticket_selected':
             await handleCloseSelectedTicket(buttonInteraction)
@@ -76,10 +72,7 @@ export default async function handleComponents(interaction: ButtonInteraction | 
             await handleRemoveFromTicket(buttonInteraction)
             break
         case 'view_ticket_command':
-            await reopenTicket(buttonInteraction, true)
-            break
-        case 'reopen_channel':
-            await reopenTicket(buttonInteraction)
+            await viewTicket(buttonInteraction)
             break
         case 'next_page_help':
             await nextPage(buttonInteraction)
