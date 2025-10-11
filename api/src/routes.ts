@@ -18,6 +18,7 @@ import getActivity from './handlers/activity/get.ts'
 import postHideActivity from './handlers/activity/postHide.ts'
 import postGames from './handlers/activity/postGame.ts'
 import getTrackPreview from './handlers/spotify/get.ts'
+import postIssue from './handlers/issue/post.ts'
 import type { FastifyInstance, FastifyPluginOptions } from "fastify"
 
 export default async function apiRoutes(fastify: FastifyInstance, _: FastifyPluginOptions) {
@@ -56,4 +57,7 @@ export default async function apiRoutes(fastify: FastifyInstance, _: FastifyPlug
 
     // spotify
     fastify.get('/track/:id', getTrackPreview)
+
+    // issue
+    fastify.post('/issue', postIssue)
 }

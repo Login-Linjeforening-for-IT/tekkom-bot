@@ -18,8 +18,11 @@ const requiredEnvironmentVariables = [
     'QUEENBEE_BTG_TOKEN',
     'CRITICAL_ROLE',
     'WEBHOOK_URL',
+    'WEBHOOK_URL_ISSUE',
     'SPOTIFY_CLIENT_ID',
-    'SPOTIFY_CLIENT_SECRET'
+    'SPOTIFY_CLIENT_SECRET',
+    'GITHUB_TOKEN',
+    'GITHUB_WEBHOOK_SECRET',
 ]
 
 const missingVariables = requiredEnvironmentVariables.filter(
@@ -67,6 +70,12 @@ const config = {
     CRITICAL_ROLE: env.CRITICAL_ROLE,
     CRITICAL_ROLE_DEV: env.CRITICAL_ROLE_DEV,
     WEBHOOK_URL: env.WEBHOOK_URL,
+    WEBHOOK_URL_ISSUE: env.WEBHOOK_URL_ISSUE,
+    GITHUB_API: "https://api.github.com/",
+    GITHUB_ORGANIZATION: "Login-Linjeforening-for-IT",
+    GITHUB_TOKEN: env.GITHUB_TOKEN,
+    GITHUB_PROJECT_NUMBER: 1,
+    GITHUB_WEBHOOK_SECRET: env.GITHUB_WEBHOOK_SECRET,
     CACHE_TTL: 5000,
     SPOTIFY_API_TRACK_URL: 'https://api.spotify.com/v1/tracks',
     SPOTIFY_API_TOKEN_URL: 'https://accounts.spotify.com/api/token',
