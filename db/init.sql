@@ -52,8 +52,7 @@ CREATE TABLE IF NOT EXISTS songs (
     "image" TEXT NOT NULL,
     listens INT DEFAULT 1,
     skips INT DEFAULT 0,
-    timestamp TIMESTAMPTZ DEFAULT NOW(),
-    UNIQUE (name, artist, album)
+    timestamp TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- Listens

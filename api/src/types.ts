@@ -49,7 +49,7 @@ declare global {
     type Activity = {
         id: string
         user: string
-        song: string
+        name: string
         artist: string
         start: string
         end: string

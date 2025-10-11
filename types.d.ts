@@ -594,7 +594,7 @@ type Role = {
 
 type SendActivity = {
     id: string
-    song: string
+    name: string
     artist: string
     album: string
     start: string

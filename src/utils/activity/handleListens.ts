@@ -29,7 +29,7 @@ export default async function handleListens({oldPresence, newPresence, lastListe
 
         const listen = {
             user,
-            song: listening.details ?? 'Unknown',
+            name: listening.details ?? 'Unknown',
             artist: listening.state ?? 'Unknown',
             start,
             end,

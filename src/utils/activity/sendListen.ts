@@ -5,7 +5,7 @@ const tekkomBotApiToken = config.tekkomBotApiToken
 export default async function sendListen({
     id,
     user,
-    song,
+    name,
     artist,
     start,
     end,
@@ -27,7 +27,7 @@ export default async function sendListen({
             body: JSON.stringify({ 
                 id,
                 user,
-                song,
+                name,
                 artist,
                 start,
                 end,
@@ -48,6 +48,6 @@ export default async function sendListen({
         return data
     } catch (error) {
         console.log(error)
-        return { error, message: `Failed to add activity ${song} by ${artist} for ${user}.` }
+        return { error, message: `Failed to add listen ${name} by ${artist} for ${user}.` }
     }
 }
