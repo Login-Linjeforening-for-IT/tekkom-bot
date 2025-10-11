@@ -801,3 +801,8 @@ type GithubRepoSearchResponse = {
     incomplete_results: boolean
     items: GithubRepoSearchResultItem[]
 }
+
+type TicketOption = {
+    label: string
+    value: string
+}

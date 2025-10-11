@@ -1,5 +1,4 @@
-import Autocomplete from '#utils/gitlab/autoComplete.ts'
-import GitHubAutocomplete from '#utils/github/autoComplete.ts'
+import Autocomplete from '#utils/autocomplete/autoComplete.ts'
 import validCommands, { exceptions } from '#utils/valid.ts'
 import handleComponents from '#utils/handleComponents.ts'
 import getID from '#utils/tickets/getID.ts'
@@ -21,12 +20,7 @@ export default async function handleInteraction({ interaction, client }: HandleI
     if (interaction.type === InteractionType.ApplicationCommandAutocomplete) {
         const autocompleteInteraction = interaction as AutocompleteInteraction<"cached">
         
-        // Use GitHub autocomplete for issue command, GitLab for others
-        if (autocompleteInteraction.commandName === 'issue') {
-            GitHubAutocomplete(autocompleteInteraction)
-        } else {
-            Autocomplete(autocompleteInteraction)
-        }
+        Autocomplete(autocompleteInteraction)
         return
     }
 

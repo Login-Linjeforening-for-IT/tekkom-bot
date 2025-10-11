@@ -4,7 +4,7 @@ import sanitize from '#utils/sanitize.ts'
 
 const REPOSITORY = 'repository'
 
-export default async function GitHubAutocomplete(interaction: AutocompleteInteraction<'cached'>) {
+export default async function handleGithubAutoComplete(interaction: AutocompleteInteraction<'cached'>) {
     const focusedName = interaction.options.getFocused(true).name
     const query = sanitize(interaction.options.getFocused(true).value).toLowerCase()
     let relevant = new Set<GithubRepoSearchResultItem>()

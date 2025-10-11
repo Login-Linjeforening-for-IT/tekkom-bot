@@ -1,4 +1,5 @@
 import { 
+    AutocompleteInteraction,
     BaseGuildTextChannel, 
     ButtonInteraction, 
     Guild, 
@@ -53,7 +54,7 @@ export async function getTickets(interaction: ButtonInteraction) {
     return options
 }
 
-export async function getArchivedTickets(interaction: ButtonInteraction) {
+export async function getArchivedTickets(interaction: AutocompleteInteraction<"cached"> | ButtonInteraction): Promise<TicketOption[]> {
     const guild = interaction.guild as Guild
     const channels = guild.channels.cache
             .filter(channel => 
@@ -67,15 +68,6 @@ export async function getArchivedTickets(interaction: ButtonInteraction) {
             label: `${formatChannelName(channel.name)} - ${channel.topic}`,
             value: channel.id,
         }))
-
-        if (options.length === 0) {
-            // If no channels are available, send a message saying so
-            await interaction.reply({
-                content: 'You have no archived tickets.',
-                flags: MessageFlags.Ephemeral
-            })
-            return
-        }
     
     return options
 }

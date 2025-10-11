@@ -6,7 +6,7 @@
     "type": "module",
     "scripts": {
         "start": "node src/deployCommands.ts; node src/index.ts",
-        "fast": "tsc && node dist/app.js"
+        "fast": "node src/index.ts"
     },
     "author": "Login - Linjeforeningen for IT",
     "license": "MIT",

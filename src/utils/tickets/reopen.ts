@@ -1,44 +1,24 @@
-import { 
-    ActionRowBuilder, 
-    ButtonInteraction, 
-    CategoryChannel, 
-    MessageFlags, 
-    RoleSelectMenuBuilder, 
-    StringSelectMenuBuilder, 
+import {
+    ActionRowBuilder,
+    CategoryChannel,
+    ChatInputCommandInteraction,
+    MessageFlags,
+    RoleSelectMenuBuilder,
+    StringSelectMenuBuilder,
     TextChannel,
     UserSelectMenuBuilder
 } from "discord.js"
-import { getArchivedTickets } from "#utils/tickets/ticket.ts"
 import topics from "#utils/tickets/topics.ts"
 import formatChannelName from "#utils/tickets/format.ts"
 
-export default async function handleReopenTicket(interaction: ButtonInteraction) {
-    const options = await getArchivedTickets(interaction)
-
-    // Defines the options available to the user
-    const selectChannel = new StringSelectMenuBuilder()
-        .setCustomId('reopen_channel')
-        .setPlaceholder('Select ticket to reopen')
-        .addOptions(options)
-
-    // Creates the rows that are displayed to the users
-    const channel = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectChannel)
-
-    await interaction.reply({
-        components: [channel],
-        flags: MessageFlags.Ephemeral
-    })
-}
-
-export async function reopenTicket(interaction: ButtonInteraction, view?: boolean) {
+export default async function reopenTicket(interaction: ChatInputCommandInteraction<"cached">, ticket: string) {
     const guild = interaction.guild
 
     if (guild === null) {
         return
     }
 
-    // @ts-expect-error
-    const channel = guild.channels.cache.get(interaction.values[0]) as TextChannel | undefined
+    const channel = guild.channels.cache.get(ticket) as TextChannel | undefined
     if (!channel || !(channel instanceof TextChannel)) {
         return await interaction.reply({
             content: `Could not find the specified channel.`,
@@ -49,17 +29,17 @@ export async function reopenTicket(interaction: ButtonInteraction, view?: boolea
     try {
         // Fetches "tickets" category
         const archive = guild?.channels.cache.find(c => c instanceof CategoryChannel && c.name === "tickets") as CategoryChannel
-    
+
         if (!archive) {
             return await interaction.reply({
                 content: `Could not find "tickets" category.`,
                 flags: MessageFlags.Ephemeral
             })
         }
-    
+
         // Moves the channel to the "tickets" category
         await channel.setParent(archive.id, { lockPermissions: false })
-    
+
         // Adds the user to the channel
         await channel.permissionOverwrites.edit(interaction.user.id, {
             ViewChannel: true,
@@ -87,20 +67,18 @@ export async function reopenTicket(interaction: ButtonInteraction, view?: boolea
         const roles = new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(selectRoles)
         const users = new ActionRowBuilder<UserSelectMenuBuilder>().addComponents(selectUsers)
 
-        const viewed = `${view ? 'Viewed' : 'Reopened'} by <@${interaction.user.id}>.`
-        const reopened = `${interaction.user}, your ticket has been reopened!\nPlease select the tags, roles, and users you want to add to this ticket.\nNote that tags can only be set once per 5 minutes.`
-        const content = view ? viewed : reopened
-        const components = view ? undefined : [tags, roles, users]
+        const content = `${interaction.user}, your ticket has been reopened!\nPlease select the tags, roles, and users you want to add to this ticket.\nNote that tags can only be set once per 5 minutes.`
+        const components = [tags, roles, users]
         await channel.send({ content, components })
 
-        await interaction.reply({ 
-            content: `${formatChannelName(channel.name)} ${view ? 'viewed' : 'reopened'}.`,
+        await interaction.reply({
+            content: `${formatChannelName(channel.name)} reopened.`,
             flags: MessageFlags.Ephemeral
-         })
+        })
     } catch (error) {
         console.log(error)
         await interaction.reply({
-            content: `There was an error ${view ? 'viewing' : 'reopening'} the ticket. Please try again later.`,
+            content: `There was an error reopening the ticket. Please try again later.`,
             flags: MessageFlags.Ephemeral
         })
     }
