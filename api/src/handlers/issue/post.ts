@@ -1,6 +1,6 @@
-import run from '#db'
 import discordIssue from '#utils/discordIssue.ts'
 import getIssueName from '#utils/getIssueName.ts'
+import getProjectName from '#utils/getProjectName.ts'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import crypto from 'crypto'
 import config from '#constants'
@@ -43,19 +43,20 @@ export default async function postIssue(req: FastifyRequest, res: FastifyReply) 
     const { action, projects_v2_item, changes, sender } = body
 
     try {
-        const issueTitle = await getIssueName({ issueID: projects_v2_item.id })
+        const issueTitle = await getIssueName(projects_v2_item.node_id)
+        const projectTitle = await getProjectName(projects_v2_item.project_node_id)
 
         if (action === 'created') {
             await discordIssue(
                 'Created',
-                `Issue '${issueTitle}' was created`,
+                `Issue '${issueTitle}' in project '${projectTitle}' was created`,
                 `Action by ${sender.login}`,
                 'green'
             )
-        } else if (action === 'edited' && changes?.field_value.to && changes.field_value.from) {
+        } else if (action === 'edited' && changes && changes.field_value.to !== null && changes.field_value.from !== null) {
             await discordIssue(
                 'Moved',
-                `Issue '${issueTitle}' was moved to '${changes.field_value.to.name}' from '${changes.field_value.from.name}'`,
+                `Issue '${issueTitle}' in project '${projectTitle}' was moved to '${changes.field_value.to.name}' from '${changes.field_value.from.name}'`,
                 `Action by ${sender.login}`,
                 changes.field_value.to.color
             )

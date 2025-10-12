@@ -74,7 +74,6 @@ const config = {
     GITHUB_API: "https://api.github.com/",
     GITHUB_ORGANIZATION: "Login-Linjeforening-for-IT",
     GITHUB_TOKEN: env.GITHUB_TOKEN,
-    GITHUB_PROJECT_NUMBER: 1,
     GITHUB_WEBHOOK_SECRET: env.GITHUB_WEBHOOK_SECRET,
     CACHE_TTL: 5000,
     SPOTIFY_API_TRACK_URL: 'https://api.spotify.com/v1/tracks',

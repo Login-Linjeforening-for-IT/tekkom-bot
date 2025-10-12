@@ -1,15 +1,11 @@
 import constants from '#constants'
 
-export default async function getIssueName(itemNodeId: string): Promise<string> {
+export default async function getProjectName(projectNodeId: string): Promise<string> {
     const query = `
         query($nodeId: ID!) {
             node(id: $nodeId) {
-                ... on ProjectV2Item {
-                    content {
-                        ... on Issue {
-                            title
-                        }
-                    }
+                ... on ProjectV2 {
+                    title
                 }
             }
         }
@@ -24,7 +20,7 @@ export default async function getIssueName(itemNodeId: string): Promise<string> 
             },
             body: JSON.stringify({
                 query,
-                variables: { nodeId: itemNodeId }
+                variables: { nodeId: projectNodeId }
             })
         });
 
@@ -33,8 +29,8 @@ export default async function getIssueName(itemNodeId: string): Promise<string> 
         }
 
         const data = await response.json();
-        return data.data.node?.content?.title || 'Unknown Issue';
+        return data.data.node?.title || 'Unknown Project';
     } catch (error) {
-        return 'Unknown Issue';
+        return 'Unknown Project';
     }
 }
