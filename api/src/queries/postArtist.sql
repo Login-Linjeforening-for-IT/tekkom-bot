@@ -4,6 +4,7 @@ ON CONFLICT (id) DO UPDATE
 SET 
     listens = artists.listens + 1,
     timestamp = NOW(),
+    name = EXCLUDED.name,
     id = CASE 
            WHEN artists.id = 'Unknown' AND EXCLUDED.id IS NOT NULL AND EXCLUDED.id <> 'Unknown' 
            THEN EXCLUDED.id
