@@ -1,6 +1,5 @@
 import discordIssue from '#utils/discordIssue.ts'
-import getIssueName from '#utils/getIssueName.ts'
-import getProjectName from '#utils/getProjectName.ts'
+import getIssueName from '#utils/getIssueInfo.ts'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import crypto from 'crypto'
 import config from '#constants'
@@ -43,21 +42,27 @@ export default async function postIssue(req: FastifyRequest, res: FastifyReply) 
     const { action, projects_v2_item, changes, sender } = body
 
     try {
-        const issueTitle = await getIssueName(projects_v2_item.node_id)
-        const projectTitle = await getProjectName(projects_v2_item.project_node_id)
+        const { issueTitle, repoName, projectName } = await getIssueName(projects_v2_item.node_id)
 
         if (action === 'created') {
             await discordIssue(
-                'Created',
-                `Issue '${issueTitle}' in project '${projectTitle}' was created`,
-                `Action by ${sender.login}`,
+                'Issue created',
+                `'${issueTitle}'`,
+                `${repoName} • ${projectName} • Action by ${sender.login}`,
                 'green'
+            )
+        } else if (action === 'edited' && changes && changes.field_value.to !== 'Done') {
+            await discordIssue(
+                'Issue closed',
+                `'${issueTitle}'`,
+                `${repoName} • ${projectName} • Action by ${sender.login}`,
+                changes.field_value.to.color
             )
         } else if (action === 'edited' && changes && changes.field_value.to !== null && changes.field_value.from !== null) {
             await discordIssue(
-                'Moved',
-                `Issue '${issueTitle}' in project '${projectTitle}' was moved to '${changes.field_value.to.name}' from '${changes.field_value.from.name}'`,
-                `Action by ${sender.login}`,
+                'Issue moved',
+                `'${issueTitle}'\nMoved to ${changes.field_value.to.name} from ${changes.field_value.from.name}`,
+                `${repoName} • ${projectName} • Action by ${sender.login}`,
                 changes.field_value.to.color
             )
         }

@@ -1,6 +1,6 @@
 import constants from '#constants'
 
-export default async function getIssueName(itemNodeId: string): Promise<string> {
+export default async function getIssueInfo(itemNodeId: string): Promise<{ issueTitle: string; repoName: string; projectName: string }> {
     const query = `
         query($nodeId: ID!) {
             node(id: $nodeId) {
@@ -8,7 +8,13 @@ export default async function getIssueName(itemNodeId: string): Promise<string> 
                     content {
                         ... on Issue {
                             title
+                            repository {
+                                name
+                            }
                         }
+                    }
+                    project {
+                        title
                     }
                 }
             }
@@ -33,8 +39,11 @@ export default async function getIssueName(itemNodeId: string): Promise<string> 
         }
 
         const data = await response.json();
-        return data.data.node?.content?.title || 'Unknown Issue';
+        const issueTitle = data.data.node?.content?.title || 'Unknown Issue';
+        const repoName = data.data.node?.content?.repository?.name || 'Unknown Repo';
+        const projectName = data.data.node?.project?.title || 'Unknown Project';
+        return { issueTitle, repoName, projectName };
     } catch (error) {
-        return 'Unknown Issue';
+        return { issueTitle: 'Unknown Issue', repoName: 'Unknown Repo', projectName: 'Unknown Project' };
     }
 }
