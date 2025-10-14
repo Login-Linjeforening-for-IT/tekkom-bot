@@ -9,7 +9,6 @@ type GitHubProjectsV2ItemPayload = {
   projects_v2_item: any
   changes?: {
     field_value?: any
-    field_name?: string
   }
   sender: {
     login: string
@@ -44,7 +43,7 @@ export default async function postIssue(req: FastifyRequest, res: FastifyReply) 
 
     try {
         const { issueTitle, repoName, projectName } = await getIssueName(projects_v2_item.node_id)
-        const isEdit = action === 'edited' && changes && changes.field_name === 'Status'
+        const isEdit = action === 'edited' && changes && changes.field_value.field_name === 'Status'
 
         if (action === 'created') {
             await discordIssue(
