@@ -51,7 +51,7 @@ export default async function postIssue(req: FastifyRequest, res: FastifyReply) 
                 `${repoName} • ${projectName} • Action by ${sender.login}`,
                 'green'
             )
-        } else if (action === 'edited' && changes && changes.field_value.to !== 'Done') {
+        } else if (action === 'edited' && changes && changes.field_value.to === 'Done') {
             await discordIssue(
                 'Issue closed',
                 `'${issueTitle}'`,
