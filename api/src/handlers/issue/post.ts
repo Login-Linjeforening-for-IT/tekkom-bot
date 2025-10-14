@@ -52,14 +52,14 @@ export default async function postIssue(req: FastifyRequest, res: FastifyReply) 
                 `${repoName} • ${projectName} • Action by ${sender.login}`,
                 'green'
             )
-        } else if (isEdit && changes.field_value.to === 'Done') {
+        } else if (isEdit && changes.field_value.to.name === 'Done') {
             await discordIssue(
                 'Issue closed',
                 `'${issueTitle}'`,
                 `${repoName} • ${projectName} • Action by ${sender.login}`,
                 changes.field_value.to.color
             )
-        } else if ( isEdit && changes.field_value.to !== null && changes.field_value.from !== null) {
+        } else if ( isEdit && changes.field_value.to.name !== null && changes.field_value.from.name !== null) {
             await discordIssue(
                 'Issue moved',
                 `'${issueTitle}'\nMoved to ${changes.field_value.to.name} from ${changes.field_value.from.name}`,
