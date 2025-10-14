@@ -9,6 +9,7 @@ type GitHubProjectsV2ItemPayload = {
   projects_v2_item: any
   changes?: {
     field_value?: any
+    field_name?: string
   }
   sender: {
     login: string
@@ -43,6 +44,7 @@ export default async function postIssue(req: FastifyRequest, res: FastifyReply) 
 
     try {
         const { issueTitle, repoName, projectName } = await getIssueName(projects_v2_item.node_id)
+        const isEdit = action === 'edited' && changes && changes.field_name === 'Status'
 
         if (action === 'created') {
             await discordIssue(
@@ -51,14 +53,14 @@ export default async function postIssue(req: FastifyRequest, res: FastifyReply) 
                 `${repoName} • ${projectName} • Action by ${sender.login}`,
                 'green'
             )
-        } else if (action === 'edited' && changes && changes.field_value.to === 'Done') {
+        } else if (isEdit && changes.field_value.to === 'Done') {
             await discordIssue(
                 'Issue closed',
                 `'${issueTitle}'`,
                 `${repoName} • ${projectName} • Action by ${sender.login}`,
                 changes.field_value.to.color
             )
-        } else if (action === 'edited' && changes && changes.field_value.to !== null && changes.field_value.from !== null) {
+        } else if ( isEdit && changes.field_value.to !== null && changes.field_value.from !== null) {
             await discordIssue(
                 'Issue moved',
                 `'${issueTitle}'\nMoved to ${changes.field_value.to.name} from ${changes.field_value.from.name}`,
