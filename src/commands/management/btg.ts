@@ -17,6 +17,7 @@ export const data = new SlashCommandBuilder()
             { name: "QueenBee", value: "queenbee" }
         )
     )
+
 export async function execute(message: ChatInputCommandInteraction) {
     const name = message.options.getString('name')
     const service = message.options.getString('service')

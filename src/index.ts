@@ -5,7 +5,6 @@ import handleTickets from '#utils/tickets/handler.ts'
 import autoSyncZammad from '#utils/tickets/autoSyncZammad.ts'
 import autoCreateStyretMeetings from '#utils/meetings/autoCreateStyretMeetings.ts'
 import channelTemplates from '#utils/channelTemplates.ts'
-import beekeeperMonitor from '#utils/beekeeper/beekeeperMonitor.ts'
 import queenbeeMonitor from '#utils/queenbee/queenbeeMonitor.ts'
 import heartbeat from '#utils/heartbeat/heartbeat.ts'
 import handleListens from '#utils/activity/handleListens.ts'
@@ -28,7 +27,6 @@ client.once(Events.ClientReady, async () => {
     autoCreateTekKomMeetings(client)
     autoCreateStyretMeetings(client)
     queenbeeMonitor(client)
-    beekeeperMonitor(client)
     autoSyncZammad(client)
     heartbeat()
     console.log("Ready!")

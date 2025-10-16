@@ -22,11 +22,9 @@ const {
     PRIVATE_TOKEN,
     GITHUB_TOKEN,
     DISCORD_SERVICE_MONITORING_CHANNEL_ID,
-    DISCORD_BEEKEEPER_ROLE_ID,
     TEKKOM_BOT_API_URL,
     TEKKOM_BOT_API_TOKEN,
     HEARTBEAT_URL,
-    BEEKEEPER_API_URL,
     TEKKOM_BOT_BTG_TOKEN,
     KUBERNETES_SERVICE_PORT
 } = process.env
@@ -39,7 +37,6 @@ if (
     || !DISCORD_TEKKOM_ROLE_ID
     || !DISCORD_MINECRAFT_LOG_CHANNEL_ID
     || !DISCORD_SERVICE_MONITORING_CHANNEL_ID
-    || !DISCORD_BEEKEEPER_ROLE_ID
     || !DISCORD_TOKEN
     || !MINECRAFT_URL
     || !MINECRAFT_SURVIVAL
@@ -53,7 +50,6 @@ if (
     || !TEKKOM_BOT_API_URL
     || !TEKKOM_BOT_API_TOKEN
     || !HEARTBEAT_URL
-    || !BEEKEEPER_API_URL
     || !TEKKOM_BOT_BTG_TOKEN
 ) {
     throw new Error('Missing essential environment variables in config.')
@@ -66,8 +62,6 @@ const config = {
     styret: DISCORD_STYRET_ROLE_ID,
     roleID: DISCORD_TEKKOM_ROLE_ID,
     minecraft_log: DISCORD_MINECRAFT_LOG_CHANNEL_ID,
-    beekeeper_monitoring: DISCORD_SERVICE_MONITORING_CHANNEL_ID,
-    beekeeper_role: DISCORD_BEEKEEPER_ROLE_ID,
     token: DISCORD_TOKEN,
     minecraft_url: MINECRAFT_URL,
     minecraft_port: Number(MINECRAFT_PORT),
@@ -88,7 +82,6 @@ const config = {
     tekkomBotApiToken: TEKKOM_BOT_API_TOKEN,
     tekkomBotBtgToken: TEKKOM_BOT_BTG_TOKEN,
     heartbeatUrl: HEARTBEAT_URL,
-    beekeeperApiUrl: BEEKEEPER_API_URL,
     kubernetesServicePort: KUBERNETES_SERVICE_PORT
 }
 
