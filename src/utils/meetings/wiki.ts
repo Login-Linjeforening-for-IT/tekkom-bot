@@ -6,6 +6,7 @@ import requestWithRetries from '#utils/meetings/requestWithEntries.ts'
 import getNextPathYearAndWeek from '#utils/meetings/getNextPathYearAndWeek.ts'
 import updateIndex from '#utils/meetings/updateIndexPage.ts'
 import createPage from '#utils/meetings/createPage.ts'
+import { STYRET_PAGE, TEKKOM_PAGE } from '#constants'
 
 dotenv.config()
 
@@ -44,6 +45,7 @@ export default async function autoCreate({channel, isStyret, styremote}: AutoCre
     const query = getQuery(isStyret ? styret_id : tekkom_id)
     const fetchResponse = await requestWithRetries({ query })
     const content = fetchResponse.data.pages.single.content
+    const now = new Date().toISOString()
     const filledTemplate = content
         .replace(new RegExp(`${path.currentPath}`, 'g'), path.nextPath)
         .replace('00.00.0000', path.date)
@@ -53,9 +55,11 @@ export default async function autoCreate({channel, isStyret, styremote}: AutoCre
         channel, 
         isStyret, 
         template: filledTemplate, 
-        week: path.nextPath.split('-')[1] 
-    }) 
+        week: path.nextPath.split('-')[1]
+    })
+
     if (!updatedTemplate) {
+        console.log(`Failed to obtain updated ${isStyret ? 'Styret' : 'TekKom'} template at: ${now}`)
         return
     }
 
@@ -68,14 +72,16 @@ export default async function autoCreate({channel, isStyret, styremote}: AutoCre
         title: path.nextPath
     })
 
-    console.log(`Create response: ${createResponse}`)
+    console.log(`Create response for ${isStyret ? 'Styret' : 'TekKom'} at ${now}: ${JSON.stringify(createResponse)}`)
 
     if (isStyret) {
+        console.log(`<@&${DISCORD_STYRET_ROLE_ID}> Minner om Styremøte på LL kl 17. [Agenda](${WIKI_URL}${STYRET_MEETINGS_URL}${path.nextPath}).`)
         styremote?.send(`<@&${DISCORD_STYRET_ROLE_ID}> Minner om Styremøte på LL kl 17. [Agenda](${WIKI_URL}${STYRET_MEETINGS_URL}${path.nextPath}).`)
     } else {
-        // Disabled, moved to Queenbee
-        // channel.send(`<@&${DISCORD_TEKKOM_ROLE_ID}> Minner om TekKom møte på onsdag kl 16 på LL. [Agenda](${WIKI_URL}${TEKKOM_MEETINGS_URL}${path.nextPath}).`)
+        // The real message is moved to QueenBee, this log is only there to be
+        // able to track problems with the page creation automation.
+        console.log(`<@&${DISCORD_TEKKOM_ROLE_ID}> Minner om TekKom møte på onsdag kl 16 på LL. [Agenda](${WIKI_URL}${TEKKOM_MEETINGS_URL}${path.nextPath}).`)
     }
 
-    updateIndex({ path, query: getQuery(isStyret ? 7 : 37), isStyret })
+    updateIndex({ path, query: getQuery(isStyret ? STYRET_PAGE : TEKKOM_PAGE), isStyret })
 }

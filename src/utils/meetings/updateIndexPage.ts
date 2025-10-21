@@ -1,3 +1,4 @@
+import { STYRET_PAGE, TEKKOM_PAGE } from '#constants'
 import logStack from "#utils/meetings/logStack.ts"
 import requestWithRetries from "#utils/meetings/requestWithEntries.ts"
 import dotenv from "dotenv"
@@ -120,7 +121,7 @@ export default async function updateIndex({path, query, isStyret}: UpdateIndexPr
             ? 'Styretmøte referater. Denne siden er automatisert. Endre med forsiktighet for å unngå å ødelegge automatisjonen. Rapporter feil til Styret.'
             : 'TekKom meeting agendas and minutes. This page is automatically managed. Please edit with care. Report errors to TekKom.'
         const updateResponse = await requestWithRetries({query: updateMutation({ 
-            id: isStyret ? 7 : 37, 
+            id: isStyret ? STYRET_PAGE : TEKKOM_PAGE, 
             content: updatedContent, 
             description: TekKomDescription, 
             title: TekKomTitle

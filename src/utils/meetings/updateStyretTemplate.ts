@@ -3,6 +3,7 @@ import getQuery from "#utils/meetings/getQuery.ts"
 import requestWithRetries from "#utils/meetings/requestWithEntries.ts"
 import getLatestCase from "#utils/meetings/getLatestCase.ts"
 import uploadAttachmentToWiki from "#utils/meetings/uploadAttachment.ts"
+import { STYRET_PAGE } from '#constants'
 
 type StyretTemplateProps = {
     channel: TextChannel
@@ -46,7 +47,7 @@ export default async function updateStyretTemplate({channel, isStyret, template,
     }
 
     // Finds the latest case number
-    const query = getQuery(7)
+    const query = getQuery(STYRET_PAGE)
     const fetchResponse = await requestWithRetries({ query })
     let caseNumber = await getLatestCase(fetchResponse.data.pages.single) + 1
     const messages = await meetingThread[1].messages.fetch({ limit: 100 })

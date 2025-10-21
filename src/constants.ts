@@ -14,6 +14,8 @@ export const SUCCESS = "success"
 export const DISCORD_MAX_INLINE_EMBED_FIELD_LENGTH = 30
 export const TWO_WEEKS = 1000 * 60 * 60 * 24 * 14
 export const EDIT_INTERVAL_SECONDS = 1
+export const STYRET_PAGE = 7
+export const TEKKOM_PAGE = 1011
 
 export const FALLBACK_TAG = {
     name: "No version released.",
