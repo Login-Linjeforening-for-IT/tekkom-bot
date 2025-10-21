@@ -34,7 +34,7 @@ export default async function postGame(req: FastifyRequest, res: FastifyReply) {
         const gameQuery = await loadSQL('postGame.sql')
         const gameResult = await run(gameQuery, [name, image ?? null, imageText ?? null])
         const gameId = gameResult.rows[0].id
-        const gameActivityQuery = await loadSQL('postGameActivity.sql');
+        const gameActivityQuery = await loadSQL('postGameActivity.sql')
         await run(gameActivityQuery, [
             gameId,
             userId,

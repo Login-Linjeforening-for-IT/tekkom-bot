@@ -14,24 +14,25 @@ import postRoles from './handlers/roles/post.ts'
 import getBtg from './handlers/btg/get.ts'
 import postBtg from './handlers/btg/post.ts'
 import postListen from './handlers/activity/postListen.ts'
-import getActivity from './handlers/activity/get.ts'
+import getActivity from './handlers/activity/getListen.ts'
 import postHideActivity from './handlers/activity/postHide.ts'
-import postGames from './handlers/activity/postGame.ts'
+import postGame from './handlers/activity/postGame.ts'
 import getTrackPreview from './handlers/spotify/get.ts'
 import postIssue from './handlers/issue/post.ts'
-import type { FastifyInstance, FastifyPluginOptions } from "fastify"
+import type { FastifyInstance, FastifyPluginOptions } from 'fastify'
+import getGameActivity from './handlers/activity/getGame.ts'
 
 export default async function apiRoutes(fastify: FastifyInstance, _: FastifyPluginOptions) {
     // index
-    fastify.get("/", getIndex)
+    fastify.get('/', getIndex)
 
     // channels
-    fastify.get("/channels", getChannels)
-    fastify.post("/channels", postChannels)
+    fastify.get('/channels', getChannels)
+    fastify.post('/channels', postChannels)
 
     // roles
-    fastify.get("/roles", getRoles)
-    fastify.post("/roles", postRoles)
+    fastify.get('/roles', getRoles)
+    fastify.post('/roles', postRoles)
 
     // auth
     fastify.get('/token', getToken)
@@ -46,14 +47,15 @@ export default async function apiRoutes(fastify: FastifyInstance, _: FastifyPlug
     fastify.post('/sent', postSentAnnouncements)
 
     // btg
-    fastify.get("/btg", getBtg)
-    fastify.post("/btg", postBtg)
+    fastify.get('/btg', getBtg)
+    fastify.post('/btg', postBtg)
 
     // activity
-    fastify.get("/activity", getActivity)
-    fastify.post("/activity/listen", postListen)
-    fastify.post("/activity/game", postGames)
-    fastify.post("/activity/hide", postHideActivity)
+    fastify.get('/activity', getActivity)
+    fastify.get('/activity/games', getGameActivity)
+    fastify.post('/activity/listen', postListen)
+    fastify.post('/activity/game', postGame)
+    fastify.post('/activity/hide', postHideActivity)
 
     // spotify
     fastify.get('/track/:id', getTrackPreview)

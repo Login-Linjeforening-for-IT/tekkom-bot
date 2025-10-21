@@ -10,7 +10,6 @@ import heartbeat from '#utils/heartbeat/heartbeat.ts'
 import handleListens from '#utils/activity/handleListens.ts'
 import handlePlays from '#utils/activity/handlePlays.ts'
 import checkAndHandleListenRepeats from '#utils/activity/checkAndHandleListenRepeats.ts'
-import checkAndHandlePlayRepeats from '#utils/activity/checkAndHandlePlays.ts'
 import handleInteraction from '#utils/handleInteraction.ts'
 import handleRoles from '#utils/handleRoles.ts'
 import setupClient from '#utils/setupClient.ts'
@@ -20,7 +19,6 @@ import { Events } from 'discord.js'
 const token = config.token
 const client = await setupClient()
 const lastListens: LastListens = new Map()
-const currentlyPlaying: CurrentlyPlaying = new Map()
 
 client.once(Events.ClientReady, async () => {
     handleRoles(client)
@@ -60,7 +58,7 @@ client.on(Events.MessageCreate, async (message: Message) => {
 
 client.on<Events.PresenceUpdate>(Events.PresenceUpdate, async (oldPresence: Presence | null, newPresence: Presence) => {
     handleListens({ oldPresence, newPresence, lastListens })
-    handlePlays({ newPresence, currentlyPlaying })
+    handlePlays({ newPresence })
 })
 
 client.login(token)
@@ -83,7 +81,6 @@ process.on("uncaughtExceptionMonitor", async (error) => {
 
 setInterval(async () => {
     await checkAndHandleListenRepeats(client, lastListens)
-    await checkAndHandlePlayRepeats(client, currentlyPlaying)
 }, 5000)
 
 export default client

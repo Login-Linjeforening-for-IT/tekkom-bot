@@ -3,7 +3,6 @@ import sendGame from '#utils/activity/sendGame.ts'
 
 type HandlePlayProps = {
     newPresence: Presence
-    currentlyPlaying: CurrentlyPlaying
 }
 
 export default async function handlePlays({ newPresence }: HandlePlayProps) {

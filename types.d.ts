@@ -672,11 +672,6 @@ type LastListens = Map<string, {
     end: number
 }>
 
-type CurrentlyPlaying = Map<string, {
-    game: string
-    start: number
-}>
-
 type Reaction = {
     _emoji: {
         name: string

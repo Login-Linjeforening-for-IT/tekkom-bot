@@ -1,7 +1,7 @@
 import run from '#db'
 import { loadSQL } from "#utils/loadSQL.ts"
 
-export async function preloadActivityQueries() {
+export async function preloadListenActivityQueries() {
     const [
         getStatistics,
         getCurrentlyListening,
@@ -40,7 +40,7 @@ export async function preloadActivityQueries() {
         loadSQL('getTopFiveSongsLastMonth.sql'),
         loadSQL('getTopFiveSongsThisYear.sql'),
         loadSQL('getTopFiveSongsLastYear.sql'),
-        loadSQL('getMostActiveUsers.sql'),
+        loadSQL('getMostActiveListenUsers.sql'),
         loadSQL('getMostSkippingUsers.sql'),
         loadSQL('getMostLikedAlbums.sql'),
         loadSQL('getMostLikedArtists.sql'),

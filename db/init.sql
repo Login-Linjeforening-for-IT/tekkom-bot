@@ -109,6 +109,7 @@ CREATE TABLE IF NOT EXISTS game_activity (
     state TEXT,
     application TEXT,
     "start" TIMESTAMPTZ NOT NULL,
+    "end"  TIMEStAMPTZ NOT NULL,
     party TEXT
 );
 

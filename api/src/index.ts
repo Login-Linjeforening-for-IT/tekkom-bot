@@ -9,7 +9,8 @@ const fastify = Fastify({
     logger: true
 })
 
-fastify.decorate('cachedJSON', Buffer.from(''))
+fastify.decorate('cachedListenJSON', Buffer.from(''))
+fastify.decorate('cachedGameJSON', Buffer.from(''))
 fastify.register(cors, {
     origin: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD']
