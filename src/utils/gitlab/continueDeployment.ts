@@ -19,44 +19,56 @@ type ContinueDeploymentProps = {
 export default async function continueDeployment({ interaction, embed, latestVersion }: ContinueDeploymentProps) {
     let buttons: ActionRowBuilder<ButtonBuilder>
 
-    if (increment(latestVersion, Increment.MAJOR) !== UNKNOWN_VERSION) {
-        // Creates 'major' button
-        const major = new ButtonBuilder()
-            .setCustomId('major')
-            .setLabel(`Major (${increment(latestVersion, Increment.MAJOR)})`)
-            .setStyle(ButtonStyle.Primary)
+    try {
+        if (increment(latestVersion, Increment.MAJOR) !== UNKNOWN_VERSION) {
+            // Creates 'major' button
+            const major = new ButtonBuilder()
+                .setCustomId('major')
+                .setLabel(`Major (${increment(latestVersion, Increment.MAJOR)})`)
+                .setStyle(ButtonStyle.Primary)
 
-        // Creates 'minor' button
-        const minor = new ButtonBuilder()
-            .setCustomId('minor')
-            .setLabel(`Minor (${increment(latestVersion, Increment.MINOR)})`)
-            .setStyle(ButtonStyle.Primary)
+            // Creates 'minor' button
+            const minor = new ButtonBuilder()
+                .setCustomId('minor')
+                .setLabel(`Minor (${increment(latestVersion, Increment.MINOR)})`)
+                .setStyle(ButtonStyle.Primary)
 
-        // Creates 'patch' button
-        const patch = new ButtonBuilder()
-            .setCustomId('patch')
-            .setLabel(`Patch (${increment(latestVersion, Increment.PATCH)})`)
-            .setStyle(ButtonStyle.Primary)
+            // Creates 'patch' button
+            const patch = new ButtonBuilder()
+                .setCustomId('patch')
+                .setLabel(`Patch (${increment(latestVersion, Increment.PATCH)})`)
+                .setStyle(ButtonStyle.Primary)
 
-        // Creates 'trash' button
-        const trash = new ButtonBuilder()
-            .setCustomId('trash')
-            .setLabel('🗑️')
-            .setStyle(ButtonStyle.Secondary)
+            // Creates 'trash' button
+            const trash = new ButtonBuilder()
+                .setCustomId('trash')
+                .setLabel('🗑️')
+                .setStyle(ButtonStyle.Secondary)
 
-        buttons = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents(major, minor, patch, trash)
-    } else {
-        buttons = errorButtons
-    }
+            buttons = new ActionRowBuilder<ButtonBuilder>()
+                .addComponents(major, minor, patch, trash)
+        } else {
+            buttons = errorButtons
+        }
 
-    // ChatInputCommandInteraction
-    if (embed) {
-        await interaction.reply({ embeds: [embed], components: [buttons] })
-        // ButtonInteraction
-    } else if (interaction.isButton()) {
-        const message = interaction.message
-        await interaction.reply({ embeds: message.embeds, components: [buttons] })
+        // ChatInputCommandInteraction
+        if (embed) {
+            await interaction.reply({ embeds: [embed], components: [buttons] })
+            // ButtonInteraction
+        } else if (interaction.isButton()) {
+            const message = interaction.message
+            await interaction.reply({ embeds: message.embeds, components: [buttons] })
+        }
+    } catch (error) {
+        const errorEmbed = new EmbedBuilder()
+            .setTitle(`Invalid version`)
+            .setDescription(`The last tag is ${latestVersion}, this lacks a 'x.y.z' pattern, and is not a valid version. Please either create a new tag manually, or delete all incorrect tags manually.`)
+            .setTimestamp()
+        if (embed) {
+            await interaction.reply({ embeds: [embed, errorEmbed] })
+        } else {
+            await interaction.reply({ embeds: [errorEmbed] })
+        }
     }
 }
 
