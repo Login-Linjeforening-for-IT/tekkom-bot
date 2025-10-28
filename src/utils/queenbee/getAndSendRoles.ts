@@ -1,9 +1,9 @@
-import { Client, Role } from "discord.js"
-import config from "#config"
+import { Client, Role } from 'discord.js'
+import config from '#config'
 
 const tekkomBotApiUrl = config.tekkomBotApiUrl
 const tekkomBotApiToken = config.tekkomBotApiToken
-const LOGIN_GUILD = "284789429539700736"
+const LOGIN_GUILD = '284789429539700736'
 
 /**
  * Fetches all channels the bot can write to in the 'Login - Linjeforeningen for IT' server

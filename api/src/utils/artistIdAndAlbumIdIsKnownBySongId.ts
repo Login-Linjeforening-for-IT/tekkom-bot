@@ -11,7 +11,7 @@ export default async function artistIdAndAlbumIdIsKnownBySongId(id: string): Pro
                 }
             }
         }
-        
+
         return false
     } catch (error) {
         console.log(error)

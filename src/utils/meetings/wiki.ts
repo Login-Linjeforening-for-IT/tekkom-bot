@@ -21,10 +21,10 @@ const {
 } = process.env
 
 if (
-    !TEKKOM_MEETINGS_URL 
-    || !DISCORD_TEKKOM_ROLE_ID 
-    || !DISCORD_STYRET_ROLE_ID 
-    || !STYRET_MEETINGS_URL 
+    !TEKKOM_MEETINGS_URL
+    || !DISCORD_TEKKOM_ROLE_ID
+    || !DISCORD_STYRET_ROLE_ID
+    || !STYRET_MEETINGS_URL
     || !WIKI_URL
     || !WIKI_STYRET_TEMPLATE_ID
     || !WIKI_TEKKOM_TEMPLATE_ID
@@ -50,11 +50,11 @@ export default async function autoCreate({channel, isStyret, styremote}: AutoCre
         .replace(new RegExp(`${path.currentPath}`, 'g'), path.nextPath)
         .replace('00.00.0000', path.date)
         .replace('00.00.00', path.date)
-    const fullPath = `${isStyret ? STYRET_MEETINGS_URL : TEKKOM_MEETINGS_URL}${path.nextPath}` 
-    const updatedTemplate = await updateStyretTemplate({ 
-        channel, 
-        isStyret, 
-        template: filledTemplate, 
+    const fullPath = `${isStyret ? STYRET_MEETINGS_URL : TEKKOM_MEETINGS_URL}${path.nextPath}`
+    const updatedTemplate = await updateStyretTemplate({
+        channel,
+        isStyret,
+        template: filledTemplate,
         week: path.nextPath.split('-')[1]
     })
 
@@ -64,11 +64,11 @@ export default async function autoCreate({channel, isStyret, styremote}: AutoCre
     }
 
     const createResponse = await createPage({
-        content: updatedTemplate, 
-        description: isStyret 
-            ? `Styremøte uke ${path.nextPath.slice(5)}` 
-            : `TekKom Meeting Week ${path.nextPath.slice(5)}`, 
-        path: fullPath, 
+        content: updatedTemplate,
+        description: isStyret
+            ? `Styremøte uke ${path.nextPath.slice(5)}`
+            : `TekKom Meeting Week ${path.nextPath.slice(5)}`,
+        path: fullPath,
         title: path.nextPath
     })
 

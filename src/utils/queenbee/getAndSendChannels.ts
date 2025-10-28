@@ -1,10 +1,10 @@
-import { ChannelType, Client, PermissionsBitField } from "discord.js"
+import { ChannelType, Client, PermissionsBitField } from 'discord.js'
 import type { NonThreadGuildBasedChannel } from 'discord.js'
-import config from "#config"
+import config from '#config'
 
 const tekkomBotApiUrl = config.tekkomBotApiUrl
 const tekkomBotApiToken = config.tekkomBotApiToken
-const LOGIN_GUILD = "284789429539700736"
+const LOGIN_GUILD = '284789429539700736'
 
 /**
  * Fetches all channels the bot can write to in the 'Login - Linjeforeningen for IT' server
@@ -13,6 +13,7 @@ const LOGIN_GUILD = "284789429539700736"
  */
 export default async function getAndSendTextChannels(client: Client): Promise<void> {
     const GUILD_ID = LOGIN_GUILD
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data: any[] = []
 
     try {

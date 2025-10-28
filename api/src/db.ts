@@ -1,21 +1,21 @@
 import pg from 'pg'
 import config from '#constants'
 
-const { 
-    DB, 
-    DB_USER, 
+const {
+    DB,
+    DB_USER,
     DB_HOST,
-    DB_PASSWORD, 
-    DB_PORT, 
-    DB_MAX_CONN, 
-    DB_IDLE_TIMEOUT_MS, 
+    DB_PASSWORD,
+    DB_PORT,
+    DB_MAX_CONN,
+    DB_IDLE_TIMEOUT_MS,
     DB_TIMEOUT_MS
 } = config
 const { Pool } = pg
 const pool = new Pool({
-    user: DB_USER || "tekkom-bot",
+    user: DB_USER || 'tekkom-bot',
     host: DB_HOST,
-    database: DB || "tekkom-bot",
+    database: DB || 'tekkom-bot',
     password: DB_PASSWORD,
     port: Number(DB_PORT) || 5432,
     max: Number(DB_MAX_CONN) || 20,
@@ -33,7 +33,7 @@ export default async function run(query: string, params?: SQLParamType) {
             } finally {
                 client.release()
             }
-        } catch (error) {
+        } catch {
             console.log(`Pool currently unavailable, retrying in ${config.CACHE_TTL / 1000}s...`)
             await sleep(config.CACHE_TTL)
         }
@@ -41,5 +41,5 @@ export default async function run(query: string, params?: SQLParamType) {
 }
 
 function sleep(ms: number) {
-    return new Promise(res => setTimeout(res, ms));
+    return new Promise(res => setTimeout(res, ms))
 }

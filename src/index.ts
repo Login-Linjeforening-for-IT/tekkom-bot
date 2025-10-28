@@ -13,7 +13,7 @@ import checkAndHandleListenRepeats from '#utils/activity/checkAndHandleListenRep
 import handleInteraction from '#utils/handleInteraction.ts'
 import handleRoles from '#utils/handleRoles.ts'
 import setupClient from '#utils/setupClient.ts'
-import type { CacheType, ThreadChannel, Presence, Message, Interaction } from "discord.js"
+import type { CacheType, ThreadChannel, Presence, Message, Interaction } from 'discord.js'
 import { Events } from 'discord.js'
 
 const token = config.token
@@ -27,7 +27,7 @@ client.once(Events.ClientReady, async () => {
     queenbeeMonitor(client)
     autoSyncZammad(client)
     heartbeat()
-    console.log("Ready!")
+    console.log('Ready!')
 })
 
 client.on<Events.InteractionCreate>(Events.InteractionCreate, async (interaction: Interaction<CacheType>) => {
@@ -38,6 +38,7 @@ client.on(Events.ThreadCreate, async (thread: ThreadChannel) => {
     await channelTemplates(thread)
 })
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 client.on(Events.MessageReactionRemove, async (reaction: any, user: any) => {
     // Checks if a reaction is partial, and if so fetches the entire structure
     if (reaction.partial) {
@@ -63,19 +64,19 @@ client.on<Events.PresenceUpdate>(Events.PresenceUpdate, async (oldPresence: Pres
 
 client.login(token)
 
-process.on("unhandledRejection", async (error) => {
-    if ((error as { message: string }).message === "Interaction has already been acknowledged.") {
-        return console.log("Interaction has already been acknowledged.")
+process.on('unhandledRejection', async (error) => {
+    if ((error as { message: string }).message === 'Interaction has already been acknowledged.') {
+        return console.log('Interaction has already been acknowledged.')
     }
 
     console.log(`Unhandled Promise Rejection:\n${error}`)
 })
 
-process.on("uncaughtException", async (error) => {
+process.on('uncaughtException', async (error) => {
     console.log(`Uncaught Promise Exception:\n${error}`)
 })
 
-process.on("uncaughtExceptionMonitor", async (error) => {
+process.on('uncaughtExceptionMonitor', async (error) => {
     console.log(`Uncaught Promise Exception (Monitor):\n${error}`)
 })
 

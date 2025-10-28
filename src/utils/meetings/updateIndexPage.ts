@@ -1,7 +1,7 @@
 import { STYRET_PAGE, TEKKOM_PAGE } from '#constants'
-import logStack from "#utils/meetings/logStack.ts"
-import requestWithRetries from "#utils/meetings/requestWithEntries.ts"
-import dotenv from "dotenv"
+import logStack from '#utils/meetings/logStack.ts'
+import requestWithRetries from '#utils/meetings/requestWithEntries.ts'
+import dotenv from 'dotenv'
 
 type ModifyPageProps = {
     existingHTML: string
@@ -101,10 +101,10 @@ function modifyPage({existingHTML, path, isStyret}: ModifyPageProps) {
     const styretString = '### Styremøter'
     const tekkomString = '### Minutes'
     const insertionPoint = existingHTML.indexOf(isStyret ? styretString : tekkomString)
-    
+
     // Calculates the index to insert the new entry
     const index = insertionPoint + (isStyret ? styretString.length : tekkomString.length)
-    
+
     // If no match is found, inserts at the start of the correct section
     const updatedHTML = `${existingHTML.slice(0, index)}\n${newEntry}${existingHTML.slice(index)}`
     return updatedHTML
@@ -116,14 +116,14 @@ export default async function updateIndex({path, query, isStyret}: UpdateIndexPr
         const fetchResponse = await requestWithRetries({ query })
         const content = fetchResponse.data.pages.single.content
         const updatedContent = modifyPage({existingHTML: content, path, isStyret: content.includes('styremoter')})
-        const TekKomTitle = 'Meetings'  
+        const TekKomTitle = 'Meetings'
         const TekKomDescription = isStyret
             ? 'Styretmøte referater. Denne siden er automatisert. Endre med forsiktighet for å unngå å ødelegge automatisjonen. Rapporter feil til Styret.'
             : 'TekKom meeting agendas and minutes. This page is automatically managed. Please edit with care. Report errors to TekKom.'
-        const updateResponse = await requestWithRetries({query: updateMutation({ 
-            id: isStyret ? STYRET_PAGE : TEKKOM_PAGE, 
-            content: updatedContent, 
-            description: TekKomDescription, 
+        const updateResponse = await requestWithRetries({query: updateMutation({
+            id: isStyret ? STYRET_PAGE : TEKKOM_PAGE,
+            content: updatedContent,
+            description: TekKomDescription,
             title: TekKomTitle
         })})
 

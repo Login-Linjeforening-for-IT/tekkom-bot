@@ -11,17 +11,17 @@ export const data = new SlashCommandBuilder()
     .setName('notify')
     .setDescription('Sends a notification to the Login app.')
     .addStringOption((option) => option
-    .setName('title')
-    .setDescription('Title of the notification'))
+        .setName('title')
+        .setDescription('Title of the notification'))
     .addStringOption((option) => option
-    .setName('description')
-    .setDescription('Description of the notification'))
+        .setName('description')
+        .setDescription('Description of the notification'))
     .addStringOption((option) => option
-    .setName('topic')
-    .setDescription('Topic of the notification'))
+        .setName('topic')
+        .setDescription('Topic of the notification'))
     .addStringOption((option) => option
-    .setName('screen')
-    .setDescription('(optional) Screen of the notification'))
+        .setName('screen')
+        .setDescription('(optional) Screen of the notification'))
 /**
  * Executes the whitelist command passed from Discord
  * @param {*} message Message initiating the command, passed by Discord
@@ -32,28 +32,28 @@ export async function execute(message: ChatInputCommandInteraction) {
     const description = sanitize(message.options.getString('description') || '')
     const topic = sanitize(message.options.getString('topic') || '')
     const screen = { id: message.options.getString('screen') } as EventWithOnlyID
-    
+
     // Checking if the author is allowed to remove users from the whitelist
     const isAllowed = (message.member?.roles as unknown as Roles)?.cache.some((role: Role) => role.id === config.roleID || role.id === config.styret)
-    
+
     // Aborts if the user does not have sufficient permissions
     if (!isAllowed) {
-        return await message.reply({ content: "Unauthorized.", flags: MessageFlags.Ephemeral })
+        return await message.reply({ content: 'Unauthorized.', flags: MessageFlags.Ephemeral })
     }
-    
-    
+
+
     if (!title || !description || !topic) {
         return await message.reply({
             content: `You must provide a ${title ? '' : 'title'} ${description ? '' : 'description'} ${topic ? '' : 'topic'} to send notifications`,
             flags: MessageFlags.Ephemeral
         })
     }
-    
+
     try {
-        await message.reply({ content: "Working...", flags: MessageFlags.Ephemeral })
+        await message.reply({ content: 'Working...', flags: MessageFlags.Ephemeral })
 
         const response = await sendNotification({title, description, topic, screen})
-        
+
         if (response) {
             return await message.editReply(`Successfully sent notification to topic ${topic} at ${new Date().toISOString()}`)
         }

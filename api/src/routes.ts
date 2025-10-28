@@ -22,6 +22,7 @@ import postIssue from './handlers/issue/post.ts'
 import type { FastifyInstance, FastifyPluginOptions } from 'fastify'
 import getGameActivity from './handlers/activity/getGame.ts'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default async function apiRoutes(fastify: FastifyInstance, _: FastifyPluginOptions) {
     // index
     fastify.get('/', getIndex)

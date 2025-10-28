@@ -1,4 +1,4 @@
-import type { FastifyReply, FastifyRequest } from "fastify"
+import type { FastifyReply, FastifyRequest } from 'fastify'
 import tokenWrapper from '#utils/tokenWrapper.ts'
 import checkAndAlert from '#utils/checkAndAlert.ts'
 

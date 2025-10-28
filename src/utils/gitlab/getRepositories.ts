@@ -1,10 +1,10 @@
-import { GITLAB_API } from "#constants"
-import config from "#config"
-import logNullValue from "#utils/logNullValue.ts"
+import { GITLAB_API } from '#constants'
+import config from '#config'
+import logNullValue from '#utils/logNullValue.ts'
 
 export default async function getRepositories(limit: number, query: string): Promise<RepositorySimple[]> {
     try {
-        logNullValue("getRepositories", ["limit"], [limit])
+        logNullValue('getRepositories', ['limit'], [limit])
         const search = query ? `&search=${query}` : ''
         const response = await fetch(`${GITLAB_API}projects?simple=true${search}`, {
             headers: {

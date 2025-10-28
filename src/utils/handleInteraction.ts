@@ -9,7 +9,7 @@ import type {
     ChatInputCommandInteraction,
     Interaction,
 } from 'discord.js'
-import { InteractionType } from "discord.js"
+import { InteractionType } from 'discord.js'
 
 type HandleInteractionProps = {
     interaction: Interaction<CacheType>
@@ -18,8 +18,8 @@ type HandleInteractionProps = {
 
 export default async function handleInteraction({ interaction, client }: HandleInteractionProps) {
     if (interaction.type === InteractionType.ApplicationCommandAutocomplete) {
-        const autocompleteInteraction = interaction as AutocompleteInteraction<"cached">
-        
+        const autocompleteInteraction = interaction as AutocompleteInteraction<'cached'>
+
         Autocomplete(autocompleteInteraction)
         return
     }

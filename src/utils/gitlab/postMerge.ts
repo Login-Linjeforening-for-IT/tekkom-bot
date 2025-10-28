@@ -1,11 +1,11 @@
-import { GITLAB_API, INFRA_PROD_CLUSTER } from "#constants"
-import config from "#config"
-import logNullValue from "#utils/logNullValue.ts"
+import { GITLAB_API, INFRA_PROD_CLUSTER } from '#constants'
+import config from '#config'
+import logNullValue from '#utils/logNullValue.ts'
 
 export default async function postMerge(id: number) {
     try {
-        logNullValue("postMerge", ["id"], [id])
-        console.warn("Merging", `${GITLAB_API}projects/${INFRA_PROD_CLUSTER}/merge_requests/${id}`)
+        logNullValue('postMerge', ['id'], [id])
+        console.warn('Merging', `${GITLAB_API}projects/${INFRA_PROD_CLUSTER}/merge_requests/${id}`)
         const response = await fetch(`${GITLAB_API}projects/${INFRA_PROD_CLUSTER}/merge_requests/${id}/merge`, {
             method: 'PUT',
             headers: {

@@ -21,18 +21,18 @@ export default async function getLatestCase(list: Page) {
     for (const url of urls) {
         try {
             const response = await fetch(`${WIKI_URL}${url}`)
-    
+
             if (!response.ok) {
                 throw new Error(`Failed to fetch ${url}. Reason: ${await response.text()}`)
             }
-    
+
             const data = await response.text()
             const foundCases = caseNumbers(data)
 
             if (foundCases.length) {
                 return Number(foundCases[foundCases.length - 1])
             }
-        } catch (error) {
+        } catch {
             continue
         }
     }

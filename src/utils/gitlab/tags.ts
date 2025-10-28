@@ -1,10 +1,10 @@
-import { GITLAB_API } from "#constants"
-import config from "#config"
-import logNullValue from "#utils/logNullValue.ts"
+import { GITLAB_API } from '#constants'
+import config from '#config'
+import logNullValue from '#utils/logNullValue.ts'
 
 export default async function getTags(id: number): Promise<Tag[]> {
     try {
-        logNullValue("getTags", ["id"], [id])
+        logNullValue('getTags', ['id'], [id])
         const response = await fetch(`${GITLAB_API}projects/${id}/repository/tags?per_page=3`, {
             headers: {
                 'Private-Token': config.privateToken,
@@ -28,7 +28,7 @@ export default async function getTags(id: number): Promise<Tag[]> {
 
 export async function postTag(id: number, tag: string, ref?: string): Promise<Tag | number> {
     try {
-        logNullValue("getTags", ["id", "tag"], [id, tag])
+        logNullValue('getTags', ['id', 'tag'], [id, tag])
         const response = await fetch(`${GITLAB_API}projects/${id}/repository/tags`, {
             method: 'POST',
             headers: {
@@ -48,6 +48,7 @@ export async function postTag(id: number, tag: string, ref?: string): Promise<Ta
 
         const data = await response.json()
         return data
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         if (!JSON.stringify(error).includes('Skipped')) {
             console.log(error)
@@ -64,7 +65,7 @@ export async function postTag(id: number, tag: string, ref?: string): Promise<Ta
 
 export async function deleteTag(id: number, tag: string): Promise<boolean> {
     try {
-        logNullValue("getTags", ["id", "tag"], [id, tag])
+        logNullValue('getTags', ['id', 'tag'], [id, tag])
         const response = await fetch(`${GITLAB_API}projects/${id}/repository/tags/${encodeURIComponent(tag)}`, {
             method: 'DELETE',
             headers: {

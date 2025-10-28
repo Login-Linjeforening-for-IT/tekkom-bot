@@ -19,7 +19,7 @@ fastify.register(cors, {
 const port = Number(process.env.PORT) || 8080
 
 fastify.register(fp)
-fastify.register(apiRoutes, { prefix: "/api" })
+fastify.register(apiRoutes, { prefix: '/api' })
 fastify.get('/', getIndex)
 
 async function start() {

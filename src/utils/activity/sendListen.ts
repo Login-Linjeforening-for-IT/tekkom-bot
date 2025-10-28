@@ -24,7 +24,7 @@ export default async function sendListen({
                 'Authorization': `Bearer ${tekkomBotApiToken}`,
                 'btg': 'tekkom-bot',
             },
-            body: JSON.stringify({ 
+            body: JSON.stringify({
                 id,
                 user,
                 name,

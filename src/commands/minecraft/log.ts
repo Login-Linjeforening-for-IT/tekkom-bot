@@ -19,9 +19,9 @@ export async function execute(message: ChatInputCommandInteraction) {
 
     // Aborts if the user does not have sufficient permissions
     if (!isAllowed) {
-        return await message.reply("Unauthorized.")
+        return await message.reply('Unauthorized.')
     }
-    
+
     config.minecraft_log = message.channelId
 
     await message.reply({ content: `Now logging whitelist commands in <#${message.channelId}>`, flags: MessageFlags.Ephemeral })

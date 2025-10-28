@@ -1,10 +1,10 @@
-import { GITLAB_API } from "#constants"
-import config from "#config"
-import logNullValue from "#utils/logNullValue.ts"
+import { GITLAB_API } from '#constants'
+import config from '#config'
+import logNullValue from '#utils/logNullValue.ts'
 
 export default async function getOpenMergeRequests(projectId: number): Promise<MergeRequest[]> {
     try {
-        logNullValue("getOpenMergeRequests", ["projectId"], [projectId])
+        logNullValue('getOpenMergeRequests', ['projectId'], [projectId])
         const response = await fetch(`${GITLAB_API}projects/${projectId}/merge_requests?state=opened&per_page=25`, {
             headers: {
                 'Private-Token': config.privateToken

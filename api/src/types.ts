@@ -1,13 +1,13 @@
 export {}
 declare global {
-    type Channel = { 
+    type Channel = {
         guildId: string
         guildName: string
         channelId: string
         channelName: string
     }
 
-    type Role = { 
+    type Role = {
         name: string
         id: string
         color: string

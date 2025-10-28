@@ -13,6 +13,7 @@ export default async function handleRoles(client: DiscordClient) {
                 return console.log(`Channel with ID ${channelID} not found.`)
             }
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const roleMessage = await (channel as any).messages.fetch(message)
             if (!roleMessage) {
                 return console.log(`Message with ID ${message} not found.`)
@@ -50,6 +51,7 @@ export default async function handleRoles(client: DiscordClient) {
             })
 
             addRole({ collector: roleCollector, guild, roles: roleIds, icons })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.log(`Error processing roles: ${error}`)
         }

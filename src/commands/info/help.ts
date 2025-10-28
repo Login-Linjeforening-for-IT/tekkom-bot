@@ -20,13 +20,13 @@ export async function execute(message: ChatInputCommandInteraction) {
 }
 
 async function help(message: ChatInputCommandInteraction, command: string | null, display: boolean | null) {
-    let page = 0
-    
+    const page = 0
+
     const embed = getCommand(command || undefined, page)
-    
+
     const components = command ? undefined : getButtons(page)
-    await message.reply({ 
-        embeds: [embed], 
+    await message.reply({
+        embeds: [embed],
         components,
         ephemeral: display ? false : true
     })

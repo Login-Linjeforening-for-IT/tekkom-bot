@@ -1,10 +1,10 @@
-import { GITLAB_API } from "#constants"
-import config from "#config"
-import logNullValue from "#utils/logNullValue.ts"
+import { GITLAB_API } from '#constants'
+import config from '#config'
+import logNullValue from '#utils/logNullValue.ts'
 
 export default async function getCommits(id: number, branch = 'main'): Promise<Commit[]> {
     try {
-        logNullValue("getCommits", ["id"], [id])
+        logNullValue('getCommits', ['id'], [id])
         const response = await fetch(`${GITLAB_API}projects/${id}/repository/commits?per_page=5&ref_name=${branch}`, {
             headers: {
                 'Private-Token': config.privateToken,

@@ -22,6 +22,6 @@ export default async function postHide(user: string) {
         return data
     } catch (error) {
         console.log(error)
-        return `Failed to update user ${user}`        
+        return `Failed to update user ${user}`
     }
 }

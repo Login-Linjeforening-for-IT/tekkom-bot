@@ -23,37 +23,37 @@ export const data = new SlashCommandBuilder()
     .setDescription('Deploys a new version of a repository to staging.')
     .addStringOption((option) =>
         option
-            .setName("repository")
-            .setDescription("Repository to deploy.")
+            .setName('repository')
+            .setDescription('Repository to deploy.')
             .setRequired(true)
             .setAutocomplete(true)
     )
     .addStringOption((option) =>
         option
-            .setName("branch")
-            .setDescription("Branch to deploy from.")
+            .setName('branch')
+            .setDescription('Branch to deploy from.')
     )
 export async function execute(interaction: ChatInputCommandInteraction) {
     const isAllowed = (interaction.member?.roles as unknown as Roles)?.cache
         .some((role: Role) => role.id === config.roleID || role.id === config.styret)
-    const repository = sanitize(interaction.options.getString('repository') || "")
+    const repository = sanitize(interaction.options.getString('repository') || '')
     const branch = sanitize(interaction.options.getString('branch') || 'main')
     let match = null as RepositorySimple | null
     const repositories = await getRepositories(25, repository)
 
     // Aborts if the user does not have sufficient permissions
     if (!isAllowed) {
-        return await interaction.reply({ content: "Unauthorized.", flags: MessageFlags.Ephemeral })
+        return await interaction.reply({ content: 'Unauthorized.', flags: MessageFlags.Ephemeral })
     }
 
     // Aborts if the channel isnt a playhouse channel
     if (!interaction.channel || !('name' in interaction.channel) || !interaction.channel.name?.toLocaleLowerCase().includes('playhouse')) {
-        return await interaction.reply({ content: "This isnt a playhouse channel.", flags: MessageFlags.Ephemeral })
+        return await interaction.reply({ content: 'This isnt a playhouse channel.', flags: MessageFlags.Ephemeral })
     }
 
     // Aborts if no repository is selected
     if (!repository) {
-        return await interaction.reply({ content: "No repository selected.", flags: MessageFlags.Ephemeral })
+        return await interaction.reply({ content: 'No repository selected.', flags: MessageFlags.Ephemeral })
     }
 
     // Tries to find a matching repository
@@ -85,30 +85,29 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     const embed = new EmbedBuilder()
         .setTitle(`Creating new deployment for ${match.name}${branch ? ` from branch ${branch}` : ''}.`)
         .setDescription(match.description || match.name)
-        .setColor("#fd8738")
+        .setColor('#fd8738')
         .setTimestamp()
         .setThumbnail(avatar || null)
         .setURL(latestVersion.commit.web_url)
         .addFields([
-            { name: "ID", value: String(match.id), inline: true },
-            { name: "Branch", value: branch || match.default_branch, inline: true },
-            { name: "Last activity", value: new Date(match.last_activity_at).toLocaleString(), inline: true },
-            { name: "Current version", value: latestVersion.name, inline: true },
-            { name: "Commit", value: latestVersion.commit.short_id, inline: true },
-            { name: "Created At", value: new Date(latestVersion.commit.created_at).toLocaleString(), inline: true },
-            { name: "Title", value: latestVersion.commit.title },
-            { name: "Author", value: latestVersion.commit.author_name, inline: true },
-            { name: "Author Email", value: latestVersion.commit.author_email, inline: true },
-            { name: "Recent commits", value: ' ' },
+            { name: 'ID', value: String(match.id), inline: true },
+            { name: 'Branch', value: branch || match.default_branch, inline: true },
+            { name: 'Last activity', value: new Date(match.last_activity_at).toLocaleString(), inline: true },
+            { name: 'Current version', value: latestVersion.name, inline: true },
+            { name: 'Commit', value: latestVersion.commit.short_id, inline: true },
+            { name: 'Created At', value: new Date(latestVersion.commit.created_at).toLocaleString(), inline: true },
+            { name: 'Title', value: latestVersion.commit.title },
+            { name: 'Author', value: latestVersion.commit.author_name, inline: true },
+            { name: 'Author Email', value: latestVersion.commit.author_email, inline: true },
+            { name: 'Recent commits', value: ' ' },
             ...formatCommits(commits, 5)
         ])
 
     if (now.getTime() - latestCommitDate.getTime() > TWO_WEEKS) {
         const embedOldWarning = new EmbedBuilder()
-            .setTitle(`Very old commit (>2w). Are you sure?`)
+            .setTitle('Very old commit (>2w). Are you sure?')
             .setDescription(`The most recent commit for ${match.name}${branch ? ` branch ${branch}` : ''} is more than two weeks old. It was created ${latestCommitDate.toLocaleString('no-NO')}. Are you sure this is the commit you want to deploy?`)
-            .setColor("#ff0000")
-        let buttons: ActionRowBuilder<ButtonBuilder>
+            .setColor('#ff0000')
 
         // Creates 'yes' button
         const deployYes = new ButtonBuilder()
@@ -119,7 +118,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
         // Creates 'no' button
         const deployNo = new ButtonBuilder()
             .setCustomId('deployNo')
-            .setLabel(`No`)
+            .setLabel('No')
             .setStyle(ButtonStyle.Primary)
 
         // Creates 'trash' button
@@ -128,7 +127,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
             .setLabel('🗑️')
             .setStyle(ButtonStyle.Secondary)
 
-        buttons = new ActionRowBuilder<ButtonBuilder>()
+        const buttons = new ActionRowBuilder<ButtonBuilder>()
             .addComponents(deployNo, deployYes, trash)
 
         await interaction.reply({ embeds: [embed, embedOldWarning], components: [buttons] })

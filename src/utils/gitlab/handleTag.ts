@@ -1,8 +1,8 @@
-import { ButtonInteraction, GuildMember, MessageFlags, Role } from "discord.js"
-import { deleteTag } from "#utils/gitlab/tags.ts"
-import deploy from "#utils/gitlab/deploy.ts"
-import { abortButtons, errorButtons } from "#utils/gitlab/buttons.ts"
-import config from "#config"
+import { ButtonInteraction, GuildMember, MessageFlags, Role } from 'discord.js'
+import { deleteTag } from '#utils/gitlab/tags.ts'
+import deploy from '#utils/gitlab/deploy.ts'
+import { abortButtons, errorButtons } from '#utils/gitlab/buttons.ts'
+import config from '#config'
 
 export default async function handleTag(interaction: ButtonInteraction, type: number) {
     try {
@@ -24,7 +24,7 @@ export async function removeTag(interaction: ButtonInteraction) {
     const member = interaction.member as GuildMember
     const isAllowed = member.roles.cache.some((role: Role) => role.id === config.roleID)
     if (!isAllowed) {
-        return await interaction.reply({ content: "Unauthorized.", flags: MessageFlags.Ephemeral })
+        return await interaction.reply({ content: 'Unauthorized.', flags: MessageFlags.Ephemeral })
     }
 
     const embedTag = message.embeds[1].title || ''

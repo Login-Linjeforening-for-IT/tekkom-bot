@@ -1,6 +1,6 @@
 import run from '#db'
 import { loadSQL } from '#utils/loadSQL.ts'
-import parser from "cron-parser"
+import parser from 'cron-parser'
 
 export default async function checkAnnouncements() {
     const query = (await loadSQL('getSentAnnouncements.sql'))
@@ -11,7 +11,7 @@ export default async function checkAnnouncements() {
             await run(
                 `UPDATE announcements 
                 SET sent = false
-                WHERE id = $1;`, 
+                WHERE id = $1;`,
                 [announcement.id]
             )
         }
@@ -33,7 +33,7 @@ function cronTimeHasCome(announcement: RecurringAnnouncement) {
         const lastSentDate = new Date(lastSent)
         return lastSentDate < prev
     } catch (err) {
-        console.log("Invalid cron expression:", interval, err)
+        console.log('Invalid cron expression:', interval, err)
         return false
     }
 }

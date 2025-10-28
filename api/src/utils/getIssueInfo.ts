@@ -19,7 +19,7 @@ export default async function getIssueInfo(itemNodeId: string): Promise<{ issueT
                 }
             }
         }
-    `;
+    `
 
     try {
         const response = await fetch(`${constants.GITHUB_API}graphql`, {
@@ -32,18 +32,18 @@ export default async function getIssueInfo(itemNodeId: string): Promise<{ issueT
                 query,
                 variables: { nodeId: itemNodeId }
             })
-        });
+        })
 
         if (!response.ok) {
-            throw new Error(await response.text());
+            throw new Error(await response.text())
         }
 
-        const data = await response.json();
-        const issueTitle = data.data.node?.content?.title || 'Unknown Issue';
-        const repoName = data.data.node?.content?.repository?.name || 'Unknown Repo';
-        const projectName = data.data.node?.project?.title || 'Unknown Project';
-        return { issueTitle, repoName, projectName };
-    } catch (error) {
-        return { issueTitle: 'Unknown Issue', repoName: 'Unknown Repo', projectName: 'Unknown Project' };
+        const data = await response.json()
+        const issueTitle = data.data.node?.content?.title || 'Unknown Issue'
+        const repoName = data.data.node?.content?.repository?.name || 'Unknown Repo'
+        const projectName = data.data.node?.project?.title || 'Unknown Project'
+        return { issueTitle, repoName, projectName }
+    } catch {
+        return { issueTitle: 'Unknown Issue', repoName: 'Unknown Repo', projectName: 'Unknown Project' }
     }
 }

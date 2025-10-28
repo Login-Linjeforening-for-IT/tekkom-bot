@@ -3,7 +3,7 @@ import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from '
 export const data = new SlashCommandBuilder()
     .setName('scrum')
     .setDescription('Reply to someone with scrum information')
-    .addUserOption(option => 
+    .addUserOption(option =>
         option.setName('user')
             .setDescription('The user to reply to')
             .setRequired(true)

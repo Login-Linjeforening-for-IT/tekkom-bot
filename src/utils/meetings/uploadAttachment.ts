@@ -43,8 +43,8 @@ export default async function uploadAttachmentToWiki({attachment, week}: WikiAtt
         }
 
         const data = await uploadResponse.text()
-        
-        if (data !== "ok") {
+
+        if (data !== 'ok') {
             return `Failed to upload file ${baseName}`
         }
 
@@ -60,8 +60,8 @@ function uuid(length: number) {
     let counter = 0
     let result = ''
     while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength))
-      counter ++
+        result += characters.charAt(Math.floor(Math.random() * charactersLength))
+        counter ++
     }
 
     return result

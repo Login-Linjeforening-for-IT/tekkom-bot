@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder, ChatInputCommandInteraction, Role, MessageFlags } from 'discord.js'
-import storedEmbeds from "#managed/roles.ts"
+import storedEmbeds from '#managed/roles.ts'
 import config from '#config'
 import type { Roles } from '#interfaces'
 import addRole from '#utils/roles.ts'
@@ -30,7 +30,7 @@ export async function execute(message: ChatInputCommandInteraction) {
 
     // Aborts if the user does not have sufficient permissions
     if (!isAllowed) {
-        return await message.reply("Unauthorized.")
+        return await message.reply('Unauthorized.')
     }
 
     const title = message.options.getString('title')
@@ -40,7 +40,7 @@ export async function execute(message: ChatInputCommandInteraction) {
     }
 
     const name = message.options.getString('description')
-    
+
     if (!name) {
         return await message.reply('Missing description')
     }
@@ -70,13 +70,15 @@ export async function execute(message: ChatInputCommandInteraction) {
             name = match[1]
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const options: any = message.options
         const params = options._hoistedOptions.map((param: NameValueObject) => `${param.name}:${param.value}`)
         const input = `/roles ${params.join(' ')}`
 
         if (!isValidEmoji(icon) && !name.length) {
             return message.reply({
-                content: `There is no emoji named \`\`${name || icon}\`\`\ \nYou entered: \`\`\`text\n${input}\`\`\``, 
+                // eslint-disable-next-line no-useless-escape
+                content: `There is no emoji named \`\`${name || icon}\`\`\ \nYou entered: \`\`\`text\n${input}\`\`\``,
                 flags: MessageFlags.Ephemeral
             })
         }
@@ -91,20 +93,20 @@ export async function execute(message: ChatInputCommandInteraction) {
 
     const embed = new EmbedBuilder()
         .setTitle(title)
-        .setColor("#fd8738")
+        .setColor('#fd8738')
         .setTimestamp()
         .addFields({name, value})
 
     const response = await message.reply({ embeds: [embed], fetchReply: true })
 
-    storedEmbeds.push({"channelID": message.channelId, "message": response.id})
+    storedEmbeds.push({'channelID': message.channelId, 'message': response.id})
 
     for (let i = 0; i < roleIcons.length; i++) {
         response.react(roleIcons[i])
     }
 
     const responseCollector = response.createReactionCollector({
-        filter: (_, user) => !user.bot, 
+        filter: (_, user) => !user.bot,
         dispose: true
     })
 
@@ -112,6 +114,7 @@ export async function execute(message: ChatInputCommandInteraction) {
 }
 
 function isValidEmoji(emoji: string) {
+    // eslint-disable-next-line no-misleading-character-class
     const validEmojiRegex = /^([\uD800-\uDBFF][\uDC00-\uDFFF])|[\u2600-\u27FF\u2B50\u2934\u2935\u2B06\u2194\u2195\u25AA\u25AB\u25FE\u25FD\u25FC\u25B6\u25C0\u23E9\u23EA\u23F8\u23F9\u23FA\u25B6\u25C0⛏️]$/
     return validEmojiRegex.test(emoji)
 }

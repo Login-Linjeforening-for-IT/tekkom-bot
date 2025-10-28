@@ -1,6 +1,6 @@
 import type { CacheType, ChatInputCommandInteraction, Message, TextChannel } from 'discord.js'
 import { MessageFlags, SlashCommandBuilder } from 'discord.js'
-import http from "http"
+import http from 'http'
 import config from '#config'
 
 export const data = new SlashCommandBuilder()
@@ -45,7 +45,7 @@ export async function execute(message: ChatInputCommandInteraction<CacheType>) {
 
 /**
  * Posts the message from Discord on all servers
- * @param {Discord_Message} message 
+ * @param {Discord_Message} message
  */
 function post(message: string) {
     config.minecraft_servers.forEach((server) => {
@@ -59,7 +59,7 @@ function post(message: string) {
 
 /**
  * Listens for content from Minecraft and posts it on Discord
- * @param {Discord_Message} message 
+ * @param {Discord_Message} message
  */
 async function listen(message: ChatInputCommandInteraction) {
     const textChannel = message.channel as TextChannel
@@ -80,7 +80,7 @@ async function listen(message: ChatInputCommandInteraction) {
 }
 
 /**
- * Updates the channel description of the channel tracking the Minecraft 
+ * Updates the channel description of the channel tracking the Minecraft
  * chats with the player counts.
  * @param {*} message Message object
  */
@@ -92,31 +92,31 @@ async function updatePlayerCount(message: ChatInputCommandInteraction) {
         let survival = [] as string[]
         let creative = [] as string[]
         const maxWidth = 20
-        let players = ""
-        let topic = ""
+        let players = ''
+        let topic = ''
 
         await Promise.allSettled(config.minecraft_servers.map(async (server) => {
             const response = await fetch(`${config.minecraft_url}:${server.port}/${server.name}-online`)
             const data = await response.json()
 
             switch (server.name) {
-                case "survival": survival = data; break
-                case "creative": creative = data; break
+                case 'survival': survival = data; break
+                case 'creative': creative = data; break
             }
         }))
 
-        let playersSurvival = survival.length
-        let playersCreative = creative.length
+        const playersSurvival = survival.length
+        const playersCreative = creative.length
 
         for (let i = 0; i < Math.max(playersSurvival, playersCreative); i++) {
-            const playerSurvival = (survival[i] || "").substring(0, maxWidth)
-            const playerCreative = (creative[i] || "").substring(0, maxWidth)
+            const playerSurvival = (survival[i] || '').substring(0, maxWidth)
+            const playerCreative = (creative[i] || '').substring(0, maxWidth)
 
-            const spacesSurvival = "\t".repeat(Math.max(0, (maxWidth - playerSurvival.length) / 4))
-            const spacesCreative = "\t".repeat(Math.max(0, (maxWidth - playerCreative.length) / 4))
+            const spacesSurvival = '\t'.repeat(Math.max(0, (maxWidth - playerSurvival.length) / 4))
+            const spacesCreative = '\t'.repeat(Math.max(0, (maxWidth - playerCreative.length) / 4))
 
             const tabs = Math.max(1, Math.floor((maxWidth - playerSurvival.length) / 4))
-            const tabCharacters = "\t".repeat(tabs)
+            const tabCharacters = '\t'.repeat(tabs)
 
             players += `${playerSurvival}${spacesSurvival}${tabCharacters}${playerCreative}${spacesCreative}\n`
         }
@@ -126,13 +126,13 @@ async function updatePlayerCount(message: ChatInputCommandInteraction) {
         if (online) {
             topic = `Logins Minecraft server. Online: ${online}\nSurvival (${survival.length})\t\t\t\t   Creative (${creative.length})\n${players}`
         } else {
-            topic = `Logins Minecraft server. There are no players online at this time.`
+            topic = 'Logins Minecraft server. There are no players online at this time.'
         }
 
         if (channel && 'setTopic' in channel) {
             channel?.setTopic(topic)
         } else {
-            console.log("Failed to set topic in minecraft/chat.ts")
+            console.log('Failed to set topic in minecraft/chat.ts')
         }
 
         // Waits for 5 minutes (Discord rate limit)

@@ -1,5 +1,5 @@
-import { schedule } from "node-cron"
-import config from "#config"
+import { schedule } from 'node-cron'
+import config from '#config'
 
 export default async function heartbeat() {
     try {
@@ -8,7 +8,7 @@ export default async function heartbeat() {
         if (config.kubernetesServicePort) {
             schedule('* * * * *', async() => {
                 const response = await fetch(config.heartbeatUrl)
-                
+
                 if (!response.ok) {
                     throw new Error(await response.text())
                 }

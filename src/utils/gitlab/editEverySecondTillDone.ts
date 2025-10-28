@@ -1,7 +1,7 @@
-import { EmbedBuilder, Message } from "discord.js"
-import { FALLBACK_PIPELINE, SUCCESS } from "#constants"
-import getPipelines, { getBridgesForPipeline, getJobsForPipeline } from "#utils/gitlab/pipeline.ts"
-import { errorButtons, initialButtons, successButtons } from "#utils/gitlab/buttons.ts"
+import { EmbedBuilder, Message } from 'discord.js'
+import { FALLBACK_PIPELINE, SUCCESS } from '#constants'
+import getPipelines, { getBridgesForPipeline, getJobsForPipeline } from '#utils/gitlab/pipeline.ts'
+import { errorButtons, initialButtons, successButtons } from '#utils/gitlab/buttons.ts'
 
 export default async function editEverySecondTillDone(message: Message, user: string, id: number, tag: string, name: string, seconds: number = 1, prod?: true): Promise<boolean> {
     const startTime = new Date().getTime()
@@ -39,11 +39,11 @@ export default async function editEverySecondTillDone(message: Message, user: st
         const embed = new EmbedBuilder()
             .setTitle(formatTitle(pipeline, tag, name, dev))
             .setDescription(formatDescription(pipeline, Seconds))
-            .setColor("#fd8738")
+            .setColor('#fd8738')
             .setTimestamp()
             .setURL(pipeline.web_url)
             .addFields([
-                {name: "Status", value: pipeline.status, inline: true},
+                {name: 'Status', value: pipeline.status, inline: true},
                 ...formatJobs(jobs.sort((a, b) => a.id - b.id), seconds)
             ])
 
@@ -53,14 +53,14 @@ export default async function editEverySecondTillDone(message: Message, user: st
             }
 
             message.edit({
-                embeds: [...embeds, embed], 
-                components: error 
-                    ? [errorButtons] 
-                    : pipeline.status === SUCCESS 
+                embeds: [...embeds, embed],
+                components: error
+                    ? [errorButtons]
+                    : pipeline.status === SUCCESS
                         ? [successButtons]
                         : [initialButtons]
             })
-        } catch (error) {
+        } catch {
             console.log(`Discord message for ${name}, version ${tag}${dev} was deleted. Continuing on Gitlab, check UI for results.`)
             return false
         }
@@ -84,7 +84,7 @@ export default async function editEverySecondTillDone(message: Message, user: st
             const elapsed = new Date().getTime() - startTime
             const hourTimeout = elapsed > 3600000
             const result = await edit()
-            
+
             if (typeof result === 'boolean') {
                 resolve(result)
                 clearInterval(interval)
@@ -118,8 +118,8 @@ function formatTitle(pipeline: Pipeline, tag: string, name: string, dev: string)
 }
 
 function formatJobs(jobs: Job[], seconds: number) {
-    let job = ""
-    let descriptions = ""
+    let job = ''
+    let descriptions = ''
 
     let i = 0
     while (jobs && i < jobs.length) {
@@ -131,8 +131,8 @@ function formatJobs(jobs: Job[], seconds: number) {
     }
 
     return [
-        {name: "Job", value: job, inline: true},
-        {name: "Info", value: descriptions, inline: true}
+        {name: 'Job', value: job, inline: true},
+        {name: 'Info', value: descriptions, inline: true}
     ]
 }
 
@@ -142,11 +142,11 @@ function FormatStatus(job: Job, seconds: number) {
 
     switch (job.status) {
         case SUCCESS: return `Success (${duration}s)`
-        case "created": return `Created (0s)`
-        case "pending": return `Pending (${queuedDuration}s)`
-        case "running": return `Running (${duration}s)`
-        case "canceled": return `Cancelled after ${duration || queuedDuration || seconds}s`
-        case "skipped": return `Skipped after ${duration || queuedDuration || seconds}s`
+        case 'created': return 'Created (0s)'
+        case 'pending': return `Pending (${queuedDuration}s)`
+        case 'running': return `Running (${duration}s)`
+        case 'canceled': return `Cancelled after ${duration || queuedDuration || seconds}s`
+        case 'skipped': return `Skipped after ${duration || queuedDuration || seconds}s`
         default: return `Error: ${job.status} after ${duration || queuedDuration || seconds}s.`
     }
 }

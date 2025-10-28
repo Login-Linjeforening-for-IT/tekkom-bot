@@ -1,11 +1,11 @@
-import { 
-    ButtonInteraction, 
-    TextChannel, 
-    CategoryChannel, 
-    PermissionOverwriteManager, 
-    User, 
+import {
+    ButtonInteraction,
+    TextChannel,
+    CategoryChannel,
+    PermissionOverwriteManager,
+    User,
     OverwriteType
-} from "discord.js"
+} from 'discord.js'
 
 export default async function manageUsers(interaction: ButtonInteraction, ping?: false, remove?: true) {
     try {
@@ -32,7 +32,10 @@ export default async function manageUsers(interaction: ButtonInteraction, ping?:
         }
 
         const users = await Promise.all(selectedUsers.map((userId: string) => guild.members.fetch(userId).catch(() => null)))
-        const alreadyAddedUsers = channel.permissionOverwrites.cache.filter((overwrite) => overwrite.type === OverwriteType.Member).map((overwrite) => overwrite.id)
+        const alreadyAddedUsers = channel.permissionOverwrites.cache
+            .filter((overwrite) => overwrite.type === OverwriteType.Member)
+            .map((overwrite) => overwrite.id)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const validUsers = users.filter((user: any) => user !== null && !alreadyAddedUsers.includes(user.id)) as User[]
 
         if (validUsers.length >= 25 && remove !== true) {
@@ -71,7 +74,7 @@ export default async function manageUsers(interaction: ButtonInteraction, ping?:
             }
         }
 
-        const content = remove 
+        const content = remove
             ? `${interaction.user.username} removed ${validUsers.map((user: User) => user.username).join(', ')} from the ticket.`
             : `${interaction.user.username} added ${validUsers.map((user: User) => ping === undefined ? `<@${user.id}>` : user.username).join(', ')} to the ticket.`
         // @ts-expect-error

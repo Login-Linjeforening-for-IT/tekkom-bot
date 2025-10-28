@@ -6,13 +6,13 @@ import {
     MessageFlags,
     StringSelectMenuBuilder,
     TextChannel
-} from "discord.js"
-import type { CategoryChildChannel } from "discord.js"
-import { getTickets } from "#utils/tickets/ticket.ts"
-import formatChannelName from "#utils/tickets/format.ts"
-import { MAX_CHANNELS, ticketIdPattern } from "#constants"
-import { closeTicket } from "#utils/ticket.ts"
-import closeChannel from "#utils/tickets/closeChannel.ts"
+} from 'discord.js'
+import type { CategoryChildChannel } from 'discord.js'
+import { getTickets } from '#utils/tickets/ticket.ts'
+import formatChannelName from '#utils/tickets/format.ts'
+import { MAX_CHANNELS, ticketIdPattern } from '#constants'
+import { closeTicket } from '#utils/ticket.ts'
+import closeChannel from '#utils/tickets/closeChannel.ts'
 
 export async function handleCloseTicket(interaction: ButtonInteraction) {
     const guild = interaction.guild
@@ -69,19 +69,21 @@ export async function handleCloseSelectedTicket(interaction: ButtonInteraction) 
     const guild = interaction.guild
     if (!guild) {
         return await interaction.reply({
-            content: "Guild not found.",
+            content: 'Guild not found.',
             flags: MessageFlags.Ephemeral
         })
     }
 
 
     try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const channels: Collection<string, CategoryChildChannel> = guild.channels.cache as any
 
         // Checks and handles max closed channels
         if (channels.size >= MAX_CHANNELS) {
             const sortedChannels: { channel: CategoryChildChannel; timestamp: number }[] = []
 
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             for (const [_, channel] of channels) {
                 if (channel instanceof TextChannel) {
                     try {
@@ -96,7 +98,7 @@ export async function handleCloseSelectedTicket(interaction: ButtonInteraction) 
                                 timestamp,
                             })
                         }
-                    } catch (error) {
+                    } catch {
                         // Assumes no activity if no messages can be found
                         sortedChannels.push({
                             channel,
@@ -129,19 +131,19 @@ export async function handleCloseSelectedTicket(interaction: ButtonInteraction) 
         const selectedChannel = channels.get(interaction.values[0]) as TextChannel | undefined
         if (!selectedChannel || !(selectedChannel instanceof TextChannel)) {
             return await interaction.reply({
-                content: `Could not find the specified channel.`,
+                content: 'Could not find the specified channel.',
                 flags: MessageFlags.Ephemeral
             })
         }
 
         // Get the "archived-tickets" category
         const archiveCategory = guild.channels.cache.find(
-            c => c instanceof CategoryChannel && c.name === "archived-tickets"
+            c => c instanceof CategoryChannel && c.name === 'archived-tickets'
         ) as CategoryChannel | undefined
 
         if (!archiveCategory) {
             return await interaction.reply({
-                content: `Could not find the "archived-tickets" category.`,
+                content: 'Could not find the "archived-tickets" category.',
                 flags: MessageFlags.Ephemeral
             })
         }

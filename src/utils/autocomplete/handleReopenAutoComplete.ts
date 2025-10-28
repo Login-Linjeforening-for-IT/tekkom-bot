@@ -2,9 +2,9 @@ import sanitize from '#utils/sanitize.ts'
 import { getArchivedTickets } from '#utils/tickets/ticket.ts'
 import { AutocompleteInteraction } from 'discord.js'
 
-export default async function handleReopenAutoComplete(interaction: AutocompleteInteraction<"cached">) {
+export default async function handleReopenAutoComplete(interaction: AutocompleteInteraction<'cached'>) {
     const query = sanitize(interaction.options.getFocused(true).value).toLowerCase()
-    let relevant = new Set<TicketOption>()
+    const relevant = new Set<TicketOption>()
     const tickets = await getArchivedTickets(interaction)
     const fallbackResult = `No tickets ${query.length > 0 ? `matching '${query}'` : ''} exist.`
 
@@ -24,12 +24,13 @@ export default async function handleReopenAutoComplete(interaction: Autocomplete
 
     const seen: string[] = []
     const uniqueResponse: {name: string, value: string}[] = []
+    // eslint-disable-next-line array-callback-return
     Array.from(relevant).slice(0, 25).map((item: TicketOption) => {
         const name = item.label
         if (!seen.includes(name)) {
             seen.push(name)
             uniqueResponse.push({
-                name: name, 
+                name: name,
                 value: name
             })
         }

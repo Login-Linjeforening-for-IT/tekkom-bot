@@ -1,6 +1,6 @@
-import run from "#db"
-import tokenWrapper from "#utils/tokenWrapper.ts"
-import type { FastifyReply, FastifyRequest } from "fastify"
+import run from '#db'
+import tokenWrapper from '#utils/tokenWrapper.ts'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 
 type PutAnnouncements = {
     id: number
@@ -18,7 +18,7 @@ export default async function putAnnouncements(req: FastifyRequest, res: Fastify
     const { id, title, description, channel, roles, embed, color, interval, time } = (req.body as PutAnnouncements) ?? {}
     const { valid } = await tokenWrapper(req, res)
     if (!valid) {
-        return res.status(400).send({ error: "Unauthorized" })
+        return res.status(400).send({ error: 'Unauthorized' })
     }
 
     if (!id) {
@@ -29,7 +29,7 @@ export default async function putAnnouncements(req: FastifyRequest, res: Fastify
         return res.status(400).send({ error: 'You cannot edit an already sent announcement without also giving it a schedule to be resent.' })
     }
 
-    const exists = await run(`SELECT * FROM announcements WHERE id = $1`, [id])
+    const exists = await run('SELECT * FROM announcements WHERE id = $1', [id])
     if (!exists.rows.length) {
         return res.status(404).send({ error: `ID ${id} not found.` })
     }
@@ -40,13 +40,13 @@ export default async function putAnnouncements(req: FastifyRequest, res: Fastify
         await run(
             `UPDATE announcements 
             SET title = $2, description = $3, channel = $4, roles = $5, embed = $6, color = $7, interval = $8, time = $9
-            WHERE id = $1;`, 
+            WHERE id = $1;`,
             [id, title, description, channel, roles, embed || null, color || null, interval, time]
         )
 
         return res.send({ message: `Successfully updated announcement ${id}.` })
     } catch (error) {
         console.log(`Database error: ${JSON.stringify(error)}`)
-        return res.status(500).send({ error: "Internal Server Error" })
+        return res.status(500).send({ error: 'Internal Server Error' })
     }
 }

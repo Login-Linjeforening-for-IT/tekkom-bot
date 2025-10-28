@@ -1,5 +1,5 @@
-import { Increment } from "#interfaces"
-import { UNKNOWN_VERSION } from "#constants"
+import { Increment } from '#interfaces'
+import { UNKNOWN_VERSION } from '#constants'
 import { errorButtons } from '#utils/gitlab/buttons.ts'
 import {
     ActionRowBuilder,
@@ -8,7 +8,7 @@ import {
     ButtonStyle,
     ChatInputCommandInteraction,
     EmbedBuilder
-} from "discord.js"
+} from 'discord.js'
 
 type ContinueDeploymentProps = {
     interaction: ChatInputCommandInteraction | ButtonInteraction
@@ -59,9 +59,9 @@ export default async function continueDeployment({ interaction, embed, latestVer
             const message = interaction.message
             await interaction.reply({ embeds: message.embeds, components: [buttons] })
         }
-    } catch (error) {
+    } catch {
         const errorEmbed = new EmbedBuilder()
-            .setTitle(`Invalid version`)
+            .setTitle('Invalid version')
             .setDescription(`The last tag is ${latestVersion}, this lacks a 'x.y.z' pattern, and is not a valid version. Please either create a new tag manually, or delete all incorrect tags manually.`)
             .setTimestamp()
         if (embed) {
@@ -73,10 +73,11 @@ export default async function continueDeployment({ interaction, embed, latestVer
 }
 
 function increment(version: string, type: Increment) {
-    version = version === "No version released." ? "1.0.0" : version
-    let versionParts = version.split('.').map(Number)
+    version = version === 'No version released.' ? '1.0.0' : version
+    const versionParts = version.split('.').map(Number)
 
     if (isNaN(versionParts[2])) {
+        // eslint-disable-next-line no-constant-binary-expression
         versionParts[2] = Number(version.split('.')[2].split('-')[0]) ?? NaN
     }
 

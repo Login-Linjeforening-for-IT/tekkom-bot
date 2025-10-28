@@ -1,7 +1,7 @@
-import run from "#db"
+import run from '#db'
 import { loadSQL } from '#utils/loadSQL.ts'
-import tokenWrapper from "#utils/tokenWrapper.ts"
-import type { FastifyReply, FastifyRequest } from "fastify"
+import tokenWrapper from '#utils/tokenWrapper.ts'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 
 export default async function postGame(req: FastifyRequest, res: FastifyReply) {
     const {
@@ -20,11 +20,11 @@ export default async function postGame(req: FastifyRequest, res: FastifyReply) {
 
     const { valid } = await tokenWrapper(req, res, ['tekkom-bot'])
     if (!valid) {
-        return res.status(400).send({ error: "Unauthorized" })
+        return res.status(400).send({ error: 'Unauthorized' })
     }
 
     if (!name || !user || !userId || !avatar || !start) {
-        return res.status(400).send({ error: "Please provide a valid game activity." })
+        return res.status(400).send({ error: 'Please provide a valid game activity.' })
     }
 
     try {
@@ -47,7 +47,7 @@ export default async function postGame(req: FastifyRequest, res: FastifyReply) {
 
         return res.send({ message: `Successfully added game ${name} for ${user}.` })
     } catch (error) {
-        console.log(`Database error:`, error)
-        return res.status(500).send({ error: "Internal Server Error" })
+        console.log('Database error:', error)
+        return res.status(500).send({ error: 'Internal Server Error' })
     }
 }

@@ -39,6 +39,7 @@ export default async function handleGithubAutoComplete(interaction: Autocomplete
         'beehive': 'Hoved nettside | Main website',
     }
 
+    // eslint-disable-next-line array-callback-return
     Array.from(relevant).slice(0, 25).map((item: GithubRepoSearchResultItem) => {
         const repoName = item.name
         const displayName = customNames[repoName] || repoName

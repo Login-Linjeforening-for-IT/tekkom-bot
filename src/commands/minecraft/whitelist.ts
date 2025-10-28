@@ -1,5 +1,5 @@
 import type { CacheType, ChatInputCommandInteraction } from 'discord.js'
-import { SlashCommandBuilder, MessageFlags } from "discord.js"
+import { SlashCommandBuilder, MessageFlags } from 'discord.js'
 import log from '#utils/logger.ts'
 import config from '#config'
 import sanitize from '#utils/sanitize.ts'
@@ -21,10 +21,10 @@ export const data = new SlashCommandBuilder()
  */
 export async function execute(message: ChatInputCommandInteraction<CacheType>) {
     // Slices to avoid overflow errors, checks to avoid passing undefined parameters
-    const user = message.options.getString('user') ? sanitize(message.options.getString('user')?.slice(0, 30) || "") : null
+    const user = message.options.getString('user') ? sanitize(message.options.getString('user')?.slice(0, 30) || '') : null
 
     if (!user) {
-        await message.reply({ content: "You must provide a user: `/whitelist user:name`", flags: MessageFlags.Ephemeral })
+        await message.reply({ content: 'You must provide a user: `/whitelist user:name`', flags: MessageFlags.Ephemeral })
         return
     }
 
@@ -33,21 +33,21 @@ export async function execute(message: ChatInputCommandInteraction<CacheType>) {
 }
 
 async function post(message: ChatInputCommandInteraction<CacheType>, name: string) {
-    let content = ""
+    let content = ''
 
     await Promise.all(
         config.minecraft_servers.map(async (server) => {
             const fullUrl = `${config.minecraft_url}:${server.port}/${server.name}-whitelist`
             const response = await fetch(fullUrl, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', name, action: "add" }
+                headers: { 'Content-Type': 'application/json', name, action: 'add' }
             })
 
             switch (response.status) {
                 case 304: content = `${name} is already whitelisted.`; break
                 case 418: content = `Added ${name} to the whitelist.`; break
                 case 404: content = `There is no Minecraft account named ${name}. Please try again.`; break
-                default: content = "Please try again."; break
+                default: content = 'Please try again.'; break
             }
         })
     )

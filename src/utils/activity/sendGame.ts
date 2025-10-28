@@ -23,7 +23,7 @@ export default async function sendGame({
                 'Authorization': `Bearer ${tekkomBotApiToken}`,
                 'btg': 'tekkom-bot',
             },
-            body: JSON.stringify({ 
+            body: JSON.stringify({
                 name,
                 user,
                 userId,

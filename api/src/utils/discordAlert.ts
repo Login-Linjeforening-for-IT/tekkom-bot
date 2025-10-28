@@ -1,10 +1,11 @@
-import config from "#constants"
+import config from '#constants'
 
 const { CRITICAL_ROLE, WEBHOOK_URL } = config
 
 export default async function discordAlert(description: string, type: 'get' | 'post' | '' = '', ping: boolean = false) {
     try {
-        let data: { content?: string; embeds: any[] } = {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const data: { content?: string; embeds: any[] } = {
             embeds: [
                 {
                     title: `🐝 Tekkom Bot BTG ${`${type.toUpperCase()} `}🐝`,

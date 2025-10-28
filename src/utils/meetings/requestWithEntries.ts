@@ -34,13 +34,14 @@ export default async function requestWithRetries({query, retries = 10, delay = 1
 
             const data = await response.json()
             return data
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.log(error)
             if (error.response && error.response.status === 401) {
                 // Retry on authentication errors
                 retries--
                 if (retries === 0) {
-                        throw new Error('Exceeded maximum retries for authentication errors')
+                    throw new Error('Exceeded maximum retries for authentication errors')
                 }
             } else {
                 // Logs full stack trace

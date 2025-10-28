@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js'
-import packagejson from "#package" with { type: "json" }
+import packagejson from '#package' with { type: 'json' }
 
 const { version } = packagejson
 
@@ -9,7 +9,7 @@ export const data = new SlashCommandBuilder()
 export async function execute(message: ChatInputCommandInteraction) {
     const embed = new EmbedBuilder()
         .setTitle(`Version ${version}`)
-        .setColor("#fd8738")
+        .setColor('#fd8738')
         .setTimestamp()
     await message.reply({ embeds: [embed]})
 }

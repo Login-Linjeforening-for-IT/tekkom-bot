@@ -134,6 +134,7 @@ type Ticket = {
     updated_by: string
     type: string
     sender: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     time_unit: any
 }
 
@@ -318,11 +319,11 @@ type GitlabPermissions = {
 }
 
 type ExpirationPolicy = {
-    cadence: "1d" | string
+    cadence: '1d' | string
     enabled: boolean
     keep_n: number
-    older_than: "90d" | string
-    name_regex: ".*" | string
+    older_than: '90d' | string
+    name_regex: '.*' | string
     name_regex_keep: unknown | null
     next_run_at: string
 }
@@ -388,9 +389,9 @@ type MergeRequest = {
     prepared_at: string
     reference: string
     references: {
-      short: string
-      relative: string
-      full: string
+        short: string
+        relative: string
+        full: string
     }
     web_url: string
     time_stats: TimeStats
@@ -447,9 +448,9 @@ type TimeStats = {
     human_total_time_spent: unknown | null
 }
 
-type CompletionStatus = { 
+type CompletionStatus = {
     count: number
-    completed_count: number 
+    completed_count: number
 }
 
 type Pipeline = {
@@ -468,19 +469,19 @@ type Pipeline = {
 
 type Job = {
     id: number
-    status: string 
-    stage: string 
+    status: string
+    stage: string
     name: string
-    ref: string 
+    ref: string
     tag: boolean
     coverage: unknown | null
-    allow_failure: boolean 
+    allow_failure: boolean
     created_at: string
-    started_at: string 
-    finished_at: string 
+    started_at: string
+    finished_at: string
     erased_at: string | null
-    duration: number 
-    queued_duration: number 
+    duration: number
+    queued_duration: number
     user: User
     commit: Commit
     pipeline: Pipeline
@@ -497,8 +498,8 @@ type Job = {
         }
     ]
     runner: {
-        id: number 
-        description: string 
+        id: number
+        description: string
         ip_address: string | null
         active: boolean
         paused: boolean

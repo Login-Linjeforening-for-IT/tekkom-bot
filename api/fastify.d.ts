@@ -1,7 +1,7 @@
 
-import "fastify"
+import 'fastify'
 
-declare module "fastify" {
+declare module 'fastify' {
     interface FastifyInstance {
         cachedListenJSON: Buffer
         cachedGameJSON: Buffer

@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, MessageFlags, Embed, EmbedBuilder } from 'discord.js'
+import { SlashCommandBuilder, ChatInputCommandInteraction, MessageFlags, EmbedBuilder } from 'discord.js'
 import getBtg from '#utils/btg/getBtg.ts'
 import postBtg from '#utils/btg/postBtg.ts'
 
@@ -13,8 +13,8 @@ export const data = new SlashCommandBuilder()
         .setName('service')
         .setDescription('Service to whitelist for')
         .addChoices(
-            { name: "BeeKeeper", value: "beekeeper" },
-            { name: "QueenBee", value: "queenbee" }
+            { name: 'BeeKeeper', value: 'beekeeper' },
+            { name: 'QueenBee', value: 'queenbee' }
         )
     )
 
@@ -25,7 +25,7 @@ export async function execute(message: ChatInputCommandInteraction) {
 
     if (!name || !service || !author) {
         return await message.reply({
-            content: "Please specify which user to whitelist and what service to whitelist for.",
+            content: 'Please specify which user to whitelist and what service to whitelist for.',
             flags: MessageFlags.Ephemeral
         })
     }
@@ -57,7 +57,7 @@ async function whitelist(message: ChatInputCommandInteraction, name: string, ser
     const embed = new EmbedBuilder()
         .setTitle('🐝 Break The Glass 🐝')
         .setDescription(`Successfully added ping exception for BTG account ${name} for ${service}`)
-        .setColor("#fd8738")
+        .setColor('#fd8738')
         .setTimestamp()
 
     await message.reply({ embeds: [embed] })

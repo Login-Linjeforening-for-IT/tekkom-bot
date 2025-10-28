@@ -1,5 +1,5 @@
-import { Client, TextChannel } from "discord.js"
-import { schedule } from "node-cron"
+import { Client, TextChannel } from 'discord.js'
+import { schedule } from 'node-cron'
 import autoCreate from '#utils/meetings/wiki.ts'
 import dotenv from 'dotenv'
 import getNextPathYearAndWeek from '#utils/meetings/getNextPathYearAndWeek.ts'

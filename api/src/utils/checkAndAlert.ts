@@ -5,7 +5,7 @@ export default async function checkAndAlert(name: string, service: string, middl
     let ping = true
     let author = ''
     const result = await run(
-        `SELECT name, service FROM btg WHERE name = $1 AND service = $2;`, 
+        'SELECT name, service FROM btg WHERE name = $1 AND service = $2;',
         [name, service]
     )
     const benign = result.rows as Btg[]

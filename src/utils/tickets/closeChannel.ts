@@ -1,6 +1,6 @@
-import { ButtonInteraction, CategoryChannel, Guild, MessageFlags, TextChannel } from "discord.js"
-import type { CategoryChildChannel } from "discord.js"
-import { MAX_CHANNELS } from "#constants"
+import { ButtonInteraction, CategoryChannel, Guild, MessageFlags, TextChannel } from 'discord.js'
+import type { CategoryChildChannel } from 'discord.js'
+import { MAX_CHANNELS } from '#constants'
 
 type CloseChannelProps = {
     guild: Guild
@@ -11,16 +11,16 @@ type CloseChannelProps = {
 export default async function closeChannel({ guild, interaction, currentChannel }: CloseChannelProps) {
     // Fetches "archived-tickets" category
     const archive = guild?.channels.cache.find(
-        c => c instanceof CategoryChannel && c.name === "archived-tickets"
+        c => c instanceof CategoryChannel && c.name === 'archived-tickets'
     ) as CategoryChannel
 
     if (!archive) {
         if (!interaction) {
-            return await currentChannel.send(`This ticket has been closed in Zammad, but cannot be closed in Discord since the "archived-tickets" category cannot be found.`)
+            return await currentChannel.send('This ticket has been closed in Zammad, but cannot be closed in Discord since the "archived-tickets" category cannot be found.')
         }
 
         return await interaction.reply({
-            content: `Could not find "archived-tickets" category.`,
+            content: 'Could not find "archived-tickets" category.',
             flags: MessageFlags.Ephemeral
         })
     }
@@ -36,6 +36,7 @@ export default async function closeChannel({ guild, interaction, currentChannel 
     if (children.size >= MAX_CHANNELS) {
         const sortedChannels: { channel: CategoryChildChannel; timestamp: number }[] = []
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         for (const [_, channel] of children) {
             if (channel instanceof TextChannel) {
                 try {
@@ -50,7 +51,7 @@ export default async function closeChannel({ guild, interaction, currentChannel 
                             timestamp,
                         })
                     }
-                } catch (error) {
+                } catch {
                     // Assumes no activity if no messages can be found
                     sortedChannels.push({
                         channel,

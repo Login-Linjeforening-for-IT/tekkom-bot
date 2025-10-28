@@ -1,4 +1,4 @@
-import { Attachment } from "discord.js"
+import { Attachment } from 'discord.js'
 
 // Fetches the base64 encoded attachment from Discord
 export default async function attachmentAsBase64(attachment: Attachment) {
@@ -15,7 +15,7 @@ export default async function attachmentAsBase64(attachment: Attachment) {
 
         return base64String
     } catch (error) {
-        console.log("Error uploading attachment:", error)
+        console.log('Error uploading attachment:', error)
         return null
     }
 }

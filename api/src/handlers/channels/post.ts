@@ -1,13 +1,13 @@
-import { channels } from "#constants"
-import tokenWrapper from "#utils/tokenWrapper.ts"
-import type { FastifyReply, FastifyRequest } from "fastify"
+import { channels } from '#constants'
+import tokenWrapper from '#utils/tokenWrapper.ts'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 
 export default async function postChannels(req: FastifyRequest, res: FastifyReply) {
     const newChannels = req.body as Channel[] ?? []
     const { valid } = await tokenWrapper(req, res, ['tekkom-bot'])
 
     if (!valid) {
-        return res.status(400).send({ error: "Unauthorized" })
+        return res.status(400).send({ error: 'Unauthorized' })
     }
 
     if (!newChannels.length) {

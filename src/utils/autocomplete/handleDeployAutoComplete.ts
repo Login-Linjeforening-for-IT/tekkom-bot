@@ -1,11 +1,11 @@
-import getRepositories from "#utils/gitlab/getRepositories.ts"
-import { AutocompleteInteraction } from "discord.js"
-import sanitize from "#utils/sanitize.ts"
+import getRepositories from '#utils/gitlab/getRepositories.ts'
+import { AutocompleteInteraction } from 'discord.js'
+import sanitize from '#utils/sanitize.ts'
 
-const REPOSITORY = "repository"
-const DEPLOY = "deploy"
+const REPOSITORY = 'repository'
+const DEPLOY = 'deploy'
 
-export default async function handleDeployAndReleaseAutoComplete(interaction: AutocompleteInteraction<"cached">) {
+export default async function handleDeployAndReleaseAutoComplete(interaction: AutocompleteInteraction<'cached'>) {
     const focusedName = interaction.options.getFocused(true).name
     const query = sanitize(interaction.options.getFocused(true).value).toLowerCase()
     let relevant = new Set<RepositorySimple>()
@@ -33,12 +33,13 @@ export default async function handleDeployAndReleaseAutoComplete(interaction: Au
 
     const seen: string[] = []
     const uniqueResponse: {name: string, value: string}[] = []
+    // eslint-disable-next-line array-callback-return
     Array.from(relevant).slice(0, 25).map((item: RepositorySimple) => {
         const name = item.name
         if (!seen.includes(name)) {
             seen.push(name)
             uniqueResponse.push({
-                name: name, 
+                name: name,
                 value: name
             })
         }

@@ -5,14 +5,16 @@ import crypto from 'crypto'
 import config from '#constants'
 
 type GitHubProjectsV2ItemPayload = {
-  action: string
-  projects_v2_item: any
-  changes?: {
-    field_value?: any
-  }
-  sender: {
-    login: string
-  }
+    action: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    projects_v2_item: any
+    changes?: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        field_value?: any
+    }
+    sender: {
+        login: string
+    }
 }
 
 export default async function postIssue(req: FastifyRequest, res: FastifyReply) {

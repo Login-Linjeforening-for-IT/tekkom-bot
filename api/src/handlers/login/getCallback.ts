@@ -1,4 +1,4 @@
-import type { FastifyReply, FastifyRequest } from "fastify"
+import type { FastifyReply, FastifyRequest } from 'fastify'
 import config from '#constants'
 
 const { TOKEN_URL, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, USERINFO_URL, QUEENBEE_URL } = config
@@ -15,13 +15,14 @@ type UserInfo = {
  * @param req Request
  * @param res Response
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default async function getCallback(req: FastifyRequest, res: FastifyReply): Promise<any> {
     const { code } = req.query as { code: string }
 
     if (!code) {
         return res.status(400).send('No authorization code found.')
     }
-    
+
     try {
         // Exchanges callback code for access token
         const tokenResponse = await fetch(TOKEN_URL, {
@@ -37,7 +38,7 @@ export default async function getCallback(req: FastifyRequest, res: FastifyReply
         })
 
         const tokenResponseBody = await tokenResponse.text()
-     
+
         if (!tokenResponse.ok) {
             return res.status(500).send(`Failed to obtain token: ${tokenResponseBody}`)
         }

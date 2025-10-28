@@ -8,7 +8,7 @@ import { getMessaging } from 'firebase-admin/messaging'
 // Configures the environment variables
 dotenv.config()
 
-const { 
+const {
     TYPE,
     PROJECT_ID,
     PRIVATE_KEY_ID,
@@ -23,15 +23,15 @@ const {
 } = process.env
 
 if (
-    !TYPE 
-    || !PROJECT_ID 
-    || !PRIVATE_KEY_ID 
-    || !PRIVATE_KEY 
+    !TYPE
+    || !PROJECT_ID
+    || !PRIVATE_KEY_ID
+    || !PRIVATE_KEY
     || !CLIENT_EMAIL
     || !CLIENT_ID
-    || !AUTH_URI 
-    || !TOKEN_URI 
-    || !AUTH_CERT_URL 
+    || !AUTH_URI
+    || !TOKEN_URI
+    || !AUTH_CERT_URL
     || !CLIENT_CERT_URL
     || !UNIVERSE_DOMAIN
 ) {
@@ -46,14 +46,15 @@ type sendNotificationProps = {
 }
 
 // A new type that is the same as DetailedEvent, but with id as a string
-interface DetailedEventStr extends Omit<DetailedEvent, "id"> {
+interface DetailedEventStr extends Omit<DetailedEvent, 'id'> {
     id: string
 }
 
 // Data in the message cannot be undefined so it is defined as an empty object or a DetailedEventStr
-type Data = {} | DetailedEventStr
+type Data = object | DetailedEventStr
 
 // Initialize the Firebase Admin SDK with the service account
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const app = initializeApp({
     credential: admin.credential.cert({
         type: TYPE,
@@ -80,12 +81,13 @@ const app = initializeApp({
 export default async function sendNotification({title, description, screen, topic}: sendNotificationProps): Promise<boolean> {
     // Sets the topic to maintenance if the topic is not available
     if (!topic) {
-        topic = "maintenance"
+        topic = 'maintenance'
     }
 
     // Provide screen as data parameter if the id is defined
-    const data: Data = screen && screen.id ? screen : {}
-    
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const data: Data = screen && screen.id ? screen : {} as any
+
     // Defines the message to be sent
     const message: Message = {
         topic: topic,
@@ -93,17 +95,18 @@ export default async function sendNotification({title, description, screen, topi
             title: title,
             body: description,
         },
-        data: data
+        // @ts-expect-error Works but needs to be revised to add correct type
+        data
     }
-    
+
     // Sends the message
     try {
         const notification = await getMessaging().send(message)
-        
+
         if (notification) {
             return true
         }
-    } catch (error) {
+    } catch {
         return false
     }
 

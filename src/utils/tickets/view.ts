@@ -1,30 +1,31 @@
-import { 
-    ActionRowBuilder, 
-    BaseGuildTextChannel, 
-    ButtonInteraction, 
-    Guild, 
-    MessageFlags, 
-    PermissionsBitField, 
+import {
+    ActionRowBuilder,
+    BaseGuildTextChannel,
+    ButtonInteraction,
+    Guild,
+    MessageFlags,
+    PermissionsBitField,
     StringSelectMenuBuilder,
-    TextChannel, 
+    TextChannel,
     CategoryChannel,
     RoleSelectMenuBuilder,
     UserSelectMenuBuilder
-} from "discord.js"
-import { ticketIdPattern } from "#constants"
-import formatChannelName from "#utils/tickets/format.ts"
-import topics from "#utils/tickets/topics.ts"
+} from 'discord.js'
+import { ticketIdPattern } from '#constants'
+import formatChannelName from '#utils/tickets/format.ts'
+import topics from '#utils/tickets/topics.ts'
 
 export default async function handleViewTicket(interaction: ButtonInteraction) {
     // Fetches all text channels that the user has access to
     const guild = interaction.guild as Guild
     const channels = guild.channels.cache
-        .filter(channel => 
+        .filter(channel =>
             // Only considers text channels
             channel instanceof TextChannel &&
             // Matches ticket ID scheme
             ticketIdPattern.test(channel.name) &&
             channel.permissionsFor(interaction.user)?.has(PermissionsBitField.Flags.ViewChannel)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ) as any
 
     // Maps the filtered channels to select menu options
@@ -69,18 +70,18 @@ export async function viewTicket(interaction: ButtonInteraction, view?: boolean)
     const channel = guild.channels.cache.get(interaction.values[0]) as TextChannel | undefined
     if (!channel || !(channel instanceof TextChannel)) {
         return await interaction.reply({
-            content: `Could not find the specified channel.`,
+            content: 'Could not find the specified channel.',
             flags: MessageFlags.Ephemeral
         })
     }
 
     try {
         // Fetches "tickets" category
-        const archive = guild?.channels.cache.find(c => c instanceof CategoryChannel && c.name === "tickets") as CategoryChannel
+        const archive = guild?.channels.cache.find(c => c instanceof CategoryChannel && c.name === 'tickets') as CategoryChannel
 
         if (!archive) {
             return await interaction.reply({
-                content: `Could not find "tickets" category.`,
+                content: 'Could not find "tickets" category.',
                 flags: MessageFlags.Ephemeral
             })
         }
@@ -125,7 +126,7 @@ export async function viewTicket(interaction: ButtonInteraction, view?: boolean)
     } catch (error) {
         console.log(error)
         await interaction.reply({
-            content: `There was an error viewing the ticket. Please try again later.`,
+            content: 'There was an error viewing the ticket. Please try again later.',
             flags: MessageFlags.Ephemeral
         })
     }

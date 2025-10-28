@@ -1,4 +1,4 @@
-import { schedule } from "node-cron"
+import { schedule } from 'node-cron'
 import checkAnnouncements from './checks/announcements.ts'
 import checkBtg from './checks/btg.ts'
 import checkMaxConnections from './checks/maxConnections.ts'

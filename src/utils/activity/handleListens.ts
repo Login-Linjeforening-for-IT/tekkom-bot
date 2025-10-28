@@ -46,9 +46,9 @@ export default async function handleListens({oldPresence, newPresence, lastListe
         if (!last) {
             const response = await sendListen(listen)
             console.log(response.message)
-            lastListens.set(userId, { 
-                syncId: listening.syncId!, 
-                start: new Date(start).getTime(), 
+            lastListens.set(userId, {
+                syncId: listening.syncId!,
+                start: new Date(start).getTime(),
                 end: new Date(end).getTime()
             })
         }

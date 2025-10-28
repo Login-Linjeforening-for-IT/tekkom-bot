@@ -1,11 +1,11 @@
-import { 
-    ActionRowBuilder, 
-    ButtonBuilder, 
-    ButtonStyle, 
-    ChatInputCommandInteraction, 
-    EmbedBuilder, 
-    SlashCommandBuilder 
-} from "discord.js"
+import {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    ChatInputCommandInteraction,
+    EmbedBuilder,
+    SlashCommandBuilder
+} from 'discord.js'
 
 export const data = new SlashCommandBuilder()
     .setName('tickets')
@@ -21,14 +21,14 @@ async function create(message: ChatInputCommandInteraction) {
     const embed = new EmbedBuilder()
         .setTitle('Support tickets')
         .setDescription('Feel free to open a support ticket if you have encountered any problems, need someone to do something, or have any questions, and we will reach out to you as soon as possible.')
-        .setColor("#fd8738")
+        .setColor('#fd8738')
         .setTimestamp()
         .addFields(
-            { name: "Create", value: "Creates a new ticket" }, 
-            { name: "View", value: "Views existing ticket, pings you in the channel if already open, or adds you to the channel if not" },
-            { name: "Tag", value: "Tags a ticket with a topic" }, 
-            { name: "Close", value: "Closes a ticket" }, 
-            { name: "Reopen", value: "Reopens a ticket" }, 
+            { name: 'Create', value: 'Creates a new ticket' },
+            { name: 'View', value: 'Views existing ticket, pings you in the channel if already open, or adds you to the channel if not' },
+            { name: 'Tag', value: 'Tags a ticket with a topic' },
+            { name: 'Close', value: 'Closes a ticket' },
+            { name: 'Reopen', value: 'Reopens a ticket' },
         )
 
     // 'Create ticket' button
@@ -48,7 +48,7 @@ async function create(message: ChatInputCommandInteraction) {
         .setCustomId('close_ticket')
         .setLabel('Close Ticket')
         .setStyle(ButtonStyle.Secondary)
-    
+
     // 'Reopen ticket' button
     const reopen = new ButtonBuilder()
         .setCustomId('reopen_ticket')

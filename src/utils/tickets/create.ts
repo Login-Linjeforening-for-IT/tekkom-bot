@@ -1,13 +1,13 @@
-import { 
-    ButtonInteraction, 
-    Guild, 
-    TextChannel, 
-    PermissionsBitField, 
-    CategoryChannel, 
-    StringSelectMenuBuilder, 
-    RoleSelectMenuBuilder, 
-    ActionRowBuilder, 
-    UserSelectMenuBuilder, 
+import {
+    ButtonInteraction,
+    Guild,
+    TextChannel,
+    PermissionsBitField,
+    CategoryChannel,
+    StringSelectMenuBuilder,
+    RoleSelectMenuBuilder,
+    ActionRowBuilder,
+    UserSelectMenuBuilder,
     ChannelType,
     ModalBuilder,
     TextInputBuilder,
@@ -16,16 +16,16 @@ import {
     ButtonBuilder,
     ButtonStyle,
     MessageFlags
-} from "discord.js"
-import topics from "#utils/tickets/topics.ts"
-import { DISCORD_URL, ZAMMAD_URL } from "#constants"
-import config from "#config"
+} from 'discord.js'
+import topics from '#utils/tickets/topics.ts'
+import { DISCORD_URL, ZAMMAD_URL } from '#constants'
+import config from '#config'
 
 export default async function handleCreateTicket(interaction: ButtonInteraction) {
     const guild = interaction.guild as Guild
-    
+
     if (!guild) {
-        return interaction.reply({ content: "This command can only be used in a server.", flags: MessageFlags.Ephemeral })
+        return interaction.reply({ content: 'This command can only be used in a server.', flags: MessageFlags.Ephemeral })
     }
 
     const channels = guild.channels.cache
@@ -33,7 +33,7 @@ export default async function handleCreateTicket(interaction: ButtonInteraction)
     // Find all channels with names matching the ticket[ID] pattern
     const ticketChannels = channels
         .filter(channel => channel instanceof TextChannel && /^ticket\d+$/.test(channel.name))
-        .map(channel => parseInt(channel.name.replace("ticket", ""), 10))
+        .map(channel => parseInt(channel.name.replace('ticket', ''), 10))
         .sort((a, b) => a - b)
 
     // Finds the lowest available ticket number
@@ -58,7 +58,7 @@ export default async function handleCreateTicket(interaction: ButtonInteraction)
         .setCustomId('ticket_title')
         .setLabel('Ticket Title')
         .setStyle(TextInputStyle.Short)
-    
+
     // Mail
     const mail = new TextInputBuilder()
         .setCustomId('ticket_mail')
@@ -83,7 +83,7 @@ export default async function handleCreateTicket(interaction: ButtonInteraction)
     // const lastNameRow = new ActionRowBuilder<TextInputBuilder>().addComponents(lastName)
     // modal.addComponents([titleRow, mailRow, firstNameRow, lastNameRow])
     modal.addComponents([titleRow, mailRow])
-    
+
     // Shows modal for text input
     await interaction.showModal(modal)
 
@@ -99,7 +99,7 @@ export default async function handleCreateTicket(interaction: ButtonInteraction)
         const mail = submittedModal.fields.getTextInputValue('ticket_mail')
 
         // Create the new channel in a category (if you have a category for tickets)
-        const category = guild.channels.cache.find(c => c instanceof CategoryChannel && c.name === "tickets") as CategoryChannel
+        const category = guild.channels.cache.find(c => c instanceof CategoryChannel && c.name === 'tickets') as CategoryChannel
 
         const newChannel = await guild.channels.create({
             name: newChannelName,
@@ -163,22 +163,22 @@ export default async function handleCreateTicket(interaction: ButtonInteraction)
             },
             body: JSON.stringify({
                 title,
-                "group_id": 37,
-                "customer_id": 5567,
-                "article": {
-                    "subject": title,
-                    "body": `Synced with ${DISCORD_URL}/${guildId}/${channelId}.`,
-                    "type": "email",
-                    "internal": false,
-                    "from": "Support",
-                    "to": mail,
-                    "type_id": 1,
-                    "sender_id": 1,
-                    "content_type": "text/html"
+                'group_id': 37,
+                'customer_id': 5567,
+                'article': {
+                    'subject': title,
+                    'body': `Synced with ${DISCORD_URL}/${guildId}/${channelId}.`,
+                    'type': 'email',
+                    'internal': false,
+                    'from': 'Support',
+                    'to': mail,
+                    'type_id': 1,
+                    'sender_id': 1,
+                    'content_type': 'text/html'
                 },
-                "priority_id": 2,
-                "state_id": 1,
-                "due_at": "2024-09-30T12:00:00Z"
+                'priority_id': 2,
+                'state_id': 1,
+                'due_at': '2024-09-30T12:00:00Z'
             })
         })
 
@@ -192,16 +192,16 @@ export default async function handleCreateTicket(interaction: ButtonInteraction)
                 content: `# ${title}\n${interaction.user}, your ${text} has been created!\nPlease select the tags, roles, and users you want to add to this ticket.\nNote that tags can only be set once per 5 minutes.`,
                 components: [tags, roles, users, close],
             })
-            
+
             // Acknowledge modal submission
-            await submittedModal.reply({ 
+            await submittedModal.reply({
                 content: `Your ticket <#${newChannel.id}> has been created!`,
                 flags: MessageFlags.Ephemeral
             })
         }
 
     } catch (error) {
-        console.log("Error creating ticket channel:", error)
-        await interaction.reply({ content: "There was an error creating the ticket. Please try again." })
+        console.log('Error creating ticket channel:', error)
+        await interaction.reply({ content: 'There was an error creating the ticket. Please try again.' })
     }
 }

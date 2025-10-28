@@ -1,5 +1,5 @@
 import type { CacheType, ChatInputCommandInteraction, Role } from 'discord.js'
-import { SlashCommandBuilder, MessageFlags } from "discord.js"
+import { SlashCommandBuilder, MessageFlags } from 'discord.js'
 import config from '#config'
 import log from '#utils/logger.ts'
 import type { Roles } from '#interfaces'
@@ -22,19 +22,19 @@ export const data = new SlashCommandBuilder()
  */
 export async function execute(message: ChatInputCommandInteraction) {
     // Slices to avoid overflow errors, checks to avoid passing undefined parameters
-    const user = sanitize(message.options.getString('user')?.slice(0, 30) || "") || null
+    const user = sanitize(message.options.getString('user')?.slice(0, 30) || '') || null
 
     // Checking if the author is allowed to remove users from the whitelist
     const isAllowed = (message.member?.roles as unknown as Roles)?.cache.some((role: Role) => role.id === config.roleID)
 
     // Aborts if the user does not have sufficient permissions
     if (!isAllowed) {
-        return await message.reply({ content: "Unauthorized.", flags: MessageFlags.Ephemeral })
+        return await message.reply({ content: 'Unauthorized.', flags: MessageFlags.Ephemeral })
     }
 
     if (!user) {
         return await message.reply({
-            content: "You must provide a user: `/whitelist user:name`",
+            content: 'You must provide a user: `/whitelist user:name`',
             flags: MessageFlags.Ephemeral
         })
     }
@@ -44,21 +44,21 @@ export async function execute(message: ChatInputCommandInteraction) {
 }
 
 async function post(message: ChatInputCommandInteraction<CacheType>, name: string) {
-    let content = ""
+    let content = ''
 
     await Promise.all(
         config.minecraft_servers.map(async (server) => {
             const fullUrl = `${config.minecraft_url}:${server.port}/${server.name}-whitelist`
             const response = await fetch(fullUrl, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', name, action: "remove" }
+                headers: { 'Content-Type': 'application/json', name, action: 'remove' }
             })
 
             switch (response.status) {
                 case 304: content = `${name} is not on the whitelist.`; break
                 case 418: content = `Removed ${name} from the whitelist.`; break
                 case 404: content = `There is no Minecraft account named ${name}. Please try again.`; break
-                default: content = "Please try again."; break
+                default: content = 'Please try again.'; break
             }
         })
     )

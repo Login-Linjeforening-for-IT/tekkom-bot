@@ -6,11 +6,11 @@ export default async function postHideActivity(req: FastifyRequest, res: Fastify
     const { user } = req.body as { user: string } ?? {}
     const { valid } = await tokenWrapper(req, res, ['tekkom-bot'])
     if (!valid) {
-        return res.status(400).send({ error: "Unauthorized" })
+        return res.status(400).send({ error: 'Unauthorized' })
     }
 
     if (!user) {
-        return res.status(400).send({ error: "Missing user" })
+        return res.status(400).send({ error: 'Missing user' })
     }
 
     try {
@@ -37,6 +37,6 @@ export default async function postHideActivity(req: FastifyRequest, res: Fastify
         return result.rows[0]
     } catch (error) {
         console.log(`Database error: ${JSON.stringify(error)}`)
-        return res.status(500).send({ error: "Internal Server Error" })
+        return res.status(500).send({ error: 'Internal Server Error' })
     }
 }

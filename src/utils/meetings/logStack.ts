@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function logStack(error: any) {
     if (error.response) {
         // Server responded with a status other than 2xx

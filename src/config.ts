@@ -5,7 +5,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 // Destructures the environment variables
-const { 
+const {
     DISCORD_CLIENT_ID,
     DISCORD_GUILD_ID,
     DISCORD_STYRET_ROLE_ID,
@@ -67,9 +67,9 @@ const config = {
     minecraft_port: Number(MINECRAFT_PORT),
     minecraft_servers: [
         {
-            port: Number(MINECRAFT_SURVIVAL_PORT), 
+            port: Number(MINECRAFT_SURVIVAL_PORT),
             name: MINECRAFT_SURVIVAL
-        }, 
+        },
         {
             port: Number(MINECRAFT_CREATIVE_PORT),
             name: MINECRAFT_CREATIVE

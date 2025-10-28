@@ -1,11 +1,11 @@
-import { 
-    ButtonInteraction, 
-    CategoryChannel, 
-    OverwriteType, 
-    PermissionOverwriteManager, 
-    Role, 
-    TextChannel 
-} from "discord.js"
+import {
+    ButtonInteraction,
+    CategoryChannel,
+    OverwriteType,
+    PermissionOverwriteManager,
+    Role,
+    TextChannel
+} from 'discord.js'
 
 export default async function manageRoles(interaction: ButtonInteraction, ping?: false, remove?: true) {
     try {
@@ -32,13 +32,13 @@ export default async function manageRoles(interaction: ButtonInteraction, ping?:
         }
 
         const possibleRoles = await Promise.all(selectedRoles.map((roleId: string) => guild.roles.fetch(roleId).catch(() => null)))
-        const alreadyAddedRoles = channel.permissionOverwrites.cache.filter((overwrite) => 
+        const alreadyAddedRoles = channel.permissionOverwrites.cache.filter((overwrite) =>
             overwrite.type === OverwriteType.Role).map((overwrite) => overwrite.id)
-        const validRoles = possibleRoles.filter((role: Role | null) => 
-            (role !== null 
-                && role.members.size <= 25 
-                && (remove 
-                    ? alreadyAddedRoles.includes(role.id) 
+        const validRoles = possibleRoles.filter((role: Role | null) =>
+            (role !== null
+                && role.members.size <= 25
+                && (remove
+                    ? alreadyAddedRoles.includes(role.id)
                     : !alreadyAddedRoles.includes(role.id))
             )
         ) as Role[]
@@ -81,7 +81,7 @@ export default async function manageRoles(interaction: ButtonInteraction, ping?:
                     const bot = guild.members.me
 
                     if (bot?.roles.cache.has(role.id)) return
-            
+
                     const permissionOverwrites = channel.permissionOverwrites.cache.get(role.id)
                     if (permissionOverwrites) {
                         // Remove the permission overwrite for the role only if it exists
@@ -97,7 +97,7 @@ export default async function manageRoles(interaction: ButtonInteraction, ping?:
         const roleStrings = roleObjects.map((role: Role | null) => role?.name)
         const roles = ping === undefined ? validRoles.join(', ') : roleStrings.join(', ')
 
-        const content = remove 
+        const content = remove
             ? `${interaction.user.username} removed ${roleStrings.join(', ')} from the ticket.`
             : `${interaction.user.username} added ${roles} to the ticket.`
         // @ts-expect-error

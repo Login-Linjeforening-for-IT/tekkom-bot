@@ -30,11 +30,11 @@ export default async function setupClient() {
             Partials.User,
         ],
     }) as DiscordClient
-    
+
     client.commands = new Collection()
     const foldersPath = join(__dirname, '..', 'commands')
     const commandFolders = readdirSync(foldersPath)
-    
+
     for (const folder of commandFolders) {
         const commandsPath = join(foldersPath, folder)
         const commandFiles = readdirSync(commandsPath).filter(file => file.endsWith('.ts'))

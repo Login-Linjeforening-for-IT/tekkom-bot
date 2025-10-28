@@ -1,24 +1,24 @@
-import { ButtonInteraction, ChatInputCommandInteraction, MessageFlags } from "discord.js"
-import handleTagTicket, { tagTicket } from "#utils/tickets/tag.ts"
-import { handleCloseSelectedTicket, handleCloseTicket } from "#utils/tickets/close.ts"
-import handleViewTicket, { viewTicket } from "#utils/tickets/view.ts"
-import handleCreateTicket from "#utils/tickets/create.ts"
-import addRoleToCreate from "#utils/tickets/roles.ts"
-import manageUser from "#utils/tickets/users.ts"
-import handleAddToTicket, { handleAddViewerToTicket } from "#utils/tickets/add.ts"
-import manageRoles from "#utils/tickets/roles.ts"
-import handleRemoveFromTicket from "#utils/tickets/remove.ts"
-import { nextPage, previousPage } from "#utils/help.ts"
-import { inviteToTicket, joinTicket } from "#utils/tickets/invite.ts"
-import handleTag, { removeTag } from "#utils/gitlab/handleTag.ts"
-import { Build, Increment } from "#interfaces"
-import retryDeployment from "#utils/gitlab/retryDeployment.ts"
-import trash from "#utils/trash.ts"
-import deployHelper from "#utils/gitlab/deployHelper.ts"
-import cancel from "#utils/gitlab/cancel.ts"
-import releaseHelper from "#utils/gitlab/releaseHelper.ts"
+import { ButtonInteraction, ChatInputCommandInteraction, MessageFlags } from 'discord.js'
+import handleTagTicket, { tagTicket } from '#utils/tickets/tag.ts'
+import { handleCloseSelectedTicket, handleCloseTicket } from '#utils/tickets/close.ts'
+import handleViewTicket, { viewTicket } from '#utils/tickets/view.ts'
+import handleCreateTicket from '#utils/tickets/create.ts'
+import addRoleToCreate from '#utils/tickets/roles.ts'
+import manageUser from '#utils/tickets/users.ts'
+import handleAddToTicket, { handleAddViewerToTicket } from '#utils/tickets/add.ts'
+import manageRoles from '#utils/tickets/roles.ts'
+import handleRemoveFromTicket from '#utils/tickets/remove.ts'
+import { nextPage, previousPage } from '#utils/help.ts'
+import { inviteToTicket, joinTicket } from '#utils/tickets/invite.ts'
+import handleTag, { removeTag } from '#utils/gitlab/handleTag.ts'
+import { Build, Increment } from '#interfaces'
+import retryDeployment from '#utils/gitlab/retryDeployment.ts'
+import trash from '#utils/trash.ts'
+import deployHelper from '#utils/gitlab/deployHelper.ts'
+import cancel from '#utils/gitlab/cancel.ts'
+import releaseHelper from '#utils/gitlab/releaseHelper.ts'
 
-export default async function handleComponents(interaction: ButtonInteraction | ChatInputCommandInteraction, id: string | undefined) {    
+export default async function handleComponents(interaction: ButtonInteraction | ChatInputCommandInteraction, id: string | undefined) {
     const buttonInteraction = interaction as ButtonInteraction
 
     // id is present if interaction is ChatInputCommandInteraction

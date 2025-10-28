@@ -1,4 +1,4 @@
-import { Guild, ReactionCollector, User } from "discord.js"
+import { Guild, ReactionCollector, User } from 'discord.js'
 
 type CollectProps = {
     collector: ReactionCollector
@@ -17,7 +17,7 @@ export default function addRole({collector, guild, roles, icons}: CollectProps) 
         const member = await guild.members.fetch(user.id)
         const emoji = reaction._emoji.name
         const reactionEmoji = emoji.length < 4 ? emoji.slice(0, 2).trim() : emoji.trim()
-        
+
         for (let i = 0; i < icons.length; i++) {
             if (icons[i].trim() === reactionEmoji) {
                 await member.roles.add(roles[i])

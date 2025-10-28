@@ -22,7 +22,7 @@ async function whitelist(message: ChatInputCommandInteraction) {
     const embed = new EmbedBuilder()
         .setTitle('🐝 Music 🐝')
         .setDescription(`Successfully ${hidden ? 'hid' : 'revealed'} user ${user} in activity monitor.`)
-        .setColor("#fd8738")
+        .setColor('#fd8738')
         .setTimestamp()
 
     await message.reply({ embeds: [embed], flags: MessageFlags.Ephemeral })

@@ -1,10 +1,10 @@
-import { 
-    ChatInputCommandInteraction, 
-    MessageFlags, 
-    PermissionOverwriteManager, 
-    SlashCommandBuilder, 
+import {
+    ChatInputCommandInteraction,
+    MessageFlags,
+    PermissionOverwriteManager,
+    SlashCommandBuilder,
     TextChannel
-} from "discord.js"
+} from 'discord.js'
 
 export const data = new SlashCommandBuilder()
     .setName('leave')
@@ -17,7 +17,7 @@ export async function execute(message: ChatInputCommandInteraction) {
 
     if (!channel.name.match(/\d+/)) {
         return await message.reply({
-            content: "This is not a ticket!",
+            content: 'This is not a ticket!',
             flags: MessageFlags.Ephemeral
         })
     }

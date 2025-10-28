@@ -19,14 +19,14 @@ export default async function checkAndHandleListenRepeats(
             lastListens.delete(userId)
             continue
         }
-        
+
         const presence = member.presence
         if (!presence) {
             // User is no longer listening
             lastListens.delete(userId)
             continue
         }
-        
+
         // Checks what the user is listening to now
         const spotify = presence.activities.find(a => a.type === 2 && a.name === 'Spotify')
         const last = lastListens.get(userId)
@@ -65,12 +65,12 @@ export default async function checkAndHandleListenRepeats(
                 if (isError) {
                     console.log(response.message, response.error)
                 }
-                
+
                 console.log(`${member.user.tag} ${isError ? 'tried to repeat' : 'repeated'} the song: ${spotify.details} by ${spotify.state}, skipped: ${skipped}`)
             } else if (spotify.syncId !== last?.syncId) {
                 // New song
                 const response = await sendListen(listen)
-                console.log(response.message)    
+                console.log(response.message)
             }
 
             // Stores new reference

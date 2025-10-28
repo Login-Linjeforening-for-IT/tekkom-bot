@@ -6,7 +6,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 export default async function getTrackPreview(req: FastifyRequest, res: FastifyReply) {
     const { valid } = await tokenWrapper(req, res, ['tekkom-bot'])
     if (!valid) {
-        return res.status(400).send({ error: "Unauthorized" })
+        return res.status(400).send({ error: 'Unauthorized' })
     }
 
     try {

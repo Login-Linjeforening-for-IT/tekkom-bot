@@ -1,11 +1,11 @@
-import { 
-    ActionRowBuilder, 
-    ButtonInteraction, 
-    MessageFlags, 
+import {
+    ActionRowBuilder,
+    ButtonInteraction,
+    MessageFlags,
     RoleSelectMenuBuilder,
-    UserSelectMenuBuilder, 
-} from "discord.js"
-import isTicketChannel from "#utils/tickets/ticket.ts"
+    UserSelectMenuBuilder,
+} from 'discord.js'
+import isTicketChannel from '#utils/tickets/ticket.ts'
 
 export default async function handleAddToTicket(interaction: ButtonInteraction) {
     const isTicket = await isTicketChannel(interaction)
@@ -37,7 +37,7 @@ export default async function handleAddToTicket(interaction: ButtonInteraction) 
 export async function handleAddViewerToTicket(interaction: ButtonInteraction) {
     const isTicket = await isTicketChannel(interaction)
     if (!isTicket) return
-    
+
     const selectRoles = new RoleSelectMenuBuilder()
         .setCustomId('add_role_viewer_to_ticket')
         .setPlaceholder('Add roles')

@@ -1,7 +1,7 @@
-import { Message } from "discord.js"
-import fetchTicket from "#utils/ticket.ts"
-import attachmentAsBase64 from "#utils/tickets/attachmentAsBase64.ts"
-import config from "#config"
+import { Message } from 'discord.js'
+import fetchTicket from '#utils/ticket.ts'
+import attachmentAsBase64 from '#utils/tickets/attachmentAsBase64.ts'
+import config from '#config'
 
 export default async function postMessage(ticketID: number, message: Message, body: string | undefined = undefined) {
     const recipient = await fetchTicket(ticketID, true)
@@ -15,23 +15,23 @@ export default async function postMessage(ticketID: number, message: Message, bo
                 const data = await attachmentAsBase64(attachment)
 
                 if (data) {
-                    attachments.push({ 
-                        filename: attachment.name, 
-                        data, 
-                        "mime-type": attachment.contentType 
+                    attachments.push({
+                        filename: attachment.name,
+                        data,
+                        'mime-type': attachment.contentType
                     })
                 }
             }
 
             const url = `${config.api}/ticket/${ticketID}`
             const data = {
-                "group_id": 37,
-                "customer_id": 5567,
-                "article": {
-                    "body": body || `From ${message.author.username} via Discord:\n\n${message.content}`,
-                    "type": "email",
-                    "internal": false,
-                    "to": recipient,
+                'group_id': 37,
+                'customer_id': 5567,
+                'article': {
+                    'body': body || `From ${message.author.username} via Discord:\n\n${message.content}`,
+                    'type': 'email',
+                    'internal': false,
+                    'to': recipient,
                     attachments
                 }
             }

@@ -1,11 +1,11 @@
-import { 
-    ActionRowBuilder, 
-    ButtonInteraction, 
+import {
+    ActionRowBuilder,
+    ButtonInteraction,
     StringSelectMenuBuilder,
-    TextChannel, 
-} from "discord.js"
-import topics from "#utils/tickets/topics.ts"
-import isTicketChannel from "#utils/tickets/ticket.ts"
+    TextChannel,
+} from 'discord.js'
+import topics from '#utils/tickets/topics.ts'
+import isTicketChannel from '#utils/tickets/ticket.ts'
 
 export default async function handleTagTicket(interaction: ButtonInteraction) {
     const selectTags = new StringSelectMenuBuilder()
@@ -43,7 +43,7 @@ export async function tagTicket(interaction: ButtonInteraction) {
             .map((tag: string) => `🏷️ ${tag}`)
             .filter((tag: string) => !currentTopic.includes(tag))
             .join(', ')
-        
+
         // @ts-expect-error
         const alreadyTagged = interaction.values
             .map((tag: string) => `🏷️ ${tag}`)

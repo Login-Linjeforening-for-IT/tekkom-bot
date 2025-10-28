@@ -1,17 +1,17 @@
 import dotenv from 'dotenv'
-import { ticketIdPattern } from "#constants"
-import postMessage from "#utils/tickets/postMessage.ts"
-import fetchTicket from "#utils/ticket.ts"
+import { ticketIdPattern } from '#constants'
+import postMessage from '#utils/tickets/postMessage.ts'
+import fetchTicket from '#utils/ticket.ts'
 import closeChannel from '#utils/tickets/closeChannel.ts'
 import getAttachment from '#utils/tickets/getAttachment.ts'
-import { 
-    AttachmentBuilder, 
-    ChannelType, 
-    Client, 
-    Guild, 
-    Message, 
-    TextChannel 
-} from "discord.js"
+import {
+    AttachmentBuilder,
+    ChannelType,
+    Client,
+    Guild,
+    Message,
+    TextChannel
+} from 'discord.js'
 
 dotenv.config()
 
@@ -27,9 +27,9 @@ async function sync(client: Client) {
     const guild = await client.guilds.fetch(DISCORD_GUILD_ID as string) as Guild
 
     const ticketsCategory = guild.channels.cache.find(
-        channel => channel.type === 
-            ChannelType.GuildCategory 
-            && channel.name.toLowerCase() === 'tickets' 
+        channel => channel.type ===
+            ChannelType.GuildCategory
+            && channel.name.toLowerCase() === 'tickets'
     )
 
     if (!ticketsCategory) {
@@ -40,16 +40,16 @@ async function sync(client: Client) {
     // Finds all channels in the 'tickets' category
     const ticketChannels = guild.channels.cache.filter(
         channel => channel.parentId === ticketsCategory.id
-        && !channel.name.includes('ticket') 
+        && !channel.name.includes('ticket')
         && ticketIdPattern.test(channel.name)
     )
 
     for (const ch of ticketChannels) {
         const channel = ch[1] as TextChannel
         const messages = await channel.messages.fetch()
-        const discordMessages = messages.map(message => ({ 
-            user: message.author.username, 
-            content: message.content, 
+        const discordMessages = messages.map(message => ({
+            user: message.author.username,
+            content: message.content,
             attachments: message.attachments.map((attachment) => {
                 return {
                     name: attachment.name,
@@ -58,7 +58,7 @@ async function sync(client: Client) {
             })
         }))
         const zammadMessages = await fetchTicket(Number(channel.name)) as ReducedMessage[] | ErrorClosed | Error
-        
+
         // Checks if any are closed in Zammad, and if so closes them on Discord
         if ('error' in zammadMessages && zammadMessages.error === 'closed') {
             // Closes the Discord channel
@@ -82,7 +82,7 @@ async function sync(client: Client) {
                     if (!('attachment' in response)) {
                         continue
                     }
-                    
+
                     const buffer = Buffer.from(response.attachment, 'base64')
                     const discordAttachment = new AttachmentBuilder(buffer, { name: attachment.name })
                     attachmentsToSend.push(discordAttachment)
@@ -99,8 +99,8 @@ async function sync(client: Client) {
             // Posts the missing message to Zammad
             for (const message of missingZammad) {
                 postMessage(
-                    Number(channel.name), 
-                    message as unknown as Message, 
+                    Number(channel.name),
+                    message as unknown as Message,
                     `From ${message.user} via Discord:\n\n${message.content}`
                 )
             }
@@ -114,7 +114,7 @@ function compare(discordMessages: ReducedMessage[], zammadMessages: ReducedMessa
     // will be further checked for content and formatted
     const relevantDiscord: ReducedMessage[] = []
     const relevantZammad: ReducedMessage[] = []
-    
+
     // Messages that are actually missing on Discord or Zammad, passed content
     // comparing checks
     const missingDiscord: ReducedMessage[] = []
@@ -130,38 +130,38 @@ function compare(discordMessages: ReducedMessage[], zammadMessages: ReducedMessa
 
     // Finds messages from Zammad that are relevant for further checking
     for (const message of zammadMessages) {
-        // Removes messages created by the tekkom bot or with an inappropriate 
+        // Removes messages created by the tekkom bot or with an inappropriate
         // username length (impossible unless system message)
         if (!message.user.includes('tekkom-bot') && !message.user.includes('discord-bot') && message.user.length > 1) {
             // Formats message for further checks and pushes it
             const fmt = zammadFormat(message.content)
             const via = message.user.indexOf('via Support') - 1
-            relevantZammad.push({ 
-                user: message.user.slice(0, via).trim(), 
-                content: fmt, 
-                attachments: message.attachments 
+            relevantZammad.push({
+                user: message.user.slice(0, via).trim(),
+                content: fmt,
+                attachments: message.attachments
             })
         }
     }
-    
+
     // Cross checks Discord messages with Zammad messages to find unsynchronized ones
     for (const message of relevantDiscord) {
         let exists = false
 
         for (const zammadMessage of zammadMessages) {
-            if (zammadMessage.content === message.content 
-                || (zammadMessage.content.includes(message.content) 
+            if (zammadMessage.content === message.content
+                || (zammadMessage.content.includes(message.content)
                     && zammadMessage.content.includes('via Discord:'))
             ) {
                 exists = true
             }
         }
-        
+
         if (!exists) {
             missingZammad.push(message)
         }
     }
-    
+
     // Cross checks Zammad messages with Discord messages to find unsynchronized ones
     for (const message of relevantZammad) {
         let exists = false
@@ -171,8 +171,8 @@ function compare(discordMessages: ReducedMessage[], zammadMessages: ReducedMessa
             const normalizedDiscord = normalize(discordMessage.content)
             const checkableDiscord = normalizedDiscord
 
-            if (checkableDiscord === normalized 
-                || (checkableDiscord.includes(normalized) 
+            if (checkableDiscord === normalized
+                || (checkableDiscord.includes(normalized)
                     && checkableDiscord.includes('via zammad:'))
             ) {
                 exists = true

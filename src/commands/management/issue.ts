@@ -60,7 +60,7 @@ export const data = new SlashCommandBuilder()
 export async function execute(interaction: ChatInputCommandInteraction) {
     const isAllowedAnywhere = (interaction.member?.roles as unknown as Roles)?.cache
         .some((role: Role) => role.id === config.roleID)
-    
+
     // Get all the input options
     const repository = sanitize(interaction.options.getString('repository') || 'default')
     const title = sanitize(interaction.options.getString('title') || '')
@@ -94,7 +94,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
         const issueBody = `${description}` +
             '\n\n---\n' +
             `**Created by:** ${interaction.user.displayName} (${interaction.user.username})\n` +
-            `**Created from:** Discord TekKom Bot`
+            '**Created from:** Discord TekKom Bot'
 
         // Create the GitHub issue
         const issueId = await postIssue(match.name, {
@@ -135,7 +135,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                     inline: true
                 }
             ])
-            .setFooter({ 
+            .setFooter({
                 text: `Issue #${issueId} created in ${match.name}`,
             })
 
@@ -143,14 +143,14 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
     } catch (error) {
         console.error('Error creating GitHub issue:', error)
-        
+
         const errorEmbed = new EmbedBuilder()
             .setTitle('❌ Failed to Create Issue')
             .setDescription(`Failed to create issue in **${match.name}**: ${error}`)
             .setColor('#dc3545')
             .setTimestamp()
-            .setFooter({ 
-                text: `Error occurred while creating issue`,
+            .setFooter({
+                text: 'Error occurred while creating issue',
                 iconURL: interaction.user.displayAvatarURL()
             })
 

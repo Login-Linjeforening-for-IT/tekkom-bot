@@ -1,38 +1,38 @@
 export function humanToSchedule(
     interval: string,
-    minute: string = "0",
-    hour: string = "0",
-    day: string = "1",
-    week: string = "0"
+    minute: string = '0',
+    hour: string = '0',
+    day: string = '1',
+    week: string = '0'
 ) {
-    let output = ""
+    let output = ''
 
     if (isValidCronExpr(interval)) {
         return interval
     }
 
     switch (interval.toLowerCase()) {
-        case "every minute":
-            output = "* * * * *"
+        case 'every minute':
+            output = '* * * * *'
             break
-        case "hourly":
+        case 'hourly':
             output = `${minute} * * * *`
             break
-        case "daily":
+        case 'daily':
             output = `${minute} ${hour} * * *`
             break
-        case "weekly":
+        case 'weekly':
             output = `${minute} ${hour} * * ${week}`
             break
-        case "biweekly":
+        case 'biweekly':
             // every 2 weeks → not natively supported by cron
             // workaround: run weekly on given weekday, and caller tracks "every other"
             output = `${minute} ${hour} * * ${week}`
             break
-        case "once a month":
+        case 'once a month':
             output = `${minute} ${hour} ${day} * *`
             break
-        case "once a year":
+        case 'once a year':
             output = `${minute} ${hour} ${day} 1 *`
             break
         default:
@@ -44,33 +44,33 @@ export function humanToSchedule(
 
 // Cron -> Human
 export function scheduleToHuman(interval: string) {
-    const parts = interval.split(" ")
-    if (parts.length !== 5) throw new Error("Invalid cron expression")
+    const parts = interval.split(' ')
+    if (parts.length !== 5) throw new Error('Invalid cron expression')
 
     const [minute, hour, day, month, week] = parts
-    let output = ""
+    let output = ''
 
     switch (true) {
-        case interval === "* * * * *":
-            output = "every minute"
+        case interval === '* * * * *':
+            output = 'every minute'
             break
-        case hour === "*" && day === "*" && week === "*":
-            output = "hourly"
+        case hour === '*' && day === '*' && week === '*':
+            output = 'hourly'
             break
-        case day === "*" && week === "*" && month === "*":
-            output = "daily"
+        case day === '*' && week === '*' && month === '*':
+            output = 'daily'
             break
-        case week !== "*":
-            output = "weekly"
+        case week !== '*':
+            output = 'weekly'
             break
-        case month === "*" && day !== "*":
-            output = "once a month"
+        case month === '*' && day !== '*':
+            output = 'once a month'
             break
-        case month === "1":
-            output = "once a year"
+        case month === '1':
+            output = 'once a year'
             break
         default:
-            output = "custom"
+            output = 'custom'
             break
     }
 

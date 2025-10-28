@@ -7,11 +7,11 @@ import {
     StringSelectMenuBuilder,
     TextChannel,
     UserSelectMenuBuilder
-} from "discord.js"
-import topics from "#utils/tickets/topics.ts"
-import formatChannelName from "#utils/tickets/format.ts"
+} from 'discord.js'
+import topics from '#utils/tickets/topics.ts'
+import formatChannelName from '#utils/tickets/format.ts'
 
-export default async function reopenTicket(interaction: ChatInputCommandInteraction<"cached">, ticket: string) {
+export default async function reopenTicket(interaction: ChatInputCommandInteraction<'cached'>, ticket: string) {
     const guild = interaction.guild
 
     if (guild === null) {
@@ -21,18 +21,18 @@ export default async function reopenTicket(interaction: ChatInputCommandInteract
     const channel = guild.channels.cache.get(ticket) as TextChannel | undefined
     if (!channel || !(channel instanceof TextChannel)) {
         return await interaction.reply({
-            content: `Could not find the specified channel.`,
+            content: 'Could not find the specified channel.',
             flags: MessageFlags.Ephemeral
         })
     }
 
     try {
         // Fetches "tickets" category
-        const archive = guild?.channels.cache.find(c => c instanceof CategoryChannel && c.name === "tickets") as CategoryChannel
+        const archive = guild?.channels.cache.find(c => c instanceof CategoryChannel && c.name === 'tickets') as CategoryChannel
 
         if (!archive) {
             return await interaction.reply({
-                content: `Could not find "tickets" category.`,
+                content: 'Could not find "tickets" category.',
                 flags: MessageFlags.Ephemeral
             })
         }
@@ -78,7 +78,7 @@ export default async function reopenTicket(interaction: ChatInputCommandInteract
     } catch (error) {
         console.log(error)
         await interaction.reply({
-            content: `There was an error reopening the ticket. Please try again later.`,
+            content: 'There was an error reopening the ticket. Please try again later.',
             flags: MessageFlags.Ephemeral
         })
     }

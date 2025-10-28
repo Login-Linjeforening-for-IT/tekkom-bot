@@ -1,15 +1,15 @@
-import { 
-    ActionRowBuilder, 
-    ButtonBuilder, 
-    ButtonInteraction, 
-    ButtonStyle, 
-    EmbedBuilder, 
-    MessageFlags, 
-    PermissionOverwriteManager, 
-    StringSelectMenuBuilder, 
-    TextChannel 
-} from "discord.js"
-import { getTickets } from "#utils/tickets/ticket.ts"
+import {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonInteraction,
+    ButtonStyle,
+    EmbedBuilder,
+    MessageFlags,
+    PermissionOverwriteManager,
+    StringSelectMenuBuilder,
+    TextChannel
+} from 'discord.js'
+import { getTickets } from '#utils/tickets/ticket.ts'
 
 export default async function invite(interaction: ButtonInteraction) {
     // Fetches all text channels that the user has access to
@@ -39,7 +39,7 @@ export async function inviteToTicket(interaction: ButtonInteraction) {
     const channel = guild.channels.cache.get(interaction.values[0]) as TextChannel | undefined
     if (!channel || !(channel instanceof TextChannel)) {
         return await interaction.reply({
-            content: `Could not find the specified channel.`,
+            content: 'Could not find the specified channel.',
             flags: MessageFlags.Ephemeral
         })
     }
@@ -47,7 +47,7 @@ export async function inviteToTicket(interaction: ButtonInteraction) {
     const embed = new EmbedBuilder()
         .setTitle(`Invitation to <#${channel.id}>`)
         .setDescription(channel.topic)
-        .setColor("#fd8738")
+        .setColor('#fd8738')
         .setTimestamp()
 
     // Creates 'join' button
@@ -74,7 +74,7 @@ export async function joinTicket(interaction: ButtonInteraction) {
     const channel = guild.channels.cache.get(id) as TextChannel | undefined
     if (!channel || !(channel instanceof TextChannel)) {
         return await interaction.reply({
-            content: `Could not find the specified channel.`,
+            content: 'Could not find the specified channel.',
             flags: MessageFlags.Ephemeral
         })
     }

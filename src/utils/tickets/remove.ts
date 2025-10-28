@@ -1,11 +1,11 @@
-import { 
-    ActionRowBuilder, 
-    ButtonInteraction, 
-    MessageFlags, 
+import {
+    ActionRowBuilder,
+    ButtonInteraction,
+    MessageFlags,
     RoleSelectMenuBuilder,
-    UserSelectMenuBuilder, 
-} from "discord.js"
-import isTicketChannel from "#utils/tickets/ticket.ts"
+    UserSelectMenuBuilder,
+} from 'discord.js'
+import isTicketChannel from '#utils/tickets/ticket.ts'
 
 export default async function handleRemoveFromTicket(interaction: ButtonInteraction) {
     const isTicket = await isTicketChannel(interaction)

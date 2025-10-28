@@ -1,8 +1,8 @@
-import { DISCORD_MAX_INLINE_EMBED_FIELD_LENGTH } from "#constants"
+import { DISCORD_MAX_INLINE_EMBED_FIELD_LENGTH } from '#constants'
 
 export default function formatCommits(commits: Commit[], count: number) {
-    let authors = ""
-    let descriptions = ""
+    let authors = ''
+    let descriptions = ''
 
     let i = 0
     while (commits && i < count) {
@@ -20,7 +20,7 @@ export default function formatCommits(commits: Commit[], count: number) {
     }
 
     return [
-        {name: "Commit\tAuthor", value: authors, inline: true},
-        {name: "Info", value: descriptions, inline: true}
+        {name: 'Commit\tAuthor', value: authors, inline: true},
+        {name: 'Info', value: descriptions, inline: true}
     ]
 }
