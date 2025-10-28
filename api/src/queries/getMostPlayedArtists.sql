@@ -24,7 +24,6 @@ SELECT
     ts.top_song,
     ts.album,
     ts."image",
-    ts.artist,
     ts.id
 FROM artist_counts ac
 JOIN artists ar ON ac.artist = ar.id

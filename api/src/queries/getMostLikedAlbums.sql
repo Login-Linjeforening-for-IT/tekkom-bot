@@ -2,7 +2,6 @@ SELECT
     al.name AS album,
     ar.name AS artist,
     s_top."image",
-    s_top.album,
     s.id,
     SUM(s.listens) AS total_listens,
     SUM(s.skips) AS total_skips,

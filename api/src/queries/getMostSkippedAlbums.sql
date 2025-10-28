@@ -18,7 +18,6 @@ SELECT
     SUM(CASE WHEN l.skipped THEN 1 ELSE 0 END)::INT AS skips,
     t.top_song,
     t.top_song_image,
-    t.album,
     t.id
 FROM listens l
 JOIN songs s ON l.song_id = s.id
@@ -26,6 +25,6 @@ JOIN albums al ON s.album = al.id
 JOIN artists ar ON s.artist = ar.id
 JOIN top_songs t
     ON s.album = t.album AND s.artist = t.artist
-GROUP BY al.name, ar.name, t.top_song, t.top_song_image, t.album, t.id
+GROUP BY al.name, ar.name, t.top_song, t.top_song_image, t.id
 ORDER BY skips DESC
 LIMIT 5;
