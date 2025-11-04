@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS songs (
     artist TEXT NOT NULL REFERENCES artists(id),
     album TEXT NOT NULL REFERENCES albums(id),
     "image" TEXT NOT NULL,
+    type TEXT DEFAULT 'track',
     listens INT DEFAULT 1,
     skips INT DEFAULT 0,
     timestamp TIMESTAMPTZ DEFAULT NOW()
