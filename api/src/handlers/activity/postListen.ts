@@ -71,7 +71,7 @@ export default async function postListen(
         let albumId: string = 'Unknown'
         let type = 'Unknown'
 
-        // :TODO: Create a function to map Spotify response to the desired fields for both tracks and episodes
+        // :TODO: Refactor with two separate tables, for episodes and tracks.
 
         const artistIdAndAlbumIdIsNotKnown = !(await artistIdAndAlbumIdIsKnownBySongId(id))
         const shouldQuerySpotify = artistIdAndAlbumIdIsNotKnown || Math.random() < 0.1
