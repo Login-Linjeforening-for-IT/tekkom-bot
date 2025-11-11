@@ -33,7 +33,7 @@ export default async function postListen(
     if (
         !user ||
     !name ||
-    !artist || // does not find artist
+    !artist || // episodes does not find artist
     !start ||
     !end ||
     !album ||
@@ -71,8 +71,6 @@ export default async function postListen(
         let albumId: string = 'Unknown'
         let type = 'Unknown'
 
-        // :TODO: Refactor with two separate tables, for episodes and tracks.
-
         const artistIdAndAlbumIdIsNotKnown = !(await artistIdAndAlbumIdIsKnownBySongId(id))
         const shouldQuerySpotify = artistIdAndAlbumIdIsNotKnown || Math.random() < 0.1
 
@@ -107,11 +105,8 @@ export default async function postListen(
                         )
                     }
                     const data = await response.json()
-                    if (data.show?.publisher) {
-                        artistId = data.show.publisher
-                    }
                     if (data.show?.id) {
-                        albumId = data.show.id
+                        artistId = data.show.id
                     }
                     type = 'episode'
                 }
@@ -130,7 +125,18 @@ export default async function postListen(
                 const listenId = previous.rows[0].id
                 const prevSongId = previous.rows[0].song_id
                 await run('UPDATE listens SET skipped = $1 WHERE id = $2', [true, listenId])
-                await run('UPDATE songs SET skips = COALESCE(skips, 0) + 1 WHERE id = $1', [prevSongId])
+                const songUpdate = await run(
+                    'UPDATE songs SET skips = COALESCE(skips, 0) + 1 WHERE id = $1',
+                    [prevSongId]
+                )
+                type = 'track' // Assume track unless episode is confirmed
+                if ((songUpdate.rowCount ?? 0) === 0) {
+                    await run(
+                        'UPDATE episodes SET skips = COALESCE(skips, 0) + 1 WHERE id = $1',
+                        [prevSongId]
+                    )
+                    type = 'episode' // Confirm episode if track update failed
+                }
             }
         }
 
@@ -138,20 +144,28 @@ export default async function postListen(
         await run(userQuery, [userId, avatar, user])
 
         const artistQuery = await loadSQL('postArtist.sql')
-        await run(artistQuery, [artistId || 'Unknown', artist])
+        const artistResult = await run(artistQuery, [artistId || 'Unknown', artist])
 
-        const albumQuery = await loadSQL('postAlbum.sql')
-        await run(albumQuery, [albumId || 'Unknown', album])
+        let insertedSongId = null
 
-        const songQuery = await loadSQL('postSongListen.sql')
-        const songResult = await run(songQuery, [id, name, artistId, albumId, image, type])
-        const insertedSongId = songResult.rows[0].id
+        if (type === 'track') {
+            const albumQuery = await loadSQL('postAlbum.sql')
+            await run(albumQuery, [albumId || 'Unknown', album])
+            const songQuery = await loadSQL('postSongListen.sql')
+            const songResult = await run(songQuery, [id, name, artistId, albumId, image])
+            insertedSongId = songResult.rows[0].id
+        } else if (type === 'episode') {
+            const episodeQuery = await loadSQL('postEpisode.sql')
+            const episodeResult = await run(episodeQuery, [id, name, artistId, image])
+            insertedSongId = episodeResult.rows[0].id
+        }
 
         const listenQuery = await loadSQL('postListen.sql')
-        await run(listenQuery, [userId, insertedSongId, start, end, source, skipped ?? false])
+        await run(listenQuery, [userId, insertedSongId, type, start, end, source, skipped ?? false])
 
         return res.send({
-            message: `Successfully added song ${name} by ${artist}, played by ${user}`,
+            // message: type === 'track' ? `Successfully added song ${name} by ${artistResult.rows[0].name}, played by ${user}` : `Successfully added episode ${name} from show ${artistResult.rows[0].name}, played by ${user}`,
+            message: type === 'track' ? `Successfully added song ${name} by ${artist}, played by ${user}` : `Successfully added episode ${name} from show ${artist}, played by ${user}`,
         })
     } catch (error) {
         console.log(`Database error: ${JSON.stringify(error)}`)

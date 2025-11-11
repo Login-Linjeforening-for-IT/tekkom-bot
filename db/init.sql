@@ -50,7 +50,17 @@ CREATE TABLE IF NOT EXISTS songs (
     artist TEXT NOT NULL REFERENCES artists(id),
     album TEXT NOT NULL REFERENCES albums(id),
     "image" TEXT NOT NULL,
-    type TEXT DEFAULT 'track',
+    listens INT DEFAULT 1,
+    skips INT DEFAULT 0,
+    timestamp TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Episodes
+CREATE TABLE IF NOT EXISTS episodes (
+    id TEXT PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    show TEXT NOT NULL REFERENCES artists(id),
+    "image" TEXT NOT NULL,
     listens INT DEFAULT 1,
     skips INT DEFAULT 0,
     timestamp TIMESTAMPTZ DEFAULT NOW()
@@ -59,7 +69,11 @@ CREATE TABLE IF NOT EXISTS songs (
 -- Listens
 CREATE TABLE IF NOT EXISTS listens (
     id SERIAL PRIMARY KEY,
-    song_id TEXT NOT NULL REFERENCES songs(id),
+    -- Polymorphic reference: uses trigger to enforce FK constraint
+    -- song_id references songs(id) when type='track'
+    -- song_id references episodes(id) when type='episode'
+    song_id TEXT NOT NULL,
+    type TEXT NOT NULL CHECK (type IN ('track','episode')),
     user_id TEXT NOT NULL REFERENCES users(id),
     "start" TIMESTAMPTZ NOT NULL,
     "end" TIMESTAMPTZ NOT NULL,
@@ -67,6 +81,8 @@ CREATE TABLE IF NOT EXISTS listens (
     skipped BOOLEAN NOT NULL DEFAULT false,
     timestamp TIMESTAMPTZ DEFAULT NOW()
 );
+
+
 
 -- Announcements
 CREATE TABLE IF NOT EXISTS announcements (
@@ -163,3 +179,30 @@ ON albums(id) WHERE id <> 'Unknown';
 
 -- Number of helper functions per query to increase performance
 SET max_parallel_workers_per_gather = 4;
+
+
+-- Trigger to enforce polymorphic FK: song_id must exist in songs when type='track'
+-- or in episodes when type='episode'
+CREATE OR REPLACE FUNCTION listens_media_exists() RETURNS trigger AS $$
+BEGIN
+    IF NEW.type = 'track' THEN
+        IF NOT EXISTS (SELECT 1 FROM songs WHERE id = NEW.song_id) THEN
+            RAISE EXCEPTION 'listen references non-existent track id: %', NEW.song_id;
+        END IF;
+    ELSIF NEW.type = 'episode' THEN
+        IF NOT EXISTS (SELECT 1 FROM episodes WHERE id = NEW.song_id) THEN
+            RAISE EXCEPTION 'listen references non-existent episode id: %', NEW.song_id;
+        END IF;
+    ELSE
+        RAISE EXCEPTION 'invalid type: %', NEW.type;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_listens_media_exists ON listens;
+
+CREATE TRIGGER trg_listens_media_exists
+BEFORE INSERT OR UPDATE ON listens
+FOR EACH ROW EXECUTE FUNCTION listens_media_exists();
