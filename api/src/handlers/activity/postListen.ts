@@ -71,6 +71,8 @@ export default async function postListen(
         let albumId: string = 'Unknown'
         let type = 'Unknown'
 
+        let show: string | null = null // For episodes
+
         const artistIdAndAlbumIdIsNotKnown = !(await artistIdAndAlbumIdIsKnownBySongId(id))
         const shouldQuerySpotify = artistIdAndAlbumIdIsNotKnown || Math.random() < 0.1
 
@@ -108,6 +110,9 @@ export default async function postListen(
                     if (data.show?.id) {
                         artistId = data.show.id
                     }
+                    if (data.show?.name) {
+                        show = data.show.name
+                    }
                     type = 'episode'
                 }
 
@@ -144,17 +149,18 @@ export default async function postListen(
         await run(userQuery, [userId, avatar, user])
 
         const artistQuery = await loadSQL('postArtist.sql')
-        const artistResult = await run(artistQuery, [artistId || 'Unknown', artist])
 
         let insertedSongId = null
 
         if (type === 'track') {
+            await run(artistQuery, [artistId || 'Unknown', artist])
             const albumQuery = await loadSQL('postAlbum.sql')
             await run(albumQuery, [albumId || 'Unknown', album])
             const songQuery = await loadSQL('postSongListen.sql')
             const songResult = await run(songQuery, [id, name, artistId, albumId, image])
             insertedSongId = songResult.rows[0].id
         } else if (type === 'episode') {
+            await run(artistQuery, [artistId || 'Unknown', show])
             const episodeQuery = await loadSQL('postEpisode.sql')
             const episodeResult = await run(episodeQuery, [id, name, artistId, image])
             insertedSongId = episodeResult.rows[0].id
