@@ -1,6 +1,6 @@
 import run from '#db'
 import { loadSQL } from '#utils/loadSQL.ts'
-import parser from 'cron-parser'
+import { CronExpressionParser } from 'cron-parser'
 
 export default async function checkAnnouncements() {
     const query = (await loadSQL('getSentAnnouncements.sql'))
@@ -23,7 +23,7 @@ function cronTimeHasCome(announcement: RecurringAnnouncement) {
     const lastSent = announcement.last_sent
 
     try {
-        const cronInterval = parser.parse(interval, { currentDate: new Date() })
+        const cronInterval = CronExpressionParser.parse(interval, { currentDate: new Date() })
         const prev = cronInterval.prev().toDate()
 
         if (!announcement.last_sent) {
