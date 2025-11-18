@@ -24,7 +24,10 @@ export async function preloadListenActivityQueries() {
         getMostLikedSongs,
         getMostSkippedAlbums,
         getMostSkippedArtists,
-        getMostSkippedSongs
+        getMostSkippedSongs,
+        getMostPlayedEpisodes,
+        getTopFiveEpisodesThisMonth,
+        getMostLikedEpisodes
     ] = await Promise.all([
         loadSQL('getStatistics.sql'),
         loadSQL('getCurrentlyListening.sql'),
@@ -47,7 +50,10 @@ export async function preloadListenActivityQueries() {
         loadSQL('getMostLikedSongs.sql'),
         loadSQL('getMostSkippedAlbums.sql'),
         loadSQL('getMostSkippedArtists.sql'),
-        loadSQL('getMostSkippedSongs.sql')
+        loadSQL('getMostSkippedSongs.sql'),
+        loadSQL('getMostPlayedEpisodes.sql'),
+        loadSQL('getTopFiveEpisodesThisMonth.sql'),
+        loadSQL('getMostLikedEpisodes.sql')
     ])
 
     const [
