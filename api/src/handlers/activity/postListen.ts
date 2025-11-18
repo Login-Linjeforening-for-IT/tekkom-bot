@@ -120,6 +120,25 @@ export default async function postListen(
                 console.log('Spotify lookup failed:', error)
                 // Continue without failing the whole request; fallback IDs remain "Unknown"
             }
+        } else {
+            // checking wether it's a track or episode based on existing data
+            // and populating artistId and albumId if possible
+            const query = await loadSQL('getSongById.sql')
+            const result = await run(query, [id])
+            if (result && result.rows.length > 0) {
+                const row = result.rows[0]
+                artistId = row.artist_id || 'Unknown'
+                albumId = row.album_id || 'Unknown'
+                type = 'track'
+            } else {
+                const episodeQuery = await loadSQL('getEpisodeById.sql')
+                const episodeResult = await run(episodeQuery, [id])
+                if (episodeResult && episodeResult.rows.length > 0) {
+                    const row = episodeResult.rows[0]
+                    artistId = row.show || 'Unknown'
+                    type = 'episode'
+                }
+            }
         }
 
         if (skipped) {
@@ -143,6 +162,10 @@ export default async function postListen(
                     type = 'episode' // Confirm episode if track update failed
                 }
             }
+        }
+
+        if (type === 'Unknown') {
+            return res.status(400).send({ error: 'Could not determine listen type (track or episode).' })
         }
 
         const userQuery = await loadSQL('postUser.sql')
