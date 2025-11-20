@@ -1,5 +1,6 @@
 services:
   tekkom-bot:
+    restart: always
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,6 +10,7 @@ services:
   tekkom-bot-api:
     container_name: tekkom-bot-api 
     image: tekkom-bot-api
+    restart: always
     build:
       context: ./api
       dockerfile: Dockerfile
