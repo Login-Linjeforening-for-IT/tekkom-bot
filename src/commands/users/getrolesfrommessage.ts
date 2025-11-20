@@ -4,7 +4,8 @@ import {
     SlashCommandBuilder,
     ChatInputCommandInteraction,
     Role,
-    MessageFlags
+    MessageFlags,
+    TextChannel
 } from 'discord.js'
 
 export const data = new SlashCommandBuilder()
@@ -14,6 +15,11 @@ export const data = new SlashCommandBuilder()
         .setName('id')
         .setDescription('ID of the message to get roles from')
         .setRequired(true)
+    )
+    .addChannelOption((option) => option
+        .setName('channel')
+        .setDescription('Channel to look in (defaults to current)')
+        .setRequired(false)
     )
 
 export async function execute(interaction: ChatInputCommandInteraction) {
@@ -27,14 +33,27 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     }
 
     const messageID = interaction.options.getString('id', true)
+    const channelOption = interaction.options.getChannel('channel')
+    const targetChannel = (channelOption as TextChannel) || (interaction.channel as TextChannel)
 
-    const message = await interaction.channel?.messages.fetch(messageID)
-    if (!message) {
+    let message
+    try {
+        message = await targetChannel?.messages.fetch(messageID)
+    } catch {
         return await interaction.reply({
-            content: `Message with ID ${messageID} not found.`,
+            content: `Message with ID ${messageID} not found in the specified channel.`,
             flags: MessageFlags.Ephemeral
         })
     }
+
+    if (!message) {
+        return await interaction.reply({
+            content: `Message with ID ${messageID} not found in the specified channel.`,
+            flags: MessageFlags.Ephemeral
+        })
+    }
+
+    const channelPart = channelOption ? ` channel:${targetChannel.id}` : ''
 
     const embed = message.embeds[0]
     if (!embed || !embed.data.fields || embed.data.fields.length === 0) {
@@ -72,7 +91,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     const rolesString = roles.join(' ')
     const iconsString = icons.join(' ')
 
-    const commandString = `/updaterolemessage title:${title} description:${description} roles:${rolesString} icons:${iconsString} id:${messageID}`
+    const commandString = `/updaterolemessage title:${title} description:${description} roles:${rolesString} icons:${iconsString} id:${messageID}${channelPart}`
 
     await interaction.reply({
         content: `\`\`\`\n${commandString}\n\`\`\``
