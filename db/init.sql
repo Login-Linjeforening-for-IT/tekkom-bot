@@ -121,6 +121,14 @@ CREATE TABLE IF NOT EXISTS "hidden" (
 
 -- Optimalizations
 CREATE INDEX idx_listens_timestamp_desc ON listens ("timestamp" DESC);
+CREATE INDEX IF NOT EXISTS idx_listens_song_id ON listens(song_id);
+CREATE INDEX IF NOT EXISTS idx_songs_album ON songs(album);
+CREATE INDEX IF NOT EXISTS idx_songs_artist ON songs(artist);
+CREATE INDEX IF NOT EXISTS idx_songs_album_artist ON songs(album, artist);
+CREATE INDEX idx_listens_song_id_start ON listens(song_id, "start");
+CREATE INDEX idx_listens_song_skipped ON listens(song_id, skipped);
+CREATE INDEX idx_songs_album_artist_id ON songs(album, artist, id);
+CREATE INDEX idx_listens_not_skipped_song ON listens(song_id) WHERE skipped = false;
 
 CREATE INDEX idx_songs_listens_skips
 ON songs (listens, skips);
@@ -162,3 +170,5 @@ ON albums(id) WHERE id <> 'Unknown';
 
 -- Number of helper functions per query to increase performance
 SET max_parallel_workers_per_gather = 4;
+SET work_mem = '256MB';
+SET maintenance_work_mem = '512MB';
